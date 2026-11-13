@@ -19,6 +19,33 @@ function message(text, error = false) {
   $('team-message').textContent = text;
   $('team-message').className = text ? 'notice ' + (error ? 'error' : 'success') : '';
 }
+function showView(view) {
+  $('participants-panel').hidden = view !== 'participants';
+  $('ranking-panel').hidden = view !== 'ranking';
+  for (const name of ['participants', 'ranking']) {
+    $('view-' + name).className = view === name ? 'active' : '';
+    $('view-' + name).setAttribute('aria-pressed', String(view === name));
+  }
+}
+function renderRanking(participants) {
+  const ranked = participants
+    .filter(participant => participant.status === 'registered' && completeScores(participant.scores))
+    .map(participant => ({ ...participant, total: participant.scores.taste + participant.scores.texture + participant.scores.presentation }))
+    .sort((a, b) => b.total - a.total);
+  const counts = new Map();
+  for (const participant of ranked) counts.set(participant.total, (counts.get(participant.total) || 0) + 1);
+  let rank = 0;
+  $('ranking-body').replaceChildren(...ranked.map((participant, index) => {
+    if (index === 0 || participant.total !== ranked[index - 1].total) rank = index + 1;
+    const row = document.createElement('tr');
+    for (const value of [rank + (counts.get(participant.total) > 1 ? ' ex æquo' : ''), participant.first_name + ' ' + participant.last_name, participant.scores.taste, participant.scores.texture, participant.scores.presentation, participant.total + ' / 30']) {
+      const cell = document.createElement('td'); cell.textContent = String(value); row.append(cell);
+    }
+    return row;
+  }));
+  $('ranking-count').textContent = ranked.length + ' au classement';
+  $('ranking-empty').hidden = ranked.length > 0;
+}
 function clearSession() {
   generation++;
   session = null;
@@ -29,6 +56,10 @@ function clearSession() {
   $('logout').hidden = true;
   $('participants-head').replaceChildren();
   $('participants-body').replaceChildren();
+  $('ranking-body').replaceChildren();
+  $('ranking-count').textContent = '';
+  $('ranking-empty').hidden = true;
+  showView('participants');
   $('identity').textContent = '';
   $('participant-count').textContent = '';
   $('participants-empty').hidden = true;
@@ -79,6 +110,7 @@ function render(data) {
     return tr;
   }));
   $('participant-count').textContent = data.participants.length + ' au total';
+  renderRanking(data.participants);
   $('participants-empty').hidden = data.participants.length > 0;
   $('login-panel').hidden = true;
   $('workspace').hidden = false;
@@ -213,6 +245,8 @@ $('login').addEventListener('submit', async event => {
   }
 });
 $('refresh').addEventListener('click', () => loadParticipants());
+$('view-participants').addEventListener('click', () => { if (session) showView('participants'); });
+$('view-ranking').addEventListener('click', () => { if (session) showView('ranking'); });
 $('logout').addEventListener('click', () => {
   const token = session?.accessToken;
   clearSession();

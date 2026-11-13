@@ -12,6 +12,7 @@ function fixture(fetcher) {
   function element() {
     return { textContent: '', className: '', hidden: false, disabled: false, value: '', open: false, children: [], listeners: {},
       addEventListener(name, fn) { this.listeners[name] = fn; },
+      setAttribute(name, value) { this[name] = value; },
       reportValidity() { return true; },
       replaceChildren(...children) { this.children = children; },
       append(child) { this.children.push(child); },
@@ -44,7 +45,7 @@ function network(options = {}) {
     if (url.includes('/auth/v1/logout')) return reply({});
     if (url.includes('/consulter-participants')) {
       if (options.list) return options.list();
-      return reply({ user: { id: 'u', email: 'organisateur@example.test', role: options.role || 'organizer' }, participants: [{ ...participant, status: options.status || participant.status, scores: savedScores }] });
+      return reply({ user: { id: 'u', email: 'organisateur@example.test', role: options.role || 'organizer' }, participants: options.participants || [{ ...participant, status: options.status || participant.status, scores: savedScores }] });
     }
     if (url.includes('/noter-participant')) {
       if (options.save) return options.save(init);
@@ -196,4 +197,58 @@ test('Notation PWA : double clic et déconnexion pendant l’enregistrement', as
   complete(reply({ participant_id: participant.id, total: 24 })); await pending;
   assert.equal(f.$('workspace').hidden, true);
   assert.equal(f.$('participants-body').children.length, 0);
+});
+
+test('Classement PWA : tri, somme et rangs 1/1/3 sans départage des égalités', async () => {
+  const participants = [
+    { ...participant, id: 'low', first_name: 'Alex', scores: { taste: 6, texture: 6, presentation: 6 } },
+    { ...participant, id: 'high1', first_name: 'Camille', scores: { taste: 8, texture: 9, presentation: 7 } },
+    { ...participant, id: 'high2', first_name: 'Lou', scores: { taste: 10, texture: 6, presentation: 8 } }
+  ];
+  const f = fixture(network({ participants }).fetcher); await f.login();
+  const rows = f.$('ranking-body').children;
+  assert.deepEqual(rows.map(row => row.children[0].textContent), ['1 ex æquo', '1 ex æquo', '3']);
+  assert.deepEqual(rows.map(row => row.children[5].textContent), ['24 / 30', '24 / 30', '18 / 30']);
+  assert.equal(rows[2].children[1].textContent, 'Alex Martin');
+});
+test('Classement PWA : non-évalués et retirés exclus, total zéro admis', async () => {
+  const participants = [
+    { ...participant, id: 'none', scores: null },
+    { ...participant, id: 'withdrawn', status: 'withdrawn', scores: { taste: 10, texture: 10, presentation: 10 } },
+    { ...participant, id: 'partial', scores: { taste: 5 } },
+    { ...participant, id: 'zero', scores: { taste: 0, texture: 0, presentation: 0 } }
+  ];
+  const f = fixture(network({ participants }).fetcher); await f.login();
+  const rows = f.$('ranking-body').children;
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].children[0].textContent, '1');
+  assert.equal(rows[0].children[5].textContent, '0 / 30');
+});
+test('Classement PWA : deux rôles autorisés, aucune coordonnée affichée et vues utilisables', async () => {
+  for (const role of ['organizer', 'jury']) {
+    const f = fixture(network({ role, scores: { taste: 8, texture: 9, presentation: 7 } }).fetcher);
+    await f.login();
+    f.$('view-ranking').listeners.click();
+    assert.equal(f.$('ranking-panel').hidden, false);
+    assert.equal(f.$('participants-panel').hidden, true);
+    assert.equal(f.$('view-ranking')['aria-pressed'], 'true');
+    const text = f.$('ranking-body').children.flatMap(row => row.children.map(cell => cell.textContent)).join(' ');
+    assert.equal(text.includes('@'), false);
+    f.$('view-participants').listeners.click();
+    assert.equal(f.$('ranking-panel').hidden, true);
+  }
+});
+test('Classement PWA : recalcul après notation et effacement à la déconnexion', async () => {
+  const f = fixture(network({ role: 'jury' }).fetcher); await f.login();
+  assert.equal(f.$('ranking-empty').hidden, false);
+  assert.equal(f.$('ranking-body').children.length, 0);
+  await evaluate(f);
+  assert.equal(f.$('ranking-empty').hidden, true);
+  assert.equal(f.$('ranking-body').children[0].children[5].textContent, '24 / 30');
+  f.$('view-ranking').listeners.click();
+  f.$('logout').listeners.click();
+  assert.equal(f.$('ranking-body').children.length, 0);
+  assert.equal(f.$('ranking-count').textContent, '');
+  assert.equal(f.$('workspace').hidden, true);
+  assert.equal(f.$('ranking-panel').hidden, true);
 });

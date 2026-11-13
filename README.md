@@ -10,9 +10,9 @@ Le Site est privé, accessible à sa propriétaire via ChatGPT. Le rôle métier
 
 ## État fonctionnel
 
-Inscription, refus de doublon, lecture organisateur, lecture jury sans coordonnées et déconnexion ont été vérifiés par l’utilisateur. La notation est ajoutée : bouton Évaluer ou Modifier les notes réservé au jury, trois entiers de 0 à 10 (goût, texture, présentation FICTIFS), total sur 30. L’organisateur consulte les évaluations sans bouton d’écriture. Les notes sont relues depuis Supabase et préremplies lors d’une modification ; un échec de relecture est signalé. La première saisie réelle reste à confirmer par l’utilisateur.
+Inscription, refus de doublon, lecture organisateur, lecture jury sans coordonnées et déconnexion ont été vérifiés par l’utilisateur. La notation est ajoutée : bouton Évaluer ou Modifier les notes réservé au jury, trois entiers de 0 à 10 (goût, texture, présentation FICTIFS), total sur 30. L’organisateur consulte les évaluations sans bouton d’écriture. Les notes sont relues depuis Supabase et préremplies lors d’une modification ; un échec de relecture est signalé. La saisie réelle 8/9/7 pour Camille, le total 24/30, la relecture après actualisation et le préremplissage ont été confirmés par l’utilisateur. La consultation des notes par l’organisateur sans bouton de modification est également confirmée.
 
-Aucun e-mail envoyé ou programmé à cette étape. Classement et gestion des statuts dans la PWA restent à construire. Un seul compte jury et un jeu de notes par participation, conformément à l’hypothèse de prototype.
+Aucun e-mail envoyé ou programmé à cette étape. Le classement interne est disponible dans une vue dédiée aux deux rôles. La gestion des statuts dans la PWA reste à construire. Un seul compte jury et un jeu de notes par participation, conformément à l’hypothèse de prototype.
 
 ## Connexions
 
@@ -26,6 +26,12 @@ Manifeste, icônes et service worker limités à l’application. Seule la coqui
 
 ## Vérifications
 
-`npm test` : 22 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
+`npm test` : 26 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
 
 Recette à faire : compte jury → Camille → 8/9/7 → message 24/30 → actualisation → mêmes notes → compte organisateur en lecture seule. Aucun mot de passe de compte utilisateur n’est fourni à l’agent.
+
+## Classement interne
+
+Vue Classement dans `/app/`, réservée aux comptes équipe. Calcul à partir des données authentifiées renvoyées par consulter-participants : participations actives avec trois notes complètes, somme sur 30, ordre décroissant, rangs de compétition 1/1/3 en cas d’égalité. Aucun départage ajouté. Zéro est une note valide ; absence de notes ou participation retirée excluent du classement. Aucun e-mail de participant dans cette vue. Les données de classement sont effacées à la déconnexion et ne sont pas mises en cache par le service worker.
+
+Le classement se recalcule après relecture des inscriptions/notes et après une notation. Aucun changement supplémentaire de fonction Supabase requis pour cette étape ; la fonction actuelle fournit déjà les notes. Le rendu et les scores affichés restent à confirmer par l’utilisateur dans sa PWA.
