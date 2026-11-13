@@ -4,6 +4,7 @@ const $ = id => document.getElementById(id);
 const loginButton = $('login').querySelector('button[type="submit"]');
 let session = null, expiryTimer, generation = 0;
 let editingParticipant = null, savingScores = false;
+let changingStatus = false;
 
 function completeScores(scores) {
   return scores && ['taste', 'texture', 'presentation'].every(key => Number.isInteger(scores[key]) && scores[key] >= 0 && scores[key] <= 10);
@@ -78,9 +79,9 @@ function render(data) {
   session.role = data.user.role;
   $('identity').textContent = data.user.email + ' · ' + (organizer ? 'Organisateur' : 'Jury');
   $('participant-help').textContent = organizer
-    ? 'Consultez les inscriptions et les évaluations. La saisie des notes est réservée au jury.'
+    ? 'Consultez les évaluations et gérez les participations. Un retrait conserve les données et les notes, mais exclut la participation du classement.'
     : 'Évaluez chaque participation active. Les coordonnées des participants sont réservées à l’organisateur.';
-  $('participants-head').replaceChildren(...['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', ...(!organizer ? ['Action'] : [])].map(value => {
+  $('participants-head').replaceChildren(...['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', 'Action'].map(value => {
     const th = document.createElement('th'); th.textContent = value; th.scope = 'col'; return th;
   }));
   $('participants-body').replaceChildren(...data.participants.map(participant => {
@@ -96,7 +97,14 @@ function render(data) {
       ? `Goût ${scores.taste} · Texture ${scores.texture} · Présentation ${scores.presentation} — ${scores.taste + scores.texture + scores.presentation} / 30`
       : 'À évaluer';
     tr.append(evaluation);
-    if (!organizer) {
+    if (organizer) {
+      const actions = document.createElement('td');
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'text-button';
+      button.textContent = participant.status === 'registered' ? 'Retirer' : 'Réactiver';
+      button.addEventListener('click', () => changeStatus(participant, button));
+      actions.append(button); tr.append(actions);
+    } else {
       const actions = document.createElement('td');
       if (participant.status === 'registered') {
         const button = document.createElement('button');
@@ -147,6 +155,53 @@ async function loadParticipants(announce = true) {
     return false;
   } finally {
     $('refresh').disabled = false;
+  }
+}
+async function changeStatus(participant, button) {
+  if (!session || session.role !== 'organizer' || changingStatus) return;
+  const nextStatus = participant.status === 'registered' ? 'withdrawn' : 'registered';
+  const question = nextStatus === 'withdrawn'
+    ? `Retirer ${participant.first_name} ${participant.last_name} du concours ? Les notes seront conservées et la participation sera exclue du classement.`
+    : `Réactiver ${participant.first_name} ${participant.last_name} ? Les notes conservées seront de nouveau prises en compte dans le classement.`;
+  if (!window.confirm(question)) return;
+  const current = generation;
+  const token = session.accessToken;
+  changingStatus = true;
+  button.disabled = true;
+  button.textContent = 'Enregistrement…';
+  try {
+    const response = await fetch(baseUrl + '/functions/v1/changer-statut-participant', {
+      method: 'POST', headers: { apikey: publicKey, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ participant_id: participant.id, status: nextStatus }),
+      signal: AbortSignal.timeout(20000)
+    });
+    const data = await response.json();
+    if (current !== generation || !session) return;
+    if (!response.ok) {
+      if ([401, 403].includes(response.status)) {
+        clearSession(); void revoke(token);
+        message(data.error || 'Accès refusé. Reconnectez-vous.', true); return;
+      }
+      throw new Error(data.error || 'Le statut n’a pas pu être modifié.');
+    }
+    if (data.participant_id !== participant.id || data.status !== nextStatus) throw new Error('Réponse inattendue. Actualisez la liste pour vérifier le statut.');
+    const refreshed = await loadParticipants(false);
+    if (current !== generation || !session) return;
+    const stored = refreshed && refreshed.participants.find(row => row.id === participant.id);
+    if (stored?.status === nextStatus) {
+      message(nextStatus === 'withdrawn'
+        ? 'Participation retirée. Les notes sont conservées et le classement est actualisé.'
+        : 'Participation réactivée. Les notes sont conservées et le classement est actualisé.');
+    } else message('Modification acceptée côté serveur, mais la relecture du statut n’a pas pu être confirmée. Actualisez la liste pour vérifier.', true);
+  } catch (error) {
+    if (current !== generation || !session) return;
+    message(error instanceof TypeError || error instanceof SyntaxError || error.name === 'TimeoutError'
+      ? 'La réponse n’a pas pu être reçue. Le statut a peut-être changé. Actualisez la liste pour vérifier avant de réessayer.'
+      : error.message, true);
+  } finally {
+    changingStatus = false;
+    button.disabled = false;
+    button.textContent = participant.status === 'registered' ? 'Retirer' : 'Réactiver';
   }
 }
 function openScores(participant) {

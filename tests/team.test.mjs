@@ -7,7 +7,7 @@ const source = readFileSync(new URL('../dist/app/team.js', import.meta.url), 'ut
 const publicKey = 'sb_publishable_UWnzlp30PvZJbIUS09Z5nQ_oWaT37AM';
 const reply = (data, status = 200) => new Response(JSON.stringify(data), { status });
 const participant = { id: 'p', first_name: 'Camille', last_name: 'Martin', email: 'camille@example.test', status: 'registered', created_at: '2026-11-13T12:00:00Z' };
-function fixture(fetcher) {
+function fixture(fetcher, { confirm = true } = {}) {
   const elements = new Map();
   function element() {
     return { textContent: '', className: '', hidden: false, disabled: false, value: '', open: false, children: [], listeners: {},
@@ -32,26 +32,32 @@ function fixture(fetcher) {
     fetch: fetcher, AbortSignal, Error, TypeError, SyntaxError, Date, Intl, navigator: { onLine: true },
     setTimeout(fn) { timers.set(++nextTimer, fn); return nextTimer; },
     clearTimeout(id) { timers.delete(id); },
-    window: { addEventListener(name, fn) { windowEvents[name] = fn; } }
+    window: { addEventListener(name, fn) { windowEvents[name] = fn; }, confirm() { return confirm; } }
   });
   return { $, button, timers, windowEvents, login: () => $('login').listeners.submit({ preventDefault() {} }) };
 }
 function network(options = {}) {
   const calls = [];
   let savedScores = options.scores || null;
+  let currentStatus = options.status || participant.status;
   const fetcher = async (url, init = {}) => {
     calls.push({ url, init });
     if (url.includes('/auth/v1/token')) return reply(options.authBody || { access_token: 'session-test', expires_in: 3600 }, options.authStatus || 200);
     if (url.includes('/auth/v1/logout')) return reply({});
     if (url.includes('/consulter-participants')) {
       if (options.list) return options.list();
-      return reply({ user: { id: 'u', email: 'organisateur@example.test', role: options.role || 'organizer' }, participants: options.participants || [{ ...participant, status: options.status || participant.status, scores: savedScores }] });
+      return reply({ user: { id: 'u', email: 'organisateur@example.test', role: options.role || 'organizer' }, participants: options.participants || [{ ...participant, status: currentStatus, scores: savedScores }] });
     }
     if (url.includes('/noter-participant')) {
       if (options.save) return options.save(init);
       const input = JSON.parse(init.body);
       savedScores = { taste: input.taste, texture: input.texture, presentation: input.presentation };
       return reply({ participant_id: input.participant_id, total: input.taste + input.texture + input.presentation });
+    }
+    if (url.includes('/changer-statut-participant')) {
+      if (options.changeStatus) return options.changeStatus(init);
+      const input = JSON.parse(init.body); currentStatus = input.status;
+      return reply({ participant_id: input.participant_id, status: currentStatus });
     }
     throw new Error('URL inattendue');
   };
@@ -159,9 +165,10 @@ test('Notation PWA : organisateur en lecture, participation retirée sans bouton
   const org = fixture(network({ scores: { taste: 8, texture: 9, presentation: 7 } }).fetcher);
   await org.login();
   const row = org.$('participants-body').children[0];
-  assert.equal(row.children.length, 5);
-  assert.equal(row.children.flatMap(cell => cell.children).length, 0);
-  assert.match(row.children.at(-1).textContent, /24 \/ 30/);
+  assert.equal(row.children.length, 6);
+  assert.equal(row.children.at(-1).children[0].textContent, 'Retirer');
+  assert.match(row.children[4].textContent, /24 \/ 30/);
+  assert.equal(row.children.flatMap(cell => cell.children).some(button => /Évaluer|Modifier les notes/.test(button.textContent)), false);
   const withdrawn = fixture(network({ role: 'jury', status: 'withdrawn' }).fetcher);
   await withdrawn.login();
   assert.equal(withdrawn.$('participants-body').children[0].children.at(-1).children.length, 0);
@@ -251,4 +258,62 @@ test('Classement PWA : recalcul après notation et effacement à la déconnexion
   assert.equal(f.$('ranking-count').textContent, '');
   assert.equal(f.$('workspace').hidden, true);
   assert.equal(f.$('ranking-panel').hidden, true);
+});
+
+function changeParticipantStatus(f) {
+  return f.$('participants-body').children[0].children.at(-1).children[0].listeners.click();
+}
+test('Gestion PWA : retrait puis réactivation, notes conservées et classement recalculé', async () => {
+  const n = network({ scores: { taste: 8, texture: 9, presentation: 7 } }); const f = fixture(n.fetcher);
+  await f.login(); await changeParticipantStatus(f);
+  assert.match(f.$('team-message').textContent, /Participation retirée/);
+  assert.equal(f.$('participants-body').children[0].children[2].textContent, 'Retiré');
+  assert.match(f.$('participants-body').children[0].children[4].textContent, /24 \/ 30/);
+  assert.equal(f.$('ranking-body').children.length, 0);
+  assert.equal(f.$('participants-body').children[0].children.at(-1).children[0].textContent, 'Réactiver');
+  const call = n.calls.find(c => c.url.includes('/changer-statut-participant'));
+  assert.equal(call.init.headers.Authorization, 'Bearer session-test');
+  assert.deepEqual(JSON.parse(call.init.body), { participant_id: participant.id, status: 'withdrawn' });
+  await changeParticipantStatus(f);
+  assert.match(f.$('team-message').textContent, /Participation réactivée/);
+  assert.equal(f.$('participants-body').children[0].children[2].textContent, 'Inscrit');
+  assert.equal(f.$('ranking-body').children[0].children[5].textContent, '24 / 30');
+});
+test('Gestion PWA : annulation de confirmation sans requête ou changement', async () => {
+  const n = network(); const f = fixture(n.fetcher, { confirm: false });
+  await f.login(); await changeParticipantStatus(f);
+  assert.equal(n.calls.some(c => c.url.includes('/changer-statut-participant')), false);
+  assert.equal(f.$('participants-body').children[0].children[2].textContent, 'Inscrit');
+});
+test('Gestion PWA : aucun bouton de gestion du statut dans la vue jury', async () => {
+  const f = fixture(network({ role: 'jury' }).fetcher); await f.login();
+  const button = f.$('participants-body').children[0].children.at(-1).children[0];
+  assert.equal(button.textContent, 'Évaluer');
+  assert.equal(/Retirer|Réactiver/.test(button.textContent), false);
+});
+test('Gestion PWA : erreur réseau sans changement optimiste et bouton rétabli', async () => {
+  const n = network({ changeStatus: () => { throw new TypeError('network'); } }); const f = fixture(n.fetcher);
+  await f.login(); await changeParticipantStatus(f);
+  assert.match(f.$('team-message').textContent, /peut-être changé/);
+  assert.equal(f.$('participants-body').children[0].children[2].textContent, 'Inscrit');
+  assert.equal(f.$('participants-body').children[0].children.at(-1).children[0].disabled, false);
+});
+test('Gestion PWA : relecture incohérente signalée, aucune fausse confirmation', async () => {
+  const n = network({ changeStatus: () => reply({ participant_id: participant.id, status: 'withdrawn' }) }); const f = fixture(n.fetcher);
+  await f.login(); await changeParticipantStatus(f);
+  assert.match(f.$('team-message').textContent, /relecture du statut n’a pas pu être confirmée/);
+  assert.equal(f.$('team-message').className, 'notice error');
+});
+test('Gestion PWA : double clic puis déconnexion, aucun retour tardif de données', async () => {
+  let complete;
+  const n = network({ changeStatus: () => new Promise(resolve => { complete = resolve; }) }); const f = fixture(n.fetcher);
+  await f.login();
+  const pending = changeParticipantStatus(f);
+  await changeParticipantStatus(f);
+  assert.equal(n.calls.filter(c => c.url.includes('/changer-statut-participant')).length, 1);
+  f.$('logout').listeners.click();
+  complete(reply({ participant_id: participant.id, status: 'withdrawn' })); await pending;
+  assert.equal(f.$('workspace').hidden, true);
+  assert.equal(f.$('participants-body').children.length, 0);
+  assert.equal(f.$('ranking-body').children.length, 0);
 });
