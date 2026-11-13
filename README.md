@@ -13,3 +13,11 @@ Vérifications de connexion exécutées : OPTIONS depuis l’origine du Site →
 Le projet complet local avec rôles et classement reste dans /workspace/le-four-du-canal.
 
 Publication statique via Sites ; accès propriétaire privé.
+
+## Espace équipe
+
+`/equipe.html` propose la connexion e-mail/mot de passe Supabase et la consultation de la liste via `consulter-participants`. Le rôle est vérifié par la fonction serveur. La clé publiable est dans le client ; les clés privilégiées restent dans Supabase. Les mots de passe vont directement à Supabase Auth, jamais au serveur Sites ni dans les journaux du projet. Les jetons restent en mémoire de la page, sans localStorage/sessionStorage ; rechargement, fermeture, expiration ou déconnexion effacent la vue. Le contrôle d’accès privé Sites demeure en place, en plus des rôles métier Supabase.
+
+À cette étape, seule la consultation est disponible : pas encore de changement de statut, saisie de notes, classement ni e-mails dans cette version hébergée. La fonction a répondu OPTIONS 204, GET anonyme 401 et GET jeton invalide 401 lors des vérifications réelles ; la connexion du compte organisateur et sa liste restent à confirmer par l’utilisateur.
+
+Tests : `npm test` (5 scénarios de formulaire, 7 scénarios de connexion avec réseau substitué). Les tests sans navigateur ne constituent pas une recette visuelle.

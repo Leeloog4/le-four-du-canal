@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Espace équipe — Le Four du Canal</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/team.js"></script>
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <div class="demo-banner">ESPACE PRIVÉ · Données de démonstration · E-mails non activés</div>
+  <header class="header wrap">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">f.</span><span>LE FOUR<br>DU CANAL</span></a>
+    <nav aria-label="Navigation principale"><a href="/">Retour au concours ↗</a></nav>
+    <button id="logout" class="button small secondary" hidden>Se déconnecter</button>
+  </header>
+  <main id="contenu" class="wrap team-main">
+    <p class="eyebrow">LES COULISSES DU CONCOURS</p>
+    <h1>L’espace <em>équipe.</em></h1>
+    <p class="intro">Retrouvez les inscriptions, dans un espace réservé à l’organisation.</p>
+    <p id="team-message" role="status" aria-live="polite" tabindex="-1"></p>
+    <section id="login-panel" class="form-card login-card">
+      <h2>Bienvenue.</h2>
+      <p class="quiet">Connectez-vous avec le compte de l’équipe.</p>
+      <form id="login">
+        <div class="field"><label for="login-email">Adresse e-mail</label><input id="login-email" name="email" type="email" autocomplete="username" maxlength="254" required></div>
+        <div class="field"><label for="login-password">Mot de passe</label><input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="256" required></div>
+        <button type="submit" class="button full">Se connecter ↗</button>
+      </form>
+      <p class="privacy">Votre accès est fourni par l’organisation. La connexion n’est pas conservée après le rechargement ou la fermeture de cette page.</p>
+    </section>
+    <section id="workspace" hidden>
+      <div class="team-toolbar"><p id="identity" class="quiet"></p><button id="refresh" class="button small secondary">Actualiser la liste</button></div>
+      <div class="section-heading"><h2>Les participations</h2><span id="participant-count" class="pill"></span></div>
+      <p id="participant-help" class="quiet">Les inscriptions reçues depuis le formulaire du concours.</p>
+      <div class="table-scroll">
+        <table>
+          <caption class="sr-only">Inscriptions au concours</caption>
+          <thead><tr id="participants-head"></tr></thead>
+          <tbody id="participants-body"></tbody>
+        </table>
+      </div>
+      <p id="participants-empty" class="empty" hidden>Aucune participation pour le moment.</p>
+    </section>
+  </main>
+  <footer class="footer wrap"><span>LE FOUR DU CANAL · Espace réservé à l’équipe</span><a href="/">Voir la page d’inscription ↗</a></footer>
+</body>
+</html>
