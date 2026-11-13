@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../dist/team.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../dist/app/team.js', import.meta.url), 'utf8');
 const publicKey = 'sb_publishable_UWnzlp30PvZJbIUS09Z5nQ_oWaT37AM';
 const reply = (data, status = 200) => new Response(JSON.stringify(data), { status });
 const participant = { id: 'p', first_name: 'Camille', last_name: 'Martin', email: 'camille@example.test', status: 'registered', created_at: '2026-11-13T12:00:00Z' };

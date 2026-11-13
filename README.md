@@ -16,8 +16,18 @@ Publication statique via Sites ; accès propriétaire privé.
 
 ## Espace équipe
 
-`/equipe.html` propose la connexion e-mail/mot de passe Supabase et la consultation de la liste via `consulter-participants`. Le rôle est vérifié par la fonction serveur. La clé publiable est dans le client ; les clés privilégiées restent dans Supabase. Les mots de passe vont directement à Supabase Auth, jamais au serveur Sites ni dans les journaux du projet. Les jetons restent en mémoire de la page, sans localStorage/sessionStorage ; rechargement, fermeture, expiration ou déconnexion effacent la vue. Le contrôle d’accès privé Sites demeure en place, en plus des rôles métier Supabase.
+`/app/` propose la connexion e-mail/mot de passe Supabase et la consultation de la liste via `consulter-participants`. Le rôle est vérifié par la fonction serveur. La clé publiable est dans le client ; les clés privilégiées restent dans Supabase. Les mots de passe vont directement à Supabase Auth, jamais au serveur Sites ni dans les journaux du projet. Les jetons restent en mémoire de la page, sans localStorage/sessionStorage ; rechargement, fermeture, expiration ou déconnexion effacent la vue. Le contrôle d’accès privé Sites demeure en place, en plus des rôles métier Supabase.
 
 À cette étape, seule la consultation est disponible : pas encore de changement de statut, saisie de notes, classement ni e-mails dans cette version hébergée. La fonction a répondu OPTIONS 204, GET anonyme 401 et GET jeton invalide 401 lors des vérifications réelles ; la connexion du compte organisateur et sa liste restent à confirmer par l’utilisateur.
 
 Tests : `npm test` (5 scénarios de formulaire, 7 scénarios de connexion avec réseau substitué). Les tests sans navigateur ne constituent pas une recette visuelle.
+
+## Séparation landing page / PWA — 14 novembre 2026
+
+La landing page `/` présente le concours et recueille les inscriptions. Les liens de gestion y ont été retirés. L’application privée est accessible à `/app/` ; l’ancien `/equipe.html` redirige vers ce chemin. Le domaine est commun, les deux parcours ont des adresses distinctes. L’accès privé de démonstration Sites reste inchangé ; la page n’est donc pas encore ouverte au public réel.
+
+La PWA possède manifeste, icônes et service worker limité à `/app/`. Le bouton d’installation apparaît uniquement si le navigateur expose l’invite correspondante ; sinon l’ajout à l’écran d’accueil dépend du menu du navigateur. Installation native et rendu mobile sont à tester par l’utilisateur.
+
+Le cache contient uniquement la coquille statique de connexion. Les API, mots de passe, jetons et inscriptions ne sont jamais mis en cache par le service worker. Une connexion Internet est nécessaire pour se connecter et charger les données ; aucune saisie ou synchronisation de notes hors ligne n’est ajoutée. Les notes et le classement hébergés restent les prochaines étapes.
+
+`npm test` : 16 scénarios (5 inscription, 7 connexion, 4 PWA).
