@@ -45,6 +45,7 @@
       <div class="team-toolbar"><p id="identity" class="quiet"></p><button id="refresh" class="button small secondary">Actualiser la liste</button></div>
       <div class="section-heading"><h2>Les participations</h2><span id="participant-count" class="pill"></span></div>
       <p id="participant-help" class="quiet">Les inscriptions reçues depuis le formulaire du concours.</p>
+      <p class="quiet">Barème fictif pour l’exercice : goût, texture et présentation, chacun sur 10. Total sur 30.</p>
       <div class="table-scroll">
         <table>
           <caption class="sr-only">Inscriptions au concours</caption>
@@ -55,6 +56,21 @@
       <p id="participants-empty" class="empty" hidden>Aucune participation pour le moment.</p>
     </section>
   </main>
+  <dialog id="score-dialog" aria-labelledby="score-title">
+    <form id="score-form">
+      <p class="eyebrow">ÉVALUATION · BARÈME FICTIF</p>
+      <h2 id="score-title">Évaluer une participation</h2>
+      <p class="quiet">Saisissez les trois notes entières de 0 à 10. Une connexion Internet est nécessaire pour les enregistrer.</p>
+      <div class="field"><label for="taste">Goût / 10</label><input id="taste" name="taste" type="number" min="0" max="10" step="1" required></div>
+      <div class="field"><label for="texture">Texture / 10</label><input id="texture" name="texture" type="number" min="0" max="10" step="1" required></div>
+      <div class="field"><label for="presentation">Présentation / 10</label><input id="presentation" name="presentation" type="number" min="0" max="10" step="1" required></div>
+      <p id="score-error" class="field-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button id="cancel-score" type="button" class="button secondary">Annuler</button>
+        <button id="save-score" type="submit" class="button">Enregistrer les notes</button>
+      </div>
+    </form>
+  </dialog>
   <footer class="footer wrap"><span>LE FOUR DU CANAL · Espace réservé à l’équipe</span><a href="/">Voir la page d’inscription ↗</a></footer>
 </body>
 </html>

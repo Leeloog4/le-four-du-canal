@@ -10,11 +10,12 @@ const participant = { id: 'p', first_name: 'Camille', last_name: 'Martin', email
 function fixture(fetcher) {
   const elements = new Map();
   function element() {
-    return { textContent: '', className: '', hidden: false, disabled: false, value: '', children: [], listeners: {},
+    return { textContent: '', className: '', hidden: false, disabled: false, value: '', open: false, children: [], listeners: {},
       addEventListener(name, fn) { this.listeners[name] = fn; },
       reportValidity() { return true; },
       replaceChildren(...children) { this.children = children; },
-      append(child) { this.children.push(child); } };
+      append(child) { this.children.push(child); },
+      showModal() { this.open = true; }, close() { this.open = false; } };
   }
   const $ = id => { if (!elements.has(id)) elements.set(id, element()); return elements.get(id); };
   const button = element();
@@ -27,7 +28,7 @@ function fixture(fetcher) {
   const windowEvents = {};
   vm.runInNewContext(source, {
     document: { getElementById: $, createElement: element },
-    fetch: fetcher, AbortSignal, Error, TypeError, Date, Intl,
+    fetch: fetcher, AbortSignal, Error, TypeError, SyntaxError, Date, Intl, navigator: { onLine: true },
     setTimeout(fn) { timers.set(++nextTimer, fn); return nextTimer; },
     clearTimeout(id) { timers.delete(id); },
     window: { addEventListener(name, fn) { windowEvents[name] = fn; } }
@@ -36,13 +37,20 @@ function fixture(fetcher) {
 }
 function network(options = {}) {
   const calls = [];
+  let savedScores = options.scores || null;
   const fetcher = async (url, init = {}) => {
     calls.push({ url, init });
     if (url.includes('/auth/v1/token')) return reply(options.authBody || { access_token: 'session-test', expires_in: 3600 }, options.authStatus || 200);
     if (url.includes('/auth/v1/logout')) return reply({});
     if (url.includes('/consulter-participants')) {
       if (options.list) return options.list();
-      return reply({ user: { id: 'u', email: 'organisateur@example.test', role: options.role || 'organizer' }, participants: [participant] });
+      return reply({ user: { id: 'u', email: 'organisateur@example.test', role: options.role || 'organizer' }, participants: [{ ...participant, status: options.status || participant.status, scores: savedScores }] });
+    }
+    if (url.includes('/noter-participant')) {
+      if (options.save) return options.save(init);
+      const input = JSON.parse(init.body);
+      savedScores = { taste: input.taste, texture: input.texture, presentation: input.presentation };
+      return reply({ participant_id: input.participant_id, total: input.taste + input.texture + input.presentation });
     }
     throw new Error('URL inattendue');
   };
@@ -115,6 +123,77 @@ test('Connexion équipe : réponse tardive après déconnexion ne réaffiche pas
 test('Connexion équipe : vue jury sans colonne de coordonnées', async () => {
   const n = network({ role: 'jury' }); const f = fixture(n.fetcher);
   await f.login();
-  assert.equal(f.$('participants-head').children.length, 3);
-  assert.equal(f.$('participants-body').children[0].children.length, 3);
+  assert.equal(f.$('participants-head').children.length, 5);
+  assert.equal(f.$('participants-body').children[0].children.length, 5);
+});
+
+function evaluate(f, values = { taste: '8', texture: '9', presentation: '7' }) {
+  const row = f.$('participants-body').children[0];
+  row.children.at(-1).children[0].listeners.click();
+  for (const [key, value] of Object.entries(values)) f.$(key).value = value;
+  return f.$('score-form').listeners.submit({ preventDefault() {} });
+}
+test('Notation PWA : saisie jury, total 24 et relecture des notes après enregistrement', async () => {
+  const n = network({ role: 'jury' }); const f = fixture(n.fetcher);
+  await f.login(); await evaluate(f);
+  const call = n.calls.find(call => call.url.includes('/noter-participant'));
+  assert.equal(call.init.headers.Authorization, 'Bearer session-test');
+  assert.deepEqual(JSON.parse(call.init.body), { participant_id: participant.id, taste: 8, texture: 9, presentation: 7 });
+  assert.match(f.$('team-message').textContent, /24 \/ 30/);
+  assert.match(f.$('team-message').textContent, /rechargées depuis la base/);
+  assert.match(f.$('participants-body').children[0].children[3].textContent, /24 \/ 30/);
+  assert.equal(f.$('score-dialog').open, false);
+});
+test('Notation PWA : notes existantes préremplies, zéro conservé et modification rechargée', async () => {
+  const n = network({ role: 'jury', scores: { taste: 0, texture: 10, presentation: 8 } }); const f = fixture(n.fetcher);
+  await f.login();
+  f.$('participants-body').children[0].children.at(-1).children[0].listeners.click();
+  assert.equal(f.$('taste').value, '0'); assert.equal(f.$('texture').value, '10');
+  f.$('presentation').value = '7';
+  await f.$('score-form').listeners.submit({ preventDefault() {} });
+  await f.$('refresh').listeners.click();
+  assert.match(f.$('participants-body').children[0].children[3].textContent, /17 \/ 30/);
+});
+test('Notation PWA : organisateur en lecture, participation retirée sans bouton', async () => {
+  const org = fixture(network({ scores: { taste: 8, texture: 9, presentation: 7 } }).fetcher);
+  await org.login();
+  const row = org.$('participants-body').children[0];
+  assert.equal(row.children.length, 5);
+  assert.equal(row.children.flatMap(cell => cell.children).length, 0);
+  assert.match(row.children.at(-1).textContent, /24 \/ 30/);
+  const withdrawn = fixture(network({ role: 'jury', status: 'withdrawn' }).fetcher);
+  await withdrawn.login();
+  assert.equal(withdrawn.$('participants-body').children[0].children.at(-1).children.length, 0);
+});
+test('Notation PWA : notes vides, fractions ou hors barème refusées avant envoi', async () => {
+  for (const value of ['', '-1', '11', '2.5']) {
+    const n = network({ role: 'jury' }); const f = fixture(n.fetcher);
+    await f.login(); await evaluate(f, { taste: value, texture: '9', presentation: '7' });
+    assert.match(f.$('score-error').textContent, /trois notes entières/);
+    assert.equal(n.calls.some(call => call.url.includes('/noter-participant')), false);
+  }
+});
+test('Notation PWA : échec réseau sans faux succès et relecture non confirmée signalée', async () => {
+  const n = network({ role: 'jury', save: () => { throw new TypeError('network'); } }); const f = fixture(n.fetcher);
+  await f.login(); await evaluate(f);
+  assert.match(f.$('score-error').textContent, /peut-être été enregistrées/);
+  assert.equal(f.$('score-dialog').open, true);
+  assert.equal(f.$('save-score').disabled, false);
+  const noReadback = network({ role: 'jury', save: () => reply({ participant_id: participant.id, total: 24 }) });
+  const other = fixture(noReadback.fetcher); await other.login(); await evaluate(other);
+  assert.match(other.$('team-message').textContent, /relecture n’a pas pu être confirmée/);
+});
+test('Notation PWA : double clic et déconnexion pendant l’enregistrement', async () => {
+  let complete;
+  const n = network({ role: 'jury', save: () => new Promise(resolve => { complete = resolve; }) });
+  const f = fixture(n.fetcher); await f.login();
+  const pending = evaluate(f);
+  await f.$('score-form').listeners.submit({ preventDefault() {} });
+  assert.equal(n.calls.filter(call => call.url.includes('/noter-participant')).length, 1);
+  f.$('logout').listeners.click();
+  assert.equal(f.$('score-dialog').open, false);
+  assert.equal(f.$('taste').value, '');
+  complete(reply({ participant_id: participant.id, total: 24 })); await pending;
+  assert.equal(f.$('workspace').hidden, true);
+  assert.equal(f.$('participants-body').children.length, 0);
 });

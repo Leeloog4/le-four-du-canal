@@ -1,33 +1,31 @@
-# Le Four du Canal — aperçu privé
+# Le Four du Canal — démonstration privée
 
-Aperçu visuel isolé du prototype local.
-Date : 4 décembre 2026 à 15 h (Paris).
-Lieu fictif : Atelier du Canal, 12 rue des Gourmands, 75010 Paris.
+## Parcours
 
-Le formulaire transmet prénom, nom et e-mail à la fonction serveur Supabase inscrire-participant. Elle vérifie les champs et enregistre une ligne dans participants ; une adresse normalisée est unique. Seul un retour réussi du serveur déclenche le message de confirmation. Les clés privilégiées restent dans Supabase. Aucun e-mail n’est envoyé, aucun classement ou accès équipe n’est exposé.
+- `/` : landing page du concours et inscription vers Supabase. Aucun lien de gestion sur cette page.
+- `/app/` : PWA privée pour organisateur et jury ; l’ancien `/equipe.html` redirige vers celle-ci.
+- Date de l’exercice : 4 décembre 2026, 15 h à Paris. Lieu fictif : Atelier du Canal, 12 rue des Gourmands, 75010 Paris.
 
-Projet Supabase : https://xeeixhbhfsdxrgeotlix.supabase.co. La fonction a été déployée par l’utilisateur depuis l’éditeur, vérification JWT désactivée pour l’inscription publique, validation et contrôle d’origine dans la fonction. Le Site reste privé. Les données sont de démonstration ; aucune ouverture publique n’est effectuée.
+Le Site est privé, accessible à sa propriétaire via ChatGPT. Le rôle métier Supabase est vérifié séparément côté serveur. La PWA peut être installée selon le navigateur ; installation sur Chrome ordinateur confirmée par l’utilisateur. Internet est nécessaire pour les données et les notes.
 
-Vérifications de connexion exécutées : OPTIONS depuis l’origine du Site → 204 ; POST vide → 422. Aucun participant créé par ces vérifications. Les tests du formulaire utilisent un substitut de réponse réseau, et ne valent pas une inscription réelle dans Supabase. Prochaine recette : inscription fictive depuis le Site, contrôle de la ligne dans Table Editor puis essai doublon.
+## État fonctionnel
 
-Le projet complet local avec rôles et classement reste dans /workspace/le-four-du-canal.
+Inscription, refus de doublon, lecture organisateur, lecture jury sans coordonnées et déconnexion ont été vérifiés par l’utilisateur. La notation est ajoutée : bouton Évaluer ou Modifier les notes réservé au jury, trois entiers de 0 à 10 (goût, texture, présentation FICTIFS), total sur 30. L’organisateur consulte les évaluations sans bouton d’écriture. Les notes sont relues depuis Supabase et préremplies lors d’une modification ; un échec de relecture est signalé. La première saisie réelle reste à confirmer par l’utilisateur.
 
-Publication statique via Sites ; accès propriétaire privé.
+Aucun e-mail envoyé ou programmé à cette étape. Classement et gestion des statuts dans la PWA restent à construire. Un seul compte jury et un jeu de notes par participation, conformément à l’hypothèse de prototype.
 
-## Espace équipe
+## Connexions
 
-`/app/` propose la connexion e-mail/mot de passe Supabase et la consultation de la liste via `consulter-participants`. Le rôle est vérifié par la fonction serveur. La clé publiable est dans le client ; les clés privilégiées restent dans Supabase. Les mots de passe vont directement à Supabase Auth, jamais au serveur Sites ni dans les journaux du projet. Les jetons restent en mémoire de la page, sans localStorage/sessionStorage ; rechargement, fermeture, expiration ou déconnexion effacent la vue. Le contrôle d’accès privé Sites demeure en place, en plus des rôles métier Supabase.
+Projet : https://xeeixhbhfsdxrgeotlix.supabase.co. Fonctions Supabase : inscrire-participant, consulter-participants et noter-participant. Le code et les étapes SQL guidées se trouvent dans `/workspace/le-four-du-canal/supabase/`. Les fonctions protégées vérifient les jetons auprès de Supabase Auth et chargent les rôles en base. La notation appelle la RPC save_scores, réservée au serveur.
 
-À cette étape, seule la consultation est disponible : pas encore de changement de statut, saisie de notes, classement ni e-mails dans cette version hébergée. La fonction a répondu OPTIONS 204, GET anonyme 401 et GET jeton invalide 401 lors des vérifications réelles ; la connexion du compte organisateur et sa liste restent à confirmer par l’utilisateur.
+La clé publiable est destinée au navigateur. Les clés privilégiées restent dans Supabase. Mots de passe envoyés directement à Supabase Auth, jamais à Sites. Jetons uniquement en mémoire de la page, sans stockage persistant. Déconnexion, expiration, fermeture ou rechargement effacent l’accès local et les données de la vue.
 
-Tests : `npm test` (5 scénarios de formulaire, 7 scénarios de connexion avec réseau substitué). Les tests sans navigateur ne constituent pas une recette visuelle.
+## PWA et cache
 
-## Séparation landing page / PWA — 14 novembre 2026
+Manifeste, icônes et service worker limités à l’application. Seule la coquille statique est mise en cache. API, jetons, mots de passe et inscriptions exclus du cache. Aucune saisie ni synchronisation de notes hors ligne. Le cache de coquille est versionné pour la mise à jour de notation.
 
-La landing page `/` présente le concours et recueille les inscriptions. Les liens de gestion y ont été retirés. L’application privée est accessible à `/app/` ; l’ancien `/equipe.html` redirige vers ce chemin. Le domaine est commun, les deux parcours ont des adresses distinctes. L’accès privé de démonstration Sites reste inchangé ; la page n’est donc pas encore ouverte au public réel.
+## Vérifications
 
-La PWA possède manifeste, icônes et service worker limité à `/app/`. Le bouton d’installation apparaît uniquement si le navigateur expose l’invite correspondante ; sinon l’ajout à l’écran d’accueil dépend du menu du navigateur. Installation native et rendu mobile sont à tester par l’utilisateur.
+`npm test` : 22 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
 
-Le cache contient uniquement la coquille statique de connexion. Les API, mots de passe, jetons et inscriptions ne sont jamais mis en cache par le service worker. Une connexion Internet est nécessaire pour se connecter et charger les données ; aucune saisie ou synchronisation de notes hors ligne n’est ajoutée. Les notes et le classement hébergés restent les prochaines étapes.
-
-`npm test` : 16 scénarios (5 inscription, 7 connexion, 4 PWA).
+Recette à faire : compte jury → Camille → 8/9/7 → message 24/30 → actualisation → mêmes notes → compte organisateur en lecture seule. Aucun mot de passe de compte utilisateur n’est fourni à l’agent.

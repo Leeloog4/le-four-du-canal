@@ -3,6 +3,17 @@ const publicKey = 'sb_publishable_UWnzlp30PvZJbIUS09Z5nQ_oWaT37AM';
 const $ = id => document.getElementById(id);
 const loginButton = $('login').querySelector('button[type="submit"]');
 let session = null, expiryTimer, generation = 0;
+let editingParticipant = null, savingScores = false;
+
+function completeScores(scores) {
+  return scores && ['taste', 'texture', 'presentation'].every(key => Number.isInteger(scores[key]) && scores[key] >= 0 && scores[key] <= 10);
+}
+function closeScores() {
+  if ($('score-dialog').open) $('score-dialog').close();
+  editingParticipant = null;
+  for (const key of ['taste', 'texture', 'presentation']) $(key).value = '';
+  $('score-error').textContent = '';
+}
 
 function message(text, error = false) {
   $('team-message').textContent = text;
@@ -11,6 +22,7 @@ function message(text, error = false) {
 function clearSession() {
   generation++;
   session = null;
+  closeScores();
   clearTimeout(expiryTimer);
   $('workspace').hidden = true;
   $('login-panel').hidden = false;
@@ -32,11 +44,12 @@ async function revoke(token) {
 }
 function render(data) {
   const organizer = data.user.role === 'organizer';
+  session.role = data.user.role;
   $('identity').textContent = data.user.email + ' · ' + (organizer ? 'Organisateur' : 'Jury');
   $('participant-help').textContent = organizer
-    ? 'Les inscriptions reçues depuis le formulaire du concours.'
-    : 'Les coordonnées des participants sont réservées à l’organisateur.';
-  $('participants-head').replaceChildren(...['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)'].map(value => {
+    ? 'Consultez les inscriptions et les évaluations. La saisie des notes est réservée au jury.'
+    : 'Évaluez chaque participation active. Les coordonnées des participants sont réservées à l’organisateur.';
+  $('participants-head').replaceChildren(...['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', ...(!organizer ? ['Action'] : [])].map(value => {
     const th = document.createElement('th'); th.textContent = value; th.scope = 'col'; return th;
   }));
   $('participants-body').replaceChildren(...data.participants.map(participant => {
@@ -46,6 +59,23 @@ function render(data) {
     for (const value of [participant.first_name + ' ' + participant.last_name, ...(organizer ? [participant.email] : []), participant.status === 'registered' ? 'Inscrit' : 'Retiré', date]) {
       const td = document.createElement('td'); td.textContent = value; tr.append(td);
     }
+    const evaluation = document.createElement('td');
+    const scores = participant.scores;
+    evaluation.textContent = completeScores(scores)
+      ? `Goût ${scores.taste} · Texture ${scores.texture} · Présentation ${scores.presentation} — ${scores.taste + scores.texture + scores.presentation} / 30`
+      : 'À évaluer';
+    tr.append(evaluation);
+    if (!organizer) {
+      const actions = document.createElement('td');
+      if (participant.status === 'registered') {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'text-button';
+        button.textContent = completeScores(scores) ? 'Modifier les notes' : 'Évaluer';
+        button.addEventListener('click', () => openScores(participant));
+        actions.append(button);
+      } else actions.textContent = '—';
+      tr.append(actions);
+    }
     return tr;
   }));
   $('participant-count').textContent = data.participants.length + ' au total';
@@ -54,8 +84,8 @@ function render(data) {
   $('workspace').hidden = false;
   $('logout').hidden = false;
 }
-async function loadParticipants() {
-  if (!session) return;
+async function loadParticipants(announce = true) {
+  if (!session) return false;
   const current = generation;
   const token = session.accessToken;
   $('refresh').disabled = true;
@@ -65,26 +95,90 @@ async function loadParticipants() {
       signal: AbortSignal.timeout(20000)
     });
     const data = await response.json();
-    if (current !== generation || !session) return;
+    if (current !== generation || !session) return false;
     if (!response.ok) {
       if ([401, 403].includes(response.status)) {
         clearSession(); void revoke(token);
         message(data.error || 'Accès refusé. Reconnectez-vous.', true);
-        return;
+        return false;
       }
       throw new Error(data.error || 'La liste des participants est indisponible.');
     }
     if (!data.user || !['organizer', 'jury'].includes(data.user.role) || !Array.isArray(data.participants)) throw new Error('Réponse du serveur invalide.');
     render(data);
-    message('Liste des participants actualisée.');
+    if (announce) message('Liste des participants actualisée.');
+    return data;
   } catch (error) {
-    if (current !== generation) return;
+    if (current !== generation) return false;
     if ($('workspace').hidden) { clearSession(); void revoke(token); }
     message(error instanceof TypeError || error.name === 'TimeoutError' ? 'Connexion interrompue. Réessayez dans un instant.' : error.message, true);
+    return false;
   } finally {
     $('refresh').disabled = false;
   }
 }
+function openScores(participant) {
+  if (!session || session.role !== 'jury' || savingScores || participant.status !== 'registered') return;
+  editingParticipant = participant;
+  $('score-title').textContent = participant.first_name + ' ' + participant.last_name;
+  for (const key of ['taste', 'texture', 'presentation']) $(key).value = completeScores(participant.scores) ? String(participant.scores[key]) : '';
+  $('score-error').textContent = '';
+  $('score-dialog').showModal();
+}
+$('cancel-score').addEventListener('click', closeScores);
+$('score-dialog').addEventListener('cancel', () => { editingParticipant = null; });
+$('score-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!session || session.role !== 'jury' || !editingParticipant || savingScores) return;
+  if (!$('score-form').reportValidity()) return;
+  const scores = {};
+  for (const key of ['taste', 'texture', 'presentation']) scores[key] = $(key).value.trim() === '' ? NaN : Number($(key).value);
+  if (!completeScores(scores)) { $('score-error').textContent = 'Saisissez trois notes entières de 0 à 10.'; return; }
+  if (!navigator.onLine) { $('score-error').textContent = 'Une connexion Internet est nécessaire pour enregistrer les notes.'; return; }
+  const current = generation;
+  const token = session.accessToken;
+  const participantId = editingParticipant.id;
+  savingScores = true;
+  $('save-score').disabled = true;
+  $('save-score').textContent = 'Enregistrement…';
+  $('score-error').textContent = '';
+  try {
+    const response = await fetch(baseUrl + '/functions/v1/noter-participant', {
+      method: 'POST', headers: { apikey: publicKey, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ participant_id: participantId, ...scores }),
+      signal: AbortSignal.timeout(20000)
+    });
+    const data = await response.json();
+    if (current !== generation || !session) return;
+    if (!response.ok) {
+      if ([401, 403].includes(response.status)) {
+        clearSession(); void revoke(token);
+        message(data.error || 'Accès refusé. Reconnectez-vous.', true); return;
+      }
+      throw new Error(data.error || 'Les notes n’ont pas pu être enregistrées.');
+    }
+    if (data.participant_id !== participantId || data.total !== scores.taste + scores.texture + scores.presentation) throw new Error('Réponse inattendue. Actualisez la liste pour vérifier les notes enregistrées.');
+    closeScores();
+    const refreshed = await loadParticipants(false);
+    if (current !== generation || !session) return;
+    const stored = refreshed && refreshed.participants.find(participant => participant.id === participantId);
+    const verified = completeScores(stored?.scores) && ['taste', 'texture', 'presentation'].every(key => stored.scores[key] === scores[key]);
+    message(verified
+      ? `Évaluation enregistrée : ${data.total} / 30. Les notes ont été rechargées depuis la base.`
+      : `Évaluation enregistrée côté serveur : ${data.total} / 30. La relecture n’a pas pu être confirmée ; utilisez « Actualiser la liste » pour vérifier.`, !verified);
+  } catch (error) {
+    if (current !== generation || !session) return;
+    const text = error instanceof TypeError || error instanceof SyntaxError || error.name === 'TimeoutError'
+      ? 'La réponse n’a pas pu être reçue. Les notes ont peut-être été enregistrées. Fermez cette fenêtre et actualisez la liste pour les vérifier.'
+      : error.message;
+    if ($('score-dialog').open) $('score-error').textContent = text;
+    else message(text, true);
+  } finally {
+    savingScores = false;
+    $('save-score').disabled = false;
+    $('save-score').textContent = 'Enregistrer les notes';
+  }
+});
 $('login').addEventListener('submit', async event => {
   event.preventDefault();
   if (loginButton.disabled) return;
@@ -118,7 +212,7 @@ $('login').addEventListener('submit', async event => {
     loginButton.textContent = 'Se connecter ↗';
   }
 });
-$('refresh').addEventListener('click', loadParticipants);
+$('refresh').addEventListener('click', () => loadParticipants());
 $('logout').addEventListener('click', () => {
   const token = session?.accessToken;
   clearSession();
