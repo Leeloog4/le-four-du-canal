@@ -6,14 +6,14 @@
 
 | Attendu | Élément fourni | État |
 | --- | --- | --- |
-| Code ou projet | [Dépôt GitHub](https://github.com/Leeloog4/le-four-du-canal) | Sources et historique présents ; dépôt privé |
+| Code ou projet | [Dépôt GitHub](https://github.com/Leeloog4/le-four-du-canal) | Sources et historique présents ; dépôt public, accès anonyme vérifié |
 | URL de démonstration | [Landing](https://four-du-canal-exercice.leeloog4.chatgpt.site/) et [PWA](https://four-du-canal-exercice.leeloog4.chatgpt.site/app/) | Publiées, accès propriétaire privé |
 | Court README | [README](../README.md) | Instructions et état réel ; prototype local explicitement distinct |
 | Note de cadrage | [Note Notion](https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f), [copie actualisée](note-cadrage-actualisee.md) | Besoin, questions, absence de réponses client, hypothèses, niveau et décisions |
 | Deux ou trois vérifications et résultats | Trois scénarios ci-dessous ; [recette détaillée](recette.md) | Effectuées, avec limites de preuve indiquées |
 | Courte démonstration | [Scénario de cinq minutes](demo.md) | Préparé ; présentation en direct ou enregistrement encore à réaliser |
 
-Un évaluateur externe ne peut pas nécessairement ouvrir ces liens privés. Prévoir une démonstration depuis le compte propriétaire ou un enregistrement, et organiser l’accès au code avant la remise. Aucun accès n’a été modifié par cette fiche ; ne pas communiquer les identifiants du propriétaire.
+Le code et les documents Markdown du dépôt sont publics ; la démo Sites et la note Notion restent soumis à leurs propres accès. Prévoir une démonstration depuis le compte propriétaire ou un enregistrement, et utiliser la copie publique du cadrage si l’accès Notion n’est pas partagé. GitHub a été rendu public par l’utilisateur puis vérifié ; l’accès Sites n’a pas été modifié ; ne pas communiquer les identifiants du propriétaire.
 
 ## Articulation avec le WordPress existant
 

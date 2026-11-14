@@ -31,7 +31,7 @@ Les choix du formulaire sont « Oui, il est terminé et vérifié », « En part
 
 https://github.com/Leeloog4/le-four-du-canal
 
-Avant dépôt : ce dépôt est privé. Le lien seul ne donne pas accès à l’évaluateur. Choisir explicitement un partage en lecture adapté avant de le remettre ; aucun changement de visibilité réalisé par l’agent. Une copie du projet peut aussi être partagée par un autre moyen convenu et accessible.
+Dépôt rendu public par l’utilisateur, vérifié via GitHub et une requête API anonyme HTTP 200. Ce lien est accessible en lecture sans invitation. Le site et la PWA restent privés.
 
 ### URL de démonstration
 
@@ -44,7 +44,7 @@ Les deux URL sont privées au compte propriétaire Sites. Fournir le lien sans o
 
 Option document : https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f
 
-Vérifier que l’évaluateur peut la lire. Le formulaire permet aussi de coller la note directement, dans une limite affichée de 20 000 caractères. La copie intégrale actualisée peut dépasser cette limite ; version courte prête à coller ci-dessous.
+Alternative publique déjà accessible : https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/note-cadrage-actualisee.md . Le lien Notion nécessite ses propres droits. Le formulaire permet aussi de coller la note directement, dans une limite affichée de 20 000 caractères. La copie intégrale actualisée peut dépasser cette limite ; version courte prête à coller ci-dessous.
 
 ```text
 Projet : Le Four du Canal — concours amateur de pâtisserie. Niveau retenu : 3 (landing page, application et e-mails).

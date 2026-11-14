@@ -17,7 +17,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | SQL guidé | Étapes exécutées par l’utilisateur dans la conversation ; contrôle direct du schéma non disponible pour l’agent |
 | Confirmation automatique | Activée ; réception confirmée par l’utilisateur pour une nouvelle inscription avec adresse contrôlée |
 | Rappel automatique | SQL 09/10, fonction, secrets et Cron configurés selon l’utilisateur ; appels 200 et refus sans secret confirmés. REMINDERS_ENABLED=true enregistré selon l’utilisateur. Recette SQL 11/12 : capture du rappel fictif simulated, attempts=1, processed_at renseigné et message_id NULL. Traitement dû simulé vérifié ; seconde lecture attempts=1 confirmée par l’utilisateur, retrait du participant fictif signalé ; aucune livraison réelle de rappel revendiquée |
-| GitHub | Dépôt privé https://github.com/Leeloog4/le-four-du-canal créé par l’utilisateur, branche main ; source consolidée avec historique conservé |
+| GitHub | Dépôt public https://github.com/Leeloog4/le-four-du-canal à la demande utilisateur ; accès anonyme HTTP 200 vérifié, branche main |
 
 Les inscriptions et notes de démonstration ne sont pas exportées de Supabase. Aucun secret Brevo ou Supabase privilégié n’est stocké dans ce dépôt. La clé publiable Supabase est publique par conception et ne confère pas un rôle organisateur.
 

@@ -286,3 +286,8 @@ Notion : ajout du Dossier de remise sur la note existante, retour de succès ave
 ### Formulaire de dépôt Zoho
 
 Lecture seule du HTML public du formulaire W8Bn8w : HTTP 200. Champs et échéance extraits ; aucun POST, aucune réponse soumise. Fichier docs/depot-zoho.md préparé avec les réponses connues, version courte du cadrage sous la limite de 20000 caractères, vérifications et éléments personnels laissés à l’utilisateur. Le formulaire demande explicitement des liens accessibles en lecture ; dépôt GitHub et démo restent privés, accès à organiser. Aucun partage ou consentement choisi automatiquement.
+
+
+### GitHub public pour la remise
+
+À la demande explicite de rendre le dépôt public : contrôle de 242 versions de fichiers texte dans l’historique, aucun secret reconnaissable ou chemin sensible détecté. Changement via l’intégration refusé HTTP 403 Resource not accessible by integration ; l’utilisateur effectue ensuite la modification dans GitHub. Vérification : gh repo view annonce PUBLIC et API GitHub appelée sans authentification retourne HTTP 200 avec private=false. Accès en lecture au code et documents GitHub confirmé. Sites et Notion conservent leurs propres droits, aucun partage de ces services modifié. Les mentions antérieures de dépôt privé décrivent son état historique.
