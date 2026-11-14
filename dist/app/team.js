@@ -5,6 +5,7 @@ const loginButton = $('login').querySelector('button[type="submit"]');
 let session = null, expiryTimer, generation = 0;
 let editingParticipant = null, savingScores = false;
 let changingStatus = false;
+let testingEmail = false, emailTestBlocked = false, emailTestOutcome = '';
 
 function completeScores(scores) {
   return scores && ['taste', 'texture', 'presentation'].every(key => Number.isInteger(scores[key]) && scores[key] >= 0 && scores[key] <= 10);
@@ -23,7 +24,8 @@ function message(text, error = false) {
 function showView(view) {
   $('participants-panel').hidden = view !== 'participants';
   $('ranking-panel').hidden = view !== 'ranking';
-  for (const name of ['participants', 'ranking']) {
+  $('emails-panel').hidden = view !== 'emails';
+  for (const name of ['participants', 'ranking', 'emails']) {
     $('view-' + name).className = view === name ? 'active' : '';
     $('view-' + name).setAttribute('aria-pressed', String(view === name));
   }
@@ -60,6 +62,13 @@ function clearSession() {
   $('ranking-body').replaceChildren();
   $('ranking-count').textContent = '';
   $('ranking-empty').hidden = true;
+  $('view-emails').hidden = true;
+  $('email-test-result').textContent = '';
+  $('email-test-result').className = '';
+  emailTestBlocked = false;
+  emailTestOutcome = '';
+  $('send-email-test').disabled = false;
+  $('send-email-test').textContent = 'Envoyer l’e-mail de test';
   showView('participants');
   $('identity').textContent = '';
   $('participant-count').textContent = '';
@@ -77,6 +86,11 @@ async function revoke(token) {
 function render(data) {
   const organizer = data.user.role === 'organizer';
   session.role = data.user.role;
+  $('view-emails').hidden = !organizer;
+  if (!organizer) {
+    $('email-test-result').textContent = '';
+    if (!$('emails-panel').hidden) showView('participants');
+  }
   $('identity').textContent = data.user.email + ' · ' + (organizer ? 'Organisateur' : 'Jury');
   $('participant-help').textContent = organizer
     ? 'Consultez les évaluations et gérez les participations. Un retrait conserve les données et les notes, mais exclut la participation du classement.'
@@ -302,6 +316,52 @@ $('login').addEventListener('submit', async event => {
 $('refresh').addEventListener('click', () => loadParticipants());
 $('view-participants').addEventListener('click', () => { if (session) showView('participants'); });
 $('view-ranking').addEventListener('click', () => { if (session) showView('ranking'); });
+$('view-emails').addEventListener('click', () => { if (session?.role === 'organizer') showView('emails'); });
+$('send-email-test').addEventListener('click', async () => {
+  if (!session || session.role !== 'organizer' || testingEmail || emailTestBlocked) return;
+  if (!window.confirm('Envoyer maintenant un vrai e-mail à votre adresse de test configurée ? Aucun message ne sera envoyé aux participants.')) return;
+  const result = $('email-test-result');
+  if (!navigator.onLine) { result.className = 'notice error'; result.textContent = 'Une connexion Internet est nécessaire pour envoyer le test.'; return; }
+  const current = generation;
+  const token = session.accessToken;
+  testingEmail = true;
+  $('send-email-test').disabled = true;
+  $('send-email-test').textContent = 'Demande d’envoi…';
+  result.textContent = '';
+  result.className = '';
+  try {
+    const response = await fetch(baseUrl + '/functions/v1/envoyer-email-test', {
+      method: 'POST', headers: { apikey: publicKey, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({}), signal: AbortSignal.timeout(25000)
+    });
+    const data = await response.json();
+    if (current !== generation || !session) return;
+    if ([401, 403].includes(response.status)) {
+      clearSession(); void revoke(token);
+      message(data.error || 'Accès refusé. Reconnectez-vous.', true); return;
+    }
+    if (response.ok && data.state === 'accepted' && typeof data.message_id === 'string' && data.message_id) {
+      emailTestOutcome = 'accepted'; emailTestBlocked = true;
+      result.className = 'notice success';
+      result.textContent = 'Brevo a accepté le message de test. Vérifiez votre boîte de réception et les courriers indésirables. Identifiant : ' + data.message_id + '. La réception reste à confirmer.';
+    } else {
+      emailTestOutcome = data.state === 'failed' ? 'failed' : 'uncertain';
+      emailTestBlocked = emailTestOutcome === 'uncertain';
+      result.className = 'notice error';
+      result.textContent = data.error || 'Résultat de l’envoi incertain. Vérifiez votre boîte et le journal Brevo avant de retenter.';
+    }
+  } catch {
+    if (current !== generation || !session) return;
+    emailTestOutcome = 'uncertain'; emailTestBlocked = true;
+    result.className = 'notice error';
+    result.textContent = 'La réponse n’a pas pu être reçue. Le message a peut-être été envoyé. Vérifiez votre boîte et le journal Brevo avant de retenter.';
+  } finally {
+    testingEmail = false;
+    $('send-email-test').disabled = emailTestBlocked;
+    $('send-email-test').textContent = emailTestOutcome === 'accepted' ? 'Test demandé — vérifiez votre boîte'
+      : emailTestOutcome === 'uncertain' ? 'Résultat à vérifier avant de retenter' : 'Envoyer l’e-mail de test';
+  }
+});
 $('logout').addEventListener('click', () => {
   const token = session?.accessToken;
   clearSession();

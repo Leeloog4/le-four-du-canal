@@ -16,7 +16,7 @@
 </head>
 <body>
   <a class="skip" href="#contenu">Aller au contenu</a>
-  <div class="demo-banner">ESPACE PRIVÉ · Données de démonstration · E-mails non activés</div>
+  <div class="demo-banner">ESPACE PRIVÉ · Données de démonstration · E-mails automatiques non activés</div>
   <header class="header wrap">
     <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">f.</span><span>LE FOUR<br>DU CANAL</span></a>
     <nav aria-label="Navigation principale"><a href="/">Retour au concours ↗</a></nav>
@@ -46,6 +46,7 @@
       <div class="tabs" role="group" aria-label="Vues de l’application">
         <button id="view-participants" type="button" class="active" aria-pressed="true">Participants</button>
         <button id="view-ranking" type="button" aria-pressed="false">Classement</button>
+        <button id="view-emails" type="button" aria-pressed="false" hidden>E-mails</button>
       </div>
       <section id="participants-panel">
       <div class="section-heading"><h2>Les participations</h2><span id="participant-count" class="pill"></span></div>
@@ -71,6 +72,12 @@
           </table>
         </div>
         <p id="ranking-empty" class="empty" hidden>Le classement apparaîtra après la première évaluation complète d’une participation active.</p>
+      </section>
+      <section id="emails-panel" hidden>
+        <h2>Tester la réception des e-mails</h2>
+        <p class="quiet">Ce test envoie un vrai message uniquement à votre adresse de test configurée. Il n’envoie aucun message aux participants. Les confirmations d’inscription et les rappels automatiques ne sont pas encore activés.</p>
+        <button id="send-email-test" type="button" class="button">Envoyer l’e-mail de test</button>
+        <p id="email-test-result" role="status" aria-live="polite" tabindex="-1"></p>
       </section>
     </section>
   </main>

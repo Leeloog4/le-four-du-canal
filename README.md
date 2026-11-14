@@ -26,7 +26,7 @@ Manifeste, icônes et service worker limités à l’application. Seule la coqui
 
 ## Vérifications
 
-`npm test` : 32 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
+`npm test` : 36 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
 
 Recette à faire : compte jury → Camille → 8/9/7 → message 24/30 → actualisation → mêmes notes → compte organisateur en lecture seule. Aucun mot de passe de compte utilisateur n’est fourni à l’agent.
 
@@ -41,3 +41,11 @@ Le classement se recalcule après relecture des inscriptions/notes et après une
 Boutons Retirer et Réactiver réservés à l’organisateur, via changer-statut-participant et la RPC set_participant_status. Le rôle est revérifié côté serveur. Confirmation avant l’action ; affichage actualisé après relecture du statut depuis la base. Un retrait conserve les notes, exclut du classement et empêche la notation ; la réactivation restaure l’éligibilité au classement avec les notes conservées. Le jury n’a aucun bouton de modification du statut.
 
 Aucune suppression et aucun e-mail à cette étape. L’annulation des futurs messages en attente sera ajoutée lors de la création de l’outbox. Contrôles réels de la fonction : OPTIONS 204, appel sans session ou avec jeton invalide 401. Aucun statut de participant réel modifié par l’agent ; retrait/réactivation à vérifier par l’utilisateur. Six scénarios de tests frontend ajoutés : cycle retrait/réactivation et notes, annulation, séparation des rôles, erreur réseau, relecture incohérente, double clic/déconnexion.
+
+## Premier test Brevo
+
+Vue E-mails réservée à l’organisateur, avec bouton Envoyer l’e-mail de test et confirmation explicite avant le seul appel serveur. Le destinataire est imposé par BREVO_TEST_RECIPIENT côté Supabase ; aucun destinataire fourni par le client. Aucun envoi au chargement, à la connexion ou à la publication. Le jury n’a pas accès à ce bouton.
+
+La réponse distingue accepted avec messageId, refus et résultat incertain. Accepted ne signifie pas livré : réception à confirmer par l’utilisateur. Un résultat accepté ou incertain bloque un second clic dans cette session ; aucun renvoi automatique, même après interruption réseau. Le résultat est effacé à la déconnexion et n’est pas mis en cache. Les confirmations et rappels automatiques ne sont pas activés.
+
+Contrôles réels sans envoi : OPTIONS 204, POST anonyme 401, jeton invalide 401. 4 tests frontend supplémentaires et 9 tests backend avec réseau substitué, sans appel Brevo réel. Premier envoi et réception à vérifier par l’utilisateur via le bouton de la PWA.

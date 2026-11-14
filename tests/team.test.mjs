@@ -59,6 +59,8 @@ function network(options = {}) {
       const input = JSON.parse(init.body); currentStatus = input.status;
       return reply({ participant_id: input.participant_id, status: currentStatus });
     }
+    if (url.includes('/envoyer-email-test')) return options.emailTest
+      ? options.emailTest(init) : reply({ state: 'accepted', message_id: '<message-test>' });
     throw new Error('URL inattendue');
   };
   return { calls, fetcher };
@@ -316,4 +318,53 @@ test('Gestion PWA : double clic puis déconnexion, aucun retour tardif de donné
   assert.equal(f.$('workspace').hidden, true);
   assert.equal(f.$('participants-body').children.length, 0);
   assert.equal(f.$('ranking-body').children.length, 0);
+});
+
+test('E-mail PWA : aucun envoi automatique, vue organisateur et clic explicite confirmé', async () => {
+  const n = network(); const f = fixture(n.fetcher); await f.login();
+  assert.equal(n.calls.some(c => c.url.includes('/envoyer-email-test')), false);
+  assert.equal(f.$('view-emails').hidden, false);
+  f.$('view-emails').listeners.click(); assert.equal(f.$('emails-panel').hidden, false);
+  await f.$('send-email-test').listeners.click();
+  const call = n.calls.find(c => c.url.includes('/envoyer-email-test'));
+  assert.equal(call.init.headers.Authorization, 'Bearer session-test');
+  assert.deepEqual(JSON.parse(call.init.body), {});
+  assert.match(f.$('email-test-result').textContent, /Brevo a accepté/);
+  assert.match(f.$('email-test-result').textContent, /réception reste à confirmer/);
+  assert.equal(f.$('send-email-test').disabled, true);
+  await f.$('send-email-test').listeners.click();
+  assert.equal(n.calls.filter(c => c.url.includes('/envoyer-email-test')).length, 1);
+});
+test('E-mail PWA : jury et annulation sans envoi', async () => {
+  const n = network({ role: 'jury' }); const f = fixture(n.fetcher); await f.login();
+  assert.equal(f.$('view-emails').hidden, true);
+  await f.$('send-email-test').listeners.click();
+  assert.equal(n.calls.some(c => c.url.includes('/envoyer-email-test')), false);
+  const other = network(); const cancelled = fixture(other.fetcher, { confirm: false }); await cancelled.login();
+  await cancelled.$('send-email-test').listeners.click();
+  assert.equal(other.calls.some(c => c.url.includes('/envoyer-email-test')), false);
+});
+test('E-mail PWA : résultat incertain sans renvoi, refus explicite affiché', async () => {
+  for (const mode of ['network', 'uncertain', 'failed']) {
+    const n = network({ emailTest: () => {
+      if (mode === 'network') throw new TypeError('network');
+      return reply({ state: mode, error: 'Résultat à vérifier' }, 502);
+    } });
+    const f = fixture(n.fetcher); await f.login(); await f.$('send-email-test').listeners.click();
+    assert.equal(f.$('email-test-result').className, 'notice error');
+    assert.equal(f.$('send-email-test').disabled, mode !== 'failed');
+    assert.equal(n.calls.filter(c => c.url.includes('/envoyer-email-test')).length, 1);
+  }
+});
+test('E-mail PWA : double clic puis déconnexion pendant l’envoi sans retour tardif', async () => {
+  let complete;
+  const n = network({ emailTest: () => new Promise(resolve => { complete = resolve; }) }); const f = fixture(n.fetcher);
+  await f.login(); const pending = f.$('send-email-test').listeners.click();
+  await f.$('send-email-test').listeners.click();
+  assert.equal(n.calls.filter(c => c.url.includes('/envoyer-email-test')).length, 1);
+  f.$('logout').listeners.click();
+  complete(reply({ state: 'accepted', message_id: '<message-test>' })); await pending;
+  assert.equal(f.$('workspace').hidden, true);
+  assert.equal(f.$('email-test-result').textContent, '');
+  assert.equal(f.$('view-emails').hidden, true);
 });
