@@ -24,6 +24,6 @@ Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il r
 
 ## Historique organisateur — nouvelle version préparée
 
-- consulter-emails : nouveau fichier prêt, à créer manuellement dans les fonctions Supabase, vérification JWT héritée désactivée ; vérifie Supabase Auth et rôle organizer dans son code. Aucun nouveau script SQL nécessaire.
-- PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication réussie, déploiement appgdep_6af8831e645081919b125457d59a05a9 ; la fonction doit être installée avant recette réelle. Jusqu’à cette installation, un chargement d’historique peut afficher une indisponibilité.
-- Suite locale : 126 tests réussis ; aucune vérification navigateur réelle de cette nouvelle interface.
+- consulter-emails : déploiement manuel signalé par l’utilisateur après les consignes ; lecture de l’historique et des détails organisateur confirmée. Vérifie Supabase Auth et rôle organizer dans son code. Aucun nouveau script SQL nécessaire.
+- PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication réussie, déploiement appgdep_6af8831e645081919b125457d59a05a9 ; fonction installée selon l’utilisateur ; statuts et détails organisateur confirmés par sa recette.
+- Suite locale : 126 tests réussis ; recette navigateur organisateur confirmée par l’utilisateur ; séparation jury encore à confirmer manuellement.

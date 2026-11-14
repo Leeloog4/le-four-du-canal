@@ -171,3 +171,10 @@ Fonction consulter-emails préparée pour installation manuelle Supabase, non en
 Recette guidée restante : organisateur → E-mails → états confirmation accepted et rappel pending de sa propre inscription ; contenu et échéance Paris ; test fictif simulated conservé avec participant retiré ; actualisation sans nouvel envoi ; déconnexion puis jury sans onglet ni accès aux messages. Tests de la fonction anonyme/jeton invalide à exécuter après déploiement. Ne pas prétendre que le test d’envoi manuel apparaît dans email_jobs : cet historique concerne les messages liés aux inscriptions.
 
 Publication historique : résultat natif Sites succeeded, commit 95c58a2c82bc7cce646b420531bd853f566021b8, déploiement appgdep_6af8831e645081919b125457d59a05a9. Audience propriétaire privée conservée. Frontend publié ; installation de consulter-emails et lecture réelle encore en attente utilisateur.
+
+
+### Recette utilisateur de l’historique — 14 novembre 2026
+
+Après les consignes de création de consulter-emails et désactivation de la vérification JWT héritée, l’utilisateur répond « ok » : déploiement manuel signalé comme effectué. Il confirme ensuite le scénario organisateur → E-mails : confirmation « Accepté par Brevo » et rappel « En attente » prévu le 3 décembre à 15 h Paris. À la consigne d’ouvrir les détails et d’actualiser, il répond « ok » : affichage des détails signalé comme correct. Aucun journal fournisseur ou comptage de messages n’a été inspecté indépendamment pour cette actualisation ; la lecture seule est vérifiée par les tests et le code.
+
+Restent à confirmer manuellement : déconnexion de l’organisateur puis connexion jury sans onglet E-mails, et effacement de l’historique. Aucun accès de l’agent aux identifiants ni à la messagerie ; aucune livraison de rappel réel revendiquée.
