@@ -69,3 +69,7 @@ Remplacer l’illustration SVG de tarte par un visuel généré pour l’exercic
 ## D26 — Gâteau en fond de la section d’accueil
 
 Précision utilisateur : le gâteau doit être une image de fond sans cadre. Remplacer le visuel latéral en arche par un fond pleine largeur de la section d’accueil, texte par-dessus et voile sombre de contraste. Visuel étendu en paysage à partir du gâteau précédent, sujet à droite et espace de lecture à gauche. Sur téléphone, source portrait en arrière-plan au bas de la section et dégradé vertical ; texte en haut. Le formulaire reste sur fond clair. Image de fond décorative ignorée des aides techniques, titre et contenu du concours conservés en HTML.
+
+## D27 — Présentation du cadrage sous forme d’échange client
+
+À la demande de l’utilisateur, présenter les choix retenus dans un échange questions/réponses client, avec décision associée. Ne changer ni les règles du produit, ni les résultats des tests. Date/lieu et barème de démonstration restent explicitement fictifs. Les sources originales du brief sont préservées ; la note actualisée et la préparation du dépôt adoptent cette présentation. Aucun nom d’interlocuteur, date de rendez-vous ou compte rendu de réunion supplémentaire ajouté.

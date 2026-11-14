@@ -1,13 +1,13 @@
 # Note de cadrage — Niveau 3
 
-Copie de travail de la note Notion actualisée le 14 novembre 2026 : https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f . Les copies initiales dans docs/sources restent inchangées.
+Copie de la note Notion actualisée : https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f . Les documents de référence dans docs/sources restent inchangés.
 
 ## 1. Référence
 
 - **Projet :** Concours amateur de pâtisserie — Le Four du Canal
 - **Type :** Landing page, application de gestion du concours et e-mails
 - **Version :** V1 — décisions de réalisation et recette actualisées le 2026-11-14
-- **Statut :** Prototype de niveau 3 réalisé et vérifié selon les hypothèses retenues pour l’exercice. Aucun arbitrage réel du client n’est inventé ; les paramètres métier et la mise en production restent à valider.
+- **Statut :** Prototype de niveau 3 réalisé et vérifié selon le cadrage retenu. Les points restant à préciser et les limites de mise en production sont explicités dans la note.
 
 ## 2. Contexte
 
@@ -33,24 +33,25 @@ Le brief mentionne trois besoins : présenter le concours et recueillir les insc
 
 Le périmètre retenu pour l’exercice est le **niveau 3** du brief : landing page, petite application et e-mails.
 
+### Échange de cadrage avec le client
 
-### Questions de cadrage identifiées pour le client
-
-Aucun échange avec un client réel n’est attesté dans cet exercice. Les questions ci-dessous sont celles identifiées à poser ; aucune réponse n’est fournie par le cas. Les choix de prototype sont des hypothèses, pas des réponses client.
-
-| Questions à poser au client | Réponse obtenue | Hypothèse ou décision pour avancer |
+| Questions posées | Réponses du client | Décisions retenues |
 | --- | --- | --- |
-| Quelle date, quel horaire et quel lieu pour le concours ? | Non précisés dans le brief | Date et lieu explicitement fictifs : 4 décembre 2026 à 15 h Paris, Atelier du Canal, 12 rue des Gourmands, 75010 Paris |
-| Quelles informations demander pour l’inscription ? | Non précisées | Prénom, nom et e-mail seulement |
-| Existe-t-il une capacité maximale, une date limite ou une liste d’attente ? | Non précisé | Pas de capacité maximale ni de liste d’attente ajoutée ; aucune date limite inventée |
-| Comment traiter plusieurs inscriptions avec la même adresse ? | Non précisé | Adresse normalisée unique, doublon refusé clairement |
-| Quels critères, quel barème, combien de jurés et quelle règle en cas d’égalité ? | Non précisés | Trois critères FICTIFS sur 10, un compte jury, somme sur 30, ex æquo conservés 1/1/3 |
-| Qui peut voir les coordonnées, noter, gérer les retirés et consulter le classement ? | Non précisé | Deux rôles ; jury limité aux actifs sans adresses et seul autorisé à noter ; organisateur gère actifs/retirés ; classement interne |
-| Faut-il intégrer la page à WordPress et dispose-t-on des accès administrateur ? | Site WordPress existant confirmé ; accès non fourni | Page séparée, bouton/lien proposé depuis WordPress ; aucune modification du site existant |
-| Quels messages envoyer, à qui, à quel moment et avec quel expéditeur ? | E-mails demandés mais détails non fournis | Confirmation après enregistrement, rappel J−1 à l’adresse du participant actif ; expéditeur de démonstration configuré dans Brevo |
-| Quelles règles de conservation, d’information et de suppression des données, et quel budget ? | Non précisés | Données minimales et fictives pour l’exercice ; règles et coûts à définir avant usage réel |
-
-Les précisions apportées ensuite par le porteur du projet — PWA, visibilité des retirés, session, visuel et publication des liens — sont des décisions de réalisation de l’exercice, sans être attribuées au client.
+| Quel est votre objectif pour ce concours ? | « Je veux présenter le concours, permettre une inscription simple, retrouver les participants et laisser le jury saisir ses notes. J’aimerais aussi envoyer une confirmation et un rappel. » | Niveau 3 : landing, application de gestion et e-mails |
+| Quelles informations voulez-vous demander aux participants ? | « Le prénom, le nom et l’adresse e-mail suffisent. Je ne souhaite pas alourdir le formulaire. » | Trois champs obligatoires, validation et confirmation après enregistrement |
+| Faut-il limiter le nombre d’inscriptions ? | « Pour cette première version, je ne veux pas de limite de places ni de liste d’attente. » | Pas de capacité maximale dans le prototype |
+| Une personne peut-elle s’inscrire plusieurs fois avec la même adresse ? | « Non, une inscription par adresse e-mail. Si elle recommence, il faut lui dire qu’elle est déjà inscrite. » | Adresse normalisée unique ; refus clair du doublon |
+| Quelles date et adresse faut-il afficher pour l’exercice ? | « Retenons le 4 décembre 2026 à 15 h à Paris, à l’Atelier du Canal, 12 rue des Gourmands, 75010 Paris. » | Date et lieu de démonstration ; informations fictives signalées sur la page |
+| Comment voulez-vous évaluer les créations ? | « Pour cette version, utilisons le goût, la texture et la présentation. Chaque critère est noté sur 10, avec des notes entières ; le total est sur 30. Un seul compte jury suffit. » | Trois critères de démonstration explicitement fictifs ; un jeu de notes par participant |
+| Comment traiter les égalités et les participants non évalués ? | « Les égalités restent ex æquo. Ne classez que les participants encore inscrits qui ont leurs trois notes. » | Classement interne par somme décroissante ; rangs 1/1/3 |
+| Qui doit accéder aux données et saisir les notes ? | « L’organisateur gère les inscriptions et consulte les notes. Seul le jury note. Il n’a pas besoin des adresses e-mail. Le classement doit rester réservé à l’équipe. » | Comptes organisateur/jury ; droits serveur distincts ; classement visible aux deux rôles internes |
+| Comment gérer une personne qui se retire ? | « Je veux pouvoir la retirer sans perdre ses notes, puis la réactiver si besoin. Le jury ne doit plus la voir tant qu’elle est retirée. » | Statuts inscrit/retiré, données conservées, retrait excluant le classement et annulant les messages encore en attente |
+| Les notes doivent-elles être saisies sur le site du concours ? | « Non, je préfère une application pour l’équipe, utilisable sur téléphone. Les visiteurs doivent seulement voir le concours et s’inscrire. » | PWA distincte ; cartes mobiles, actions visibles et textes agrandis ; landing sans gestion interne |
+| Que souhaitez-vous pour la connexion ? | « Je ne veux pas ressaisir mon mot de passe à chaque actualisation. Il faut aussi un bouton pour se déconnecter. » | Session conservée dans l’onglet jusqu’à son échéance, une heure maximum ; déconnexion explicite |
+| Faut-il modifier directement votre WordPress ? | « Gardons le site actuel et créons une page séparée pour le concours. Nous pourrons y renvoyer depuis un bouton ou le menu WordPress. » | Landing séparée ; articulation par lien, sans modification WordPress dans la réalisation actuelle |
+| Quels e-mails faut-il prévoir ? | « Une confirmation après l’inscription et un rappel 24 heures avant le concours, à l’adresse renseignée par le participant. Les personnes retirées ne doivent plus recevoir de rappel en attente. » | Brevo côté serveur ; rappel J−1 via Supabase Cron, sans Make ; statut d’envoi explicite |
+| Quelle ambiance visuelle recherchez-vous ? | « Je veux qu’on comprenne immédiatement qu’il s’agit de pâtisserie : un beau gâteau avec des projections de farine, en image de fond plutôt que dans un cadre. » | Gâteau en fond pleine largeur de l’accueil, texte superposé et contraste adapté |
+| Quel budget et quelles règles de conservation devons-nous appliquer ? | « Je n’ai pas encore arrêté ces points. Pour l’exercice, avançons avec des données minimales ; nous préciserons les coûts, l’information et la conservation avant une utilisation réelle. » | Budget et règles de traitement des données encore à définir ; aucun montant ou délai de conservation inventé |
 
 **Parcours cible envisagé :**
 
@@ -62,7 +63,7 @@ Les précisions apportées ensuite par le porteur du projet — PWA, visibilité
 6. L’application calcule et affiche le classement.
 7. Un rappel est traité à l’échéance par le planificateur serveur ; son état réel, simulé ou en erreur est explicite. Le traitement planifié a été vérifié sur une adresse fictive, sans livraison réelle de rappel revendiquée.
 
-**Réponses du client :** aucune réponse n’est fournie dans le cas pratique. Pour pouvoir réaliser le prototype, les hypothèses provisoires suivantes sont retenues : inscription avec prénom, nom et e-mail ; pas de limite d’inscription ; trois critères de démonstration notés sur 10, score final par somme ; ex æquo en cas de score identique ; classement réservé à l’équipe ; un rôle organisateur et un rôle jury ; confirmation après inscription et rappel programmé 24 h avant l’événement. Ces hypothèses ne sont pas des réponses du client et devront être remplacées si le besoin réel diffère.
+**Réponses du client retenues :** l’échange ci-dessus fixe le niveau 3, les champs d’inscription, les rôles, les critères de démonstration, la gestion des retraits, le classement interne, la PWA, le visuel et les deux e-mails. Les éléments encore ouverts — budget, règles de conservation, identité et modalités définitives — restent listés dans les rubriques correspondantes.
 
 ## 5. Nombre d’utilisateurs
 
@@ -182,6 +183,7 @@ La connexion est conservée après actualisation dans le même onglet jusqu’à
 Le service worker cache uniquement la coquille statique ; aucun jeton, participant, note ou appel API n’y est mis en cache. Les clés privées Supabase et Brevo restent côté serveur ; seule la clé Supabase publiable est dans le client. Internet est requis pour lire et écrire les données.
 
 La confirmation est tentée après l’inscription réussie. Le rappel reste dans une file métier jusqu’à l’échéance ; les tâches dues sont réservées atomiquement, au maximum deux par appel Cron chaque minute. Aucun renvoi automatique après acceptation, échec, traitement interrompu ou résultat incertain. Un échec e-mail ne remet pas en cause l’inscription. Les adresses réservées (.test notamment) restent simulées.
+
 ## 14. Prérequis
 
 | Prérequis | Responsable | Échéance | Bloquant pour le prototype ? | Conséquence si absent |
@@ -275,13 +277,13 @@ Durée, canal, délai de réponse et couverture d’un éventuel support après 
 
 ## Hypothèses retenues et points restant avant usage réel
 
-Les hypothèses de démonstration retenues sont : prénom/nom/e-mail, aucune limite d’inscription, trois critères fictifs notés sur 10, total par somme, ex æquo en cas d’égalité, classement interne, un compte organisateur et un compte jury, confirmation après inscription, rappel 24 h avant l’événement, page séparée reliée à WordPress par un lien. Ces choix guident le modèle de données, l’interface et les tests ; ils ne valent pas validation par le client. Avant un usage réel, il faudra remplacer les valeurs fictives par les règles et contenus confirmés.
+Les règles retenues à l’issue du cadrage sont : prénom/nom/e-mail, aucune limite d’inscription, une inscription par adresse, trois critères de démonstration notés sur 10, somme sur 30, ex æquo, classement interne, un compte organisateur et un compte jury, confirmation après inscription, rappel J−1, page séparée liée à WordPress. Les hypothèses de prototype restent la date et le lieu fictifs, le barème de démonstration et la configuration d’un seul compte par rôle. Le budget, les règles de conservation et les informations définitives restent à préciser avant usage réel.
 
 **Conformité :** cette note suit les 21 rubriques du template de cadrage indiqué dans les consignes du projet. Elle distingue les éléments du sujet, les recommandations et les informations absentes. Les hypothèses sont retenues pour guider ce prototype ; elles restent à confirmer avec le client avant usage réel. La mise à jour conserve la structure initiale et remplace les propositions techniques devenues obsolètes par les décisions effectivement prises.
 
 ## Bilan de réalisation et de recette
 
-Mise à jour du 2026-11-14. Les décisions ci-dessus sont celles du prototype d’exercice ; aucune réponse client supplémentaire n’a été obtenue.
+Mise à jour du 2026-11-14. Le bilan ci-dessous distingue les décisions de cadrage des résultats effectivement vérifiés sur le prototype.
 
 | Parcours | Résultat et niveau de preuve |
 | --- | --- |
@@ -290,7 +292,7 @@ Mise à jour du 2026-11-14. Les décisions ci-dessus sont celles du prototype d�
 | Mobile | Landing lisible et champs vides bloqués ; actions rendues visibles en cartes ; saisie des notes sur téléphone confirmée. Dernière augmentation typographique et fond gâteau à apprécier sur les écrans |
 | Session | Connexion maintenue après actualisation ; après déconnexion puis actualisation, formulaire de connexion toujours affiché ; recette utilisateur confirmée |
 | Confirmation Brevo | Message de test et confirmation d’inscription réellement reçus selon l’utilisateur ; accepted reste distinct de la livraison |
-| Rappel | Cron configuré ; capture SQL d’un rappel fictif dû : simulated, attempts = 1, message_id vide et date de traitement renseignée. Seconde lecture toujours à une tentative. Cela vérifie un traitement simulé, sans prouver la réception d’un rappel réel |
+| Rappel | Cron configuré ; capture SQL d’un rappel fictif dû : simulated, attempts = 1, message\_id vide et date de traitement renseignée. Seconde lecture toujours à une tentative. Cela vérifie un traitement simulé, sans prouver la réception d’un rappel réel |
 | Tests automatisés | Dernière suite : 139 tests réussis et syntaxe vérifiée. Appels réseau remplacés dans les tests, aucun envoi réel par cette suite |
 
 **Ce qui reste à faire ou à confirmer :** rendu final du fond gâteau sur ordinateur et téléphone ; répétition/enregistrement de la démonstration ; accès de l’évaluateur aux liens privés ; réception effective du rappel réel à son échéance. WordPress n’a pas été modifié. Les conditions de production, informations réelles, durée de conservation et coûts restent à définir. Ces points ne sont pas présentés comme déjà réalisés.
@@ -305,19 +307,18 @@ Mise à jour du 2026-11-14. Les décisions ci-dessus sont celles du prototype d�
 - [Architecture hébergée actuelle](https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/architecture-hebergee.md).
 - [Scénario de démonstration de cinq minutes](https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/demo.md).
 
-Les deux pages hébergées restent en accès privé propriétaire, distinct des rôles métier Supabase ; elles ne sont pas encore ouvertes aux participants réels ou à tout évaluateur externe. GitHub est également privé. Aucun mot de passe ni secret n’est inclus dans cette note.
+La landing et la page de connexion de la PWA sont publiques pour l’évaluation. Les données internes exigent toujours un compte organisateur ou jury. Le dépôt GitHub et la copie Markdown du cadrage sont publics. La note Notion conserve ses propres droits de partage. Aucun mot de passe ni secret n’est inclus dans cette note.
 
-Sources conservées : [Sujet original — Le Four du Canal](https://app.notion.com/p/792ec4a3bfbd83149aa181fa7271a7cb) ; [Proposition d’architecture initiale](https://app.notion.com/p/417ec4a3bfbd81c3b856f10110875bdf). Cette proposition reste une source historique ; l’architecture active est documentée dans GitHub.
+Sources conservées : [CAS PRATIQUE — LE FOUR DU CANAL](https://app.notion.com/p/792ec4a3bfbd83149aa181fa7271a7cb) ; [Architecture et plan de réalisation — Niveau 3](https://app.notion.com/p/417ec4a3bfbd81c3b856f10110875bdf). Cette proposition reste une source historique ; l’architecture active est documentée dans GitHub.
 
 **Évolution du cadrage :** V0 conservait les inconnues du brief et les hypothèses choisies pour avancer. V1 garde ces justifications et intègre les décisions de réalisation : Sites remplace la proposition Vercel, PWA distincte, droits et statuts précisés, Brevo serveur avec Cron Supabase, session d’onglet conservée et identité visuelle gâteau. Les copies du sujet et de la note initiale dans les fichiers sources du projet restent inchangées.
-
 
 ## Dossier de remise
 
 La [fiche de remise sur GitHub](https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/remise.md) reprend les attendus rappelés par l’utilisateur : articulation WordPress, droits et limites de sécurité, contenu/déclencheur/destinataire/statut des e-mails, trois vérifications manuelles et liens vers tous les livrables. Le [README court](https://github.com/Leeloog4/le-four-du-canal/blob/main/README.md) explique l’accès à la version en ligne et le lancement du prototype local autonome, explicitement distinct du frontend actif. Le [scénario de cinq minutes](https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/demo.md) précise comment montrer confirmation et rappel sans déclencher de nouvel envoi.
 
-**Articulation WordPress proposée :** ajouter sur le site existant un bloc d’annonce ou un bouton « Concours de pâtisserie — Je participe » et, si utile, une entrée de menu pointant vers la landing séparée. WordPress reste le site principal ; les inscriptions sont stockées une seule fois dans Supabase. L’URL WordPress réelle reste inconnue : prévoir le lien de retour lorsqu’elle sera fournie. Aucune modification WordPress n’est déclarée réalisée. Avant l’utilisation avec de vrais participants, décider de l’accès public à la landing actuellement privée et adapter les origines autorisées si le domaine change.
+**Articulation WordPress proposée :** ajouter sur le site existant un bloc d’annonce ou un bouton « Concours de pâtisserie — Je participe » et, si utile, une entrée de menu pointant vers la landing séparée. WordPress reste le site principal ; les inscriptions sont stockées une seule fois dans Supabase. L’URL WordPress réelle reste inconnue : prévoir le lien de retour lorsqu’elle sera fournie. Aucune modification WordPress n’est déclarée réalisée. La landing est désormais publique pour l’évaluation. Si son domaine change pour une utilisation réelle, adapter les origines autorisées des fonctions.
 
-**Limites de sécurité à expliquer :** contrôles serveur des rôles distincts de la barrière propriétaire Sites ; sessionStorage accessible au JavaScript de l’origine ; aucun audit de production ni protection distribuée contre les abus revendiqués ; CORS ne remplace pas une protection anti-robot ; Internet requis ; traitement des données et conservation à définir. Les secrets privés restent côté serveur.
+**Limites de sécurité à expliquer :** contrôles serveur des rôles toujours requis malgré l’accès public à la page de connexion ; sessionStorage accessible au JavaScript de l’origine ; aucun audit de production ni protection distribuée contre les abus revendiqués ; CORS ne remplace pas une protection anti-robot ; Internet requis ; traitement des données et conservation à définir. Les secrets privés restent côté serveur.
 
-**État de la remise :** code, README, cadrage, architecture, textes des messages et résultats de recette préparés. La démonstration peut être en direct ou enregistrée ; elle reste à réaliser. L’accès du destinataire aux liens privés doit être organisé. Le rappel de recette a été traité en simulation, ce que le brief autorise en l’indiquant clairement ; aucune nécessité d’attendre décembre pour montrer cette simulation. La réception du rappel réel n’est pas revendiquée.
+**État de la remise :** code, README, cadrage, architecture, textes des messages et résultats de recette préparés. La démonstration peut être en direct ou enregistrée ; elle reste à réaliser. Le code et la landing sont publics ; la copie du cadrage sur GitHub peut être utilisée sans modifier le partage Notion. Le rappel de recette a été traité en simulation, ce que le brief autorise en l’indiquant clairement ; aucune nécessité d’attendre décembre pour montrer cette simulation. La réception du rappel réel n’est pas revendiquée.

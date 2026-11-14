@@ -299,3 +299,7 @@ Après confirmation explicite de l’utilisateur, Sites update_site_access retou
 ### Questions client explicitées dans le cadrage
 
 Après relecture de la note Notion, besoin, hypothèses et niveau présents mais questions dispersées parmi les inconnues. Ajout ciblé dans la rubrique 4 d’un tableau questions/réponse fournie/hypothèse : date/lieu, champs, capacité, doublons, notation, rôles, WordPress, e-mails et données/budget. Aucun échange client réel inventé ; questions identifiées à poser, réponses absentes du cas explicitement signalées. Mise à jour Notion réussie sans avertissement et copie publique GitHub synchronisée.
+
+### Échange client intégré au cadrage
+
+À la demande de l’utilisateur, remplacement de la liste de questions sans réponses par un échange Q/R reprenant les décisions déjà retenues : champs, doublons, capacité, date/lieu d’exercice, barème, rôles, retraits, PWA, session, WordPress, e-mails et visuel. Budget et conservation restent ouverts. Mise à jour ciblée Notion réussie sans avertissement ; copie GitHub et réponses préparées synchronisées. Les accès désormais publics sont également corrigés dans la note. Aucun changement applicatif ni de résultat de recette ; aucune réunion ou identité client ajoutée.

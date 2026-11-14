@@ -1,6 +1,6 @@
 # Fiche de remise — Le Four du Canal
 
-État au 14 novembre 2026. Niveau 3 : landing page, application privée et e-mails. Le client du cas n’a fourni aucune réponse supplémentaire : les règles ci-dessous sont des hypothèses d’exercice, pas des faits confirmés par le client.
+État au 14 novembre 2026. Niveau 3 : landing page, application privée et e-mails. La note réunit le besoin compris, les questions posées, les réponses du client et les décisions retenues ; date, lieu et barème de démonstration restent explicitement fictifs.
 
 ## Livrables et accès
 
@@ -119,7 +119,7 @@ Complément confirmé : actualisation conservant la connexion, puis déconnexion
 
 ## Hypothèses et questions de cadrage
 
-La [note de cadrage](https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f) conserve les inconnues du brief. Aucune réponse client supplémentaire obtenue. Choix d’exercice : prénom/nom/e-mail, pas de capacité maximale, e-mail normalisé unique, un organisateur et un jury, trois critères FICTIFS goût/texture/présentation sur 10 et somme sur 30, rangs 1/1/3, classement interne, date et lieu fictifs ci-dessus. Ces règles devront être confrontées au vrai client avant usage réel.
+La [note de cadrage](https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f) présente un échange questions/réponses et les points encore ouverts : budget, règles de conservation et conditions d’utilisation réelle. Choix d’exercice : prénom/nom/e-mail, pas de capacité maximale, e-mail normalisé unique, un organisateur et un jury, trois critères FICTIFS goût/texture/présentation sur 10 et somme sur 30, rangs 1/1/3, classement interne, date et lieu fictifs ci-dessus. Ces règles devront être confrontées au vrai client avant usage réel.
 
 ## Derniers éléments avant remise
 

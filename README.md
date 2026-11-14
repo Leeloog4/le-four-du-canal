@@ -15,7 +15,7 @@ Inscription persistée, validation des champs et doublons, connexion par rôle, 
 
 Confirmation reçue sur une adresse contrôlée. Rappel planifié par Cron : traitement fictif dû vérifié en simulation, une seule tentative ; **aucune livraison réelle de rappel revendiquée**. Les statuts réels/simulés et contenus sont consultables dans l’historique organisateur.
 
-Hypothèses d’exercice : concours le **4 décembre 2026 à 15 h Paris**, lieu fictif Atelier du Canal, 12 rue des Gourmands, 75010 Paris. Trois critères **FICTIFS** goût/texture/présentation, entiers 0–10, somme sur 30 ; classement interne des actifs évalués, rangs 1/1/3. Aucune réponse client supplémentaire obtenue.
+Hypothèses d’exercice : concours le **4 décembre 2026 à 15 h Paris**, lieu fictif Atelier du Canal, 12 rue des Gourmands, 75010 Paris. Trois critères **FICTIFS** goût/texture/présentation, entiers 0–10, somme sur 30 ; classement interne des actifs évalués, rangs 1/1/3. Questions, réponses et décisions de cadrage dans la note liée ci-dessous.
 
 Session conservée après actualisation dans l’onglet, une heure maximum ; déconnexion puis actualisation vérifiées. Jeton temporaire et échéance dans sessionStorage, pas de mot de passe ou données métier ; droits vérifiés serveur. Internet requis, cache PWA limité à la coquille statique. Voir les [limites de sécurité](docs/remise.md).
 

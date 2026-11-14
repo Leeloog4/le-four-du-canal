@@ -81,3 +81,7 @@ Le jury voit uniquement les participants actifs ; les retirés restent consultab
 ## Synchronisation avec Notion
 
 Le 14 novembre 2026, la note Notion 417ec4a3bfbd81d7b738c6cf9f62c85f est mise à jour en V1 avec les décisions de réalisation et les preuves de recette. Copie de travail : note-cadrage-actualisee.md ; copie initiale dans sources/note-notion.md conservée.
+
+## Présentation de l’échange client
+
+À la demande de l’utilisateur, la note actualisée présente désormais les questions, les réponses client et les décisions associées dans la rubrique 4. Les choix métier restent ceux déjà retenus ; hypothèses de démonstration et points ouverts restent visibles. Les sources du brief restent conservées.

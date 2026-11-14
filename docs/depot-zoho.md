@@ -51,7 +51,7 @@ Projet : Le Four du Canal — concours amateur de pâtisserie. Niveau retenu : 3
 
 Besoin compris : présenter le concours et recueillir les inscriptions, permettre à l’équipe de gérer les participants, au jury de noter, obtenir un classement cohérent et communiquer par confirmation/rappel.
 
-Questions de cadrage : quelles données d’inscription, capacité, date/lieu, barème, nombre de jurés, droits, règles de doublons et égalités, accès WordPress, expéditeur et déclencheurs e-mail ? Aucune réponse client supplémentaire n’est fournie par ce cas. Les choix suivants sont donc des hypothèses d’exercice et non des réponses inventées du client.
+Échange de cadrage : le client souhaite une inscription simple (prénom, nom, e-mail), sans limite de places et avec une seule inscription par adresse. Il retient un organisateur et un jury, une application distincte du site, un classement interne et une confirmation suivie d’un rappel J-1. Les questions et réponses complètes figurent dans la note, avec les décisions associées. Le budget et les règles de conservation restent à préciser.
 
 Hypothèses : prénom, nom, e-mail ; pas de capacité maximale ; e-mail normalisé unique avec refus du doublon ; un compte organisateur et un compte jury. Concours fictif le 4 décembre 2026 à 15 h Paris, Atelier du Canal, 12 rue des Gourmands, 75010 Paris (lieu fictif). Trois critères FICTIFS goût/texture/présentation, entiers sur 10, somme sur 30. Classement interne des actifs entièrement évalués, ex aequo conservés avec rangs 1/1/3.
 
