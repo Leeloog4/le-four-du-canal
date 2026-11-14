@@ -63,6 +63,10 @@ Statut : **non exécutée**. L’environnement n’expose pas le chemin de contr
 
 ## Règle de mise à jour
 
+### Préparation des rappels — 14 novembre 2026
+
+Cron installé selon l’utilisateur (bouton Créer un emploi). Worker traiter-rappels et SQL 09 préparés, non déployés. Tests réseau substitué : refus sans secret, désactivation, configuration, acceptation et destinataire serveur, file vide/concurrence simulée, refus fournisseur, 5xx, absence d’identifiant, interruption, retrait, adresse réservée, refus de traiter une confirmation, erreur de réclamation/enregistrement et événement passé. Aucun appel externe réel. SQL non exécuté sur PostgreSQL par l’agent : verrouillage, échéances et droits restent à vérifier dans Supabase. Aucun rappel activé. Vérification syntaxique réussie et suite complète : 103 tests réussis, zéro échec.
+
 ### État courant — confirmation automatique validée, 14 novembre 2026
 
 Les entrées plus anciennes ci-dessous décrivent les étapes historiques, pas l’état courant.
