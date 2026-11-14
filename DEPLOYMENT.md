@@ -6,7 +6,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | --- | --- |
 | Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
-| Dernier commit source Sites publié | 73e56d0c50f9fa6bef65d94ed033d9ef58d4fe58 |
+| Dernier commit source Sites publié | c1f25377da25a747301c99efbe2584c998414b07 |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
 | consulter-participants | Version avec lecture des notes déployée manuellement ; lecture réelle confirmée |
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
@@ -39,3 +39,5 @@ Filtre serveur jury : déploiement manuel de consulter-participants signalé com
 Recette des retirés clôturée : disparition côté jury et maintien côté organisateur avec statut Retiré et bouton Réactiver confirmés par l’utilisateur.
 
 Lisibilité mobile publiée : textes et saisie agrandis, déploiement appgdep_6af88a5bcb188191a67f2648de5a4948 succeeded. Appréciation visuelle sur téléphone encore à confirmer. Aucun changement Supabase requis.
+
+Session et gâteau publiés : déploiement appgdep_6af88c38f1548191bc48cba7196bcd03 succeeded. Jeton temporaire conservé dans sessionStorage de l’onglet pendant une heure maximum depuis la connexion initiale, contrôle serveur à chaque restauration ; aucun nouveau réglage Supabase. Nouveau visuel WebP responsive. Tests 139 réussis ; recette navigateur utilisateur actualisation/déconnexion et rendu visuel encore à confirmer.
