@@ -46,3 +46,5 @@ Session et gâteau publiés : déploiement appgdep_6af88c38f1548191bc48cba7196bc
 Gâteau en fond pleine largeur de l’accueil publié : appgdep_6af88d3255208191937961bb445b2995 succeeded. Texte superposé, sources paysage/portrait selon écran ; rendu utilisateur encore à confirmer.
 
 Documentation de remise actualisée : README, docs/demo.md (parcours cinq minutes), docs/architecture-hebergee.md, matrice du cadrage et recette. Actualisation sans reconnexion signalée comme validée par l’utilisateur ; déconnexion suivie d’actualisation et rendu final du fond gâteau restent à confirmer. Aucune modification applicative ou de partage pour cette mise à jour documentaire.
+
+Déconnexion puis actualisation : formulaire de connexion maintenu, confirmé par l’utilisateur. Recette de persistance et suppression de session validée ; rendu final du fond gâteau et démonstration enregistrée encore non confirmés.

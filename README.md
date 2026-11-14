@@ -42,7 +42,7 @@ La confirmation automatique a été reçue après une inscription contrôlée. S
 
 La PWA affiche des cartes sur téléphone. Nouvelle version : connexion conservée après actualisation dans le même onglet, sous échéance absolue d’une heure maximum. Seuls le jeton d’accès temporaire et l’échéance sont dans sessionStorage ; aucun mot de passe, refresh token ou donnée métier. Déconnexion et expiration suppriment ce stockage. Les droits sont revérifiés côté serveur avant affichage. Le service worker ne met jamais ces informations en cache.
 
-La landing utilise un visuel de gâteau avec projections de farine en fond pleine largeur de l’accueil, généré pour l’exercice et servi en WebP responsive. Conservation de connexion après actualisation signalée comme validée par l’utilisateur. Derniers contrôles à faire : déconnexion puis actualisation et rendu final du fond gâteau. Lire [DEPLOYMENT.md](DEPLOYMENT.md) et [docs/recette.md](docs/recette.md) pour les preuves et limites ; intégration WordPress réelle et livraison réelle du rappel restent non vérifiées.
+La landing utilise un visuel de gâteau avec projections de farine en fond pleine largeur de l’accueil, généré pour l’exercice et servi en WebP responsive. Conservation de connexion après actualisation signalée comme validée par l’utilisateur. Déconnexion suivie d’actualisation également confirmée : le formulaire de connexion reste affiché. Le rendu final du fond gâteau reste à confirmer. Lire [DEPLOYMENT.md](DEPLOYMENT.md) et [docs/recette.md](docs/recette.md) pour les preuves et limites ; intégration WordPress réelle et livraison réelle du rappel restent non vérifiées.
 
 ## Lancer et vérifier le projet
 

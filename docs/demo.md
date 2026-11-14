@@ -31,6 +31,6 @@ La démonstration proposée n’a pas encore été enregistrée. Répéter les t
 
 ## Derniers contrôles avant remise
 
-Vérifier le rendu final du fond gâteau sur ordinateur et téléphone, puis déconnexion → actualisation sans restauration de session. La conservation de connexion à l’actualisation est signalée comme validée par l’utilisateur ; son expiration et la suppression du stockage sont couvertes par les tests substitués. Si nécessaire, montrer le projet par enregistrement tant que les accès de l’évaluateur ne sont pas organisés. Ne jamais transmettre le mot de passe propriétaire pour ouvrir la démonstration.
+Vérifier le rendu final du fond gâteau sur ordinateur et téléphone. Déconnexion → actualisation sans restauration de session est confirmée par l’utilisateur. La conservation de connexion à l’actualisation est signalée comme validée par l’utilisateur ; son expiration et la suppression du stockage sont couvertes par les tests substitués. Si nécessaire, montrer le projet par enregistrement tant que les accès de l’évaluateur ne sont pas organisés. Ne jamais transmettre le mot de passe propriétaire pour ouvrir la démonstration.
 
 Le [prototype local autonome](../prototype-local/README.md) reste une archive distincte : il se lance avec Node 24, SQLite et e-mails simulés, et ne reproduit pas toute l’interface publiée.

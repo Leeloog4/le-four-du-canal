@@ -261,3 +261,8 @@ Publication fond gâteau : commit 7208473a2b82d9022aff33ca2e6450312712cabc, dép
 À la consigne de se connecter à la PWA puis d’actualiser complètement la page pour vérifier l’absence de nouvelle saisie du mot de passe, l’utilisateur répond « ok ». Conservation de connexion signalée comme validée ; aucune inspection directe du stockage. Déconnexion puis actualisation sur cette nouvelle version restent à confirmer manuellement ; expiration et suppression sont couvertes par les tests substitués.
 
 README et scénario docs/demo.md réécrits pour les services réellement hébergés ; nouvelle architecture actuelle distincte du prototype archivé ; matrice de couverture du cadrage et versionnement corrigés. Le guide prévoit trois vérifications à montrer et explique les limites réelles du rappel simulé, du lien privé et de l’absence d’intégration WordPress. Aucune vidéo ou répétition de cinq minutes effectuée par l’agent. Dernière suite applicative inchangée : 139 tests réussis ; pas de nouvelle exécution pour des changements documentaires uniquement. Contrôle des liens Markdown locaux et git diff --check à la remise.
+
+
+### Déconnexion suivie d’actualisation — 14 novembre 2026
+
+L’utilisateur confirme que le formulaire de connexion reste affiché après Se déconnecter puis actualisation complète de la PWA. Recette utilisateur de déconnexion avec session conservée clôturée : connexion maintenue à l’actualisation avant déconnexion, aucune restauration après déconnexion. Observation utilisateur sans inspection indépendante du stockage ; suppression et expiration couvertes également par les tests substitués. Rendu final du fond gâteau et répétition/enregistrement de démonstration restent à confirmer séparément.
