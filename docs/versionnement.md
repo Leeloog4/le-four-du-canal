@@ -8,6 +8,6 @@ Historique du raccordement : connexion Leeloog4 confirmée, mais création depui
 
 Le dossier initial Sites `/workspace/sites/four-du-canal-demo` et le dossier de travail initial `/workspace/le-four-du-canal` sont conservés comme références, sans déplacement. La source de travail principale est `/workspace/four-du-canal-github`. Ne pas modifier les anciennes copies comme des projets parallèles. Toute prochaine modification du site, de la PWA, des fonctions ou du SQL doit être commitée et poussée dans le dépôt GitHub principal. Les publications Sites doivent provenir du même état source, poussé séparément vers le remote sites avant publication.
 
-La version préparée localement d’inscrire-participant n’est pas encore appliquée à Supabase. `DEPLOYMENT.md` distingue les fonctions déployées du travail en attente. Les scripts SQL déjà appliqués sont conservés ; ne pas relancer les scripts guidés en bloc.
+Les fonctions Supabase, dont inscrire-participant avec confirmation, ont été déployées manuellement selon la recette utilisateur. La publication Sites ne déploie pas ces fonctions. `DEPLOYMENT.md` distingue les fonctions déployées du travail en attente. Les scripts SQL déjà appliqués sont conservés ; ne pas relancer les scripts guidés en bloc.
 
 Les clés privilégiées, jetons, bases et exports sont exclus. La clé publiable Supabase est nécessaire au navigateur et n’est pas un secret. Les données de démonstration stockées dans Supabase n’ont pas été exportées.

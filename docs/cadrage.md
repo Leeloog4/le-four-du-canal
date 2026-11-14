@@ -44,17 +44,17 @@ Pas de paiement, de newsletter, de publication du classement, de refonte WordPre
 
 | ID | Exigence source | Implémentation | Vérification |
 | --- | --- | --- | --- |
-| E01 | Présentation du concours | public/index.html ; informations fictives signalées | HTTP vérifié ; rendu navigateur à vérifier |
-| E02 | Inscription et validation | POST /api/registrations ; transaction participant + e-mails | intégration nominale, erreurs, doublon, atomicité, persistance |
-| E03 | Responsive | style.css ; règles 900/650 px, tableaux défilants | revue du code ; recette visuelle restante |
-| E04 | Liste et gestion | /equipe ; GET/PATCH participants | test organisateur, retrait, exclusion classement |
-| E05 | Notes | PUT scores ; trois entiers 0–10 | tests valeurs limites, notes incomplètes, droits |
-| E06 | Classement | calcul serveur, actifs évalués seulement | somme, ex æquo 1/1/3, retrait |
-| E07 | Accès et sécurité | session HttpOnly ; rôles serveur ; RLS Supabase sans accès direct | accès anonymes et rôles locaux vérifiés ; RLS externe non exécutée |
-| E08 | Confirmation | tâche atomique après inscription, appel Brevo serveur | simulation et prestataire substitué, aucun envoi réel |
-| E09 | Rappel | tâche J−1, planificateur local ou endpoint cron protégé | avant/après échéance, concurrence, tardif, événement passé |
-| E10 | WordPress | page séparée et lien d’intégration documenté | documentation ; accès WordPress non disponible |
-| E11 | Livrables | README, sources, décisions, architecture, recette, guide démo | fichiers fournis ; démonstration navigateur à réaliser |
+| E01 | Présentation du concours | dist/index.html, informations fictives et fond gâteau | accès mobile et première présentation validés ; rendu du fond final à confirmer |
+| E02 | Inscription et validation | inscrire-participant, transaction participant + messages | inscription/doublon et réception contrôlée confirmés ; atomicité testée avec substituts |
+| E03 | Responsive | dist/style.css ; cartes PWA sous 760 px | landing et actions/notation mobile confirmées ; dernière augmentation typographique à apprécier |
+| E04 | Liste et gestion | PWA et fonctions consulter-participants/changer-statut-participant | retrait/réactivation et visibilité par rôle confirmés |
+| E05 | Notes | noter-participant + RPC save_scores ; trois entiers 0–10 | saisie/relecture et parcours téléphone confirmés ; erreurs couvertes par tests |
+| E06 | Classement | PWA sur données autorisées, actifs évalués seulement | somme, ex æquo et retrait confirmés ; rangs 1/1/3 testés |
+| E07 | Accès | Auth/rôles serveur, sessionStorage temporaire, tables privées | séparation des rôles et actualisation confirmées ; RLS directe externe non inspectée |
+| E08 | Confirmation | email_jobs et Brevo côté serveur | réception réelle contrôlée confirmée ; états d’erreur testés avec substituts |
+| E09 | Rappel | claim_reminders, traiter-rappels et Supabase Cron | rappel fictif dû traité une fois ; réception réelle du rappel non vérifiée |
+| E10 | WordPress | page séparée, lien depuis WordPress proposé | articulation documentée, aucune modification WordPress réalisée |
+| E11 | Livrables | README, sources, décisions, architecture, recette, guide démo | fichiers fournis ; démonstration de cinq minutes préparée, non enregistrée |
 
 Pour chaque nouvelle fonctionnalité, mettre à jour cette couverture et `recette.md`.
 

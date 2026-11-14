@@ -254,3 +254,10 @@ L’utilisateur demande de sortir le gâteau du cadre. Fond pleine largeur derri
 npm run check réussi ; npm test 139 tests réussis zéro échec ; git diff --check et contrôle des fichiers/srcset (largeurs réelles) réussis. Aucune nouvelle suite miroir du style. Navigateur indisponible : rendu ordinateur/téléphone et contraste réel à confirmer par l’utilisateur après publication. Aucun appel métier réel ni e-mail envoyé.
 
 Publication fond gâteau : commit 7208473a2b82d9022aff33ca2e6450312712cabc, déploiement appgdep_6af88d3255208191937961bb445b2995 succeeded. Audience propriétaire privée conservée ; rendu téléphone/ordinateur en attente utilisateur.
+
+
+### Actualisation conservant la connexion et préparation du rendu
+
+À la consigne de se connecter à la PWA puis d’actualiser complètement la page pour vérifier l’absence de nouvelle saisie du mot de passe, l’utilisateur répond « ok ». Conservation de connexion signalée comme validée ; aucune inspection directe du stockage. Déconnexion puis actualisation sur cette nouvelle version restent à confirmer manuellement ; expiration et suppression sont couvertes par les tests substitués.
+
+README et scénario docs/demo.md réécrits pour les services réellement hébergés ; nouvelle architecture actuelle distincte du prototype archivé ; matrice de couverture du cadrage et versionnement corrigés. Le guide prévoit trois vérifications à montrer et explique les limites réelles du rappel simulé, du lien privé et de l’absence d’intégration WordPress. Aucune vidéo ou répétition de cinq minutes effectuée par l’agent. Dernière suite applicative inchangée : 139 tests réussis ; pas de nouvelle exécution pour des changements documentaires uniquement. Contrôle des liens Markdown locaux et git diff --check à la remise.

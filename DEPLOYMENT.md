@@ -8,7 +8,8 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
 | Dernier commit source Sites publié | 7208473a2b82d9022aff33ca2e6450312712cabc |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
-| consulter-participants | Version avec lecture des notes déployée manuellement ; lecture réelle confirmée |
+| consulter-participants | Déployée manuellement avec notes et filtre jury actifs ; recette utilisateur confirmée |
+| consulter-emails | Déployée manuellement ; historique et détails organisateur confirmés, accès jury exclu |
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
 | changer-statut-participant | Déployée ; retrait/réactivation et conservation des notes confirmés |
 | envoyer-email-test | Déployée ; réception réelle du message de test confirmée par l’utilisateur |
@@ -43,3 +44,5 @@ Lisibilité mobile publiée : textes et saisie agrandis, déploiement appgdep_6a
 Session et gâteau publiés : déploiement appgdep_6af88c38f1548191bc48cba7196bcd03 succeeded. Jeton temporaire conservé dans sessionStorage de l’onglet pendant une heure maximum depuis la connexion initiale, contrôle serveur à chaque restauration ; aucun nouveau réglage Supabase. Nouveau visuel WebP responsive. Tests 139 réussis ; recette navigateur utilisateur actualisation/déconnexion et rendu visuel encore à confirmer.
 
 Gâteau en fond pleine largeur de l’accueil publié : appgdep_6af88d3255208191937961bb445b2995 succeeded. Texte superposé, sources paysage/portrait selon écran ; rendu utilisateur encore à confirmer.
+
+Documentation de remise actualisée : README, docs/demo.md (parcours cinq minutes), docs/architecture-hebergee.md, matrice du cadrage et recette. Actualisation sans reconnexion signalée comme validée par l’utilisateur ; déconnexion suivie d’actualisation et rendu final du fond gâteau restent à confirmer. Aucune modification applicative ou de partage pour cette mise à jour documentaire.

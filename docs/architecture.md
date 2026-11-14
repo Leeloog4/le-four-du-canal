@@ -1,6 +1,6 @@
 # Architecture minimale
 
-> État de l’architecture : les sections historiques ci-dessous décrivent le prototype Node/SQLite et ses adaptateurs. L’application hébergée actuelle est statique (dist) avec Supabase Auth, fonctions serveur et Cron. À la demande utilisateur, son jeton d’accès temporaire est désormais conservé dans sessionStorage de l’onglet, sous échéance absolue d’une heure maximum, puis revérifié par le serveur après actualisation. Elle n’utilise pas le cookie HttpOnly décrit pour le prototype. Voir D24, DEPLOYMENT.md et README.md pour l’état courant.
+> État de l’architecture : les sections historiques ci-dessous décrivent le prototype Node/SQLite et ses adaptateurs. L’application hébergée actuelle est statique (dist) avec Supabase Auth, fonctions serveur et Cron. À la demande utilisateur, son jeton d’accès temporaire est désormais conservé dans sessionStorage de l’onglet, sous échéance absolue d’une heure maximum, puis revérifié par le serveur après actualisation. Elle n’utilise pas le cookie HttpOnly décrit pour le prototype. Voir architecture-hebergee.md, D24, DEPLOYMENT.md et README.md pour l’état courant.
 
 
 ## Choix
