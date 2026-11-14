@@ -53,3 +53,14 @@ Retour utilisateur : le défilement horizontal du tableau masque les actions sur
 ## D23 — Lisibilité mobile de l’application
 
 Demande utilisateur : augmenter la taille des textes de la PWA jury. Sous 760 px, texte courant 16 px, libellés secondaires 14 px, noms et champs de notes 20 px, boutons de 48 px minimum ; dialogue utilisable dans la hauteur disponible et boutons pouvant se répartir sur plusieurs lignes. Règles limitées à la PWA et son dialogue de notation, sans agrandir la landing. La lisibilité réelle reste à confirmer avec l’utilisateur.
+
+
+## D24 — Conserver la connexion à l’actualisation
+
+Demande utilisateur : éviter de ressaisir les identifiants après chaque rechargement. Dans la PWA statique, conserver uniquement le jeton d’accès temporaire et son échéance absolue dans sessionStorage de l’onglet, jamais le mot de passe, refresh token, rôle, participants ou notes. Une actualisation ne prolonge pas l’échéance, limitée à une heure depuis la connexion initiale et à la durée Supabase annoncée. À la restauration, vérifier de nouveau identité et rôle via consulter-participants avant affichage. Déconnexion, expiration ou refus 401/403 suppriment le stockage ; une panne réseau conserve le jeton non expiré sans données affichées. Pagehide efface la mémoire et les vues mais garde le jeton temporaire pour l’actualisation ; pageshow restaure après vérification. Stockage bloqué : fonctionnement en mémoire seulement.
+
+Ce choix remplace la précédente règle de jeton uniquement en mémoire pour le frontend hébergé. sessionStorage est accessible au JavaScript de l’origine, contrairement à un cookie HttpOnly ; aucun contenu non fiable n’est injecté en HTML et aucun jeton n’est ajouté au cache du service worker. La fermeture d’un onglet termine normalement son stockage de session ; une restauration d’onglet par le navigateur peut le conserver, toujours sous échéance et contrôle serveur. Pas de promesse de connexion permanente entre appareils ou après expiration.
+
+## D25 — Visuel du concours
+
+Remplacer l’illustration SVG de tarte par un visuel généré pour l’exercice : gâteau crème/poires/noisettes et projections de farine, fond vert sauge chaleureux. Il illustre la pâtisserie, sans prétendre montrer un produit réel du client. Deux fichiers WebP servis selon la largeur, texte alternatif descriptif, dimensions fixes et priorité de chargement du visuel principal. Aucun changement des informations fictives ni du formulaire.

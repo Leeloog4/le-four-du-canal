@@ -73,3 +73,7 @@ E08/E09 : historique des confirmations/rappels implémenté dans dist/app et end
 ## Visibilité jury précisée par l’utilisateur
 
 Le jury voit uniquement les participants actifs ; les retirés restent consultables et réactivables par l’organisateur. La règle s’applique dans consulter-participants côté serveur et dans la PWA, avec compteurs cohérents. Réactivation visible à l’actualisation suivante. Les notes sont conservées.
+
+## Actualisation de la session et identité visuelle
+
+À la demande utilisateur : session de l’onglet conservée après actualisation pendant sa durée de validité (une heure maximum), avec nouveau contrôle des droits côté serveur. Voir D24 pour le stockage sessionStorage et les limites du frontend statique. Nouveau visuel généré de gâteau et farine pour identifier le concours de pâtisserie. Ces ajustements ne changent pas les rôles, barème ou données fictives.

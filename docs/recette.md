@@ -234,3 +234,12 @@ L’utilisateur trouve les écritures trop petites dans l’application jury apr
 npm run check réussi ; npm test 131 réussis, zéro échec ; git diff --check réussi. Aucun nouveau test miroir du CSS. Pas de changement serveur, de notes, de droits ou d’e-mails. Navigateur de contrôle indisponible : appréciation réelle de la taille, vérification d’absence de débordement et dialogue avec clavier ouvert à confirmer sur le téléphone utilisateur après publication.
 
 Publication lisibilité mobile : commit 73e56d0c50f9fa6bef65d94ed033d9ef58d4fe58, déploiement appgdep_6af88a5bcb188191a67f2648de5a4948 succeeded, audience propriétaire privée conservée. Vérification utilisateur après actualisation attendue.
+
+
+### Actualisation sans reconnexion et visuel gâteau — préparation
+
+Demande utilisateur : conserver la connexion après actualisation et rendre le thème pâtisserie immédiatement visible. Nouvelle persistance du jeton temporaire dans sessionStorage de l’onglet, sous échéance absolue d’une heure maximum. Déconnexion/expiration/refus serveur effacent le jeton ; aucune donnée métier ni mot de passe stocké. Restauration revérifiée côté serveur avant affichage, aucune prolongation de session au rechargement. Cache statique v11-session-hero, sans API ou jeton.
+
+npm run check et npm test réussis : 139 tests, zéro échec. Huit nouveaux scénarios : actualisation et nouveau contrôle du rôle sans mot de passe ni allongement d’échéance, attente du serveur et réponse tardive après déconnexion ignorée, stockage expiré/corrompu/incohérent refusé, suppression stockage à déconnexion/expiration, refus serveur 401/403, panne réseau sans données ni révocation, stockage bloqué, retour navigateur après pagehide. Tests réseau substitué, aucun compte réel utilisé.
+
+Visuel gâteau et farine généré et inspecté en image locale. Intégration WebP 560 px (77 582 octets) et 1122 px (278 478 octets), alt et dimensions, srcset avec priorité de chargement. Contrôle des fichiers référencés et décodage des deux variantes réussi. Aucun nouveau test miroir HTML/CSS. Rendu navigateur indisponible ; recette après publication : se connecter une fois, actualiser la page et rester connecté, puis se déconnecter/actualiser et rester déconnecté ; vérifier le visuel sur téléphone et ordinateur. Aucun nouveau déploiement Supabase nécessaire, aucune note modifiée ni e-mail envoyé par l’agent.

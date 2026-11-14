@@ -7,7 +7,7 @@ const source = readFileSync(new URL('../dist/app/team.js', import.meta.url), 'ut
 const publicKey = 'sb_publishable_UWnzlp30PvZJbIUS09Z5nQ_oWaT37AM';
 const reply = (data, status = 200) => new Response(JSON.stringify(data), { status });
 const participant = { id: 'p', first_name: 'Camille', last_name: 'Martin', email: 'camille@example.test', status: 'registered', created_at: '2026-11-13T12:00:00Z' };
-function fixture(fetcher, { confirm = true } = {}) {
+function fixture(fetcher, { confirm = true, storage = new Map(), storageBlocked = false } = {}) {
   const elements = new Map();
   function element() {
     return { textContent: '', className: '', hidden: false, disabled: false, value: '', open: false, children: [], listeners: {},
@@ -27,14 +27,19 @@ function fixture(fetcher, { confirm = true } = {}) {
   $('login-password').value = 'mot-de-passe-test';
   const timers = new Map(); let nextTimer = 0;
   const windowEvents = {};
-  vm.runInNewContext(source, {
+  const browserStorage = {
+    getItem(key) { if (storageBlocked) throw new Error('blocked'); return storage.get(key) ?? null; },
+    setItem(key, value) { if (storageBlocked) throw new Error('blocked'); storage.set(key, value); },
+    removeItem(key) { if (storageBlocked) throw new Error('blocked'); storage.delete(key); }
+  };
+  const ready = vm.runInNewContext(source, {
     document: { getElementById: $, createElement: element },
     fetch: fetcher, AbortSignal, Error, TypeError, SyntaxError, Date, Intl, navigator: { onLine: true },
     setTimeout(fn) { timers.set(++nextTimer, fn); return nextTimer; },
     clearTimeout(id) { timers.delete(id); },
-    window: { addEventListener(name, fn) { windowEvents[name] = fn; }, confirm() { return confirm; } }
+    window: { sessionStorage: browserStorage, addEventListener(name, fn) { windowEvents[name] = fn; }, confirm() { return confirm; } }
   });
-  return { $, button, timers, windowEvents, login: () => $('login').listeners.submit({ preventDefault() {} }) };
+  return { $, button, timers, windowEvents, storage, ready, login: () => $('login').listeners.submit({ preventDefault() {} }) };
 }
 function network(options = {}) {
   const calls = [];
@@ -80,7 +85,10 @@ test('Connexion équipe : identifiants envoyés uniquement à Supabase et rôle 
   assert.equal(f.$('participants-body').children[0].children[1].textContent, participant.email);
   assert.equal(f.button.disabled, false);
   assert.equal(source.includes('localStorage'), false);
-  assert.equal(source.includes('sessionStorage'), false);
+  const stored = JSON.parse([...f.storage.values()][0]);
+  assert.equal(stored.accessToken, 'session-test');
+  assert.equal(Object.keys(stored).sort().join(','), 'accessToken,expiresAt');
+  assert.equal(JSON.stringify(stored).includes('mot-de-passe'), false);
 });
 test('Connexion équipe : identifiants incorrects sans affichage de participants', async () => {
   const n = network({ authStatus: 400, authBody: { code: 'invalid_credentials' } }); const f = fixture(n.fetcher);
@@ -436,4 +444,61 @@ test('Participants organisateur : retiré conservé avec action Réactiver', asy
   const f = fixture(network({ status: 'withdrawn' }).fetcher); await f.login();
   const row = f.$('participants-body').children[0]; assert.equal(row.children[2].textContent, 'Retiré');
   assert.equal(row.children.at(-1).children[0].textContent, 'Réactiver');
+});
+
+
+const sessionKey = 'four-du-canal-team-session-v1';
+const savedSession = (extra = {}) => new Map([[sessionKey, JSON.stringify({ accessToken: 'session-test', expiresAt: Date.now() + 300000, ...extra })]]);
+test('Session : actualisation restaure le jeton et revérifie le rôle sans mot de passe', async () => {
+  const storage = new Map(); const first = fixture(network().fetcher, { storage }); await first.login();
+  const expiry = JSON.parse(storage.get(sessionKey)).expiresAt;
+  first.windowEvents.pagehide(); assert.equal(first.$('participants-body').children.length, 0); assert.equal(storage.size, 1);
+  const n = network({ role: 'jury' }); const second = fixture(n.fetcher, { storage }); await second.ready;
+  assert.equal(n.calls.length, 1); assert.match(n.calls[0].url, /consulter-participants/);
+  assert.equal(n.calls[0].init.headers.Authorization, 'Bearer session-test');
+  assert.equal(second.$('workspace').hidden, false); assert.equal(second.$('view-emails').hidden, true);
+  assert.equal(JSON.parse(storage.get(sessionKey)).expiresAt, expiry); // Aucun allongement à l’actualisation.
+});
+test('Session : restauration n’affiche rien avant vérification serveur et ignore réponse après déconnexion', async () => {
+  let finish; const n = network({ list: () => new Promise(resolve => { finish = resolve; }) });
+  const f = fixture(n.fetcher, { storage: savedSession() });
+  assert.equal(f.$('workspace').hidden, true); assert.equal(f.$('participants-body').children.length, 0);
+  f.$('logout').listeners.click(); finish(reply({ user: { role: 'organizer' }, participants: [participant] })); await f.ready;
+  assert.equal(f.$('workspace').hidden, true); assert.equal(f.storage.size, 0); assert.equal(f.$('participants-body').children.length, 0);
+});
+test('Session : expirée, corrompue ou durée incohérente ne déclenche aucune lecture privée', async () => {
+  for (const raw of ['invalide', JSON.stringify({ accessToken: 'session-test', expiresAt: Date.now() - 1 }),
+    JSON.stringify({ accessToken: '', expiresAt: Date.now() + 300000 }),
+    JSON.stringify({ accessToken: 'session-test', expiresAt: Date.now() + 7200000 })]) {
+    const n = network(); const storage = new Map([[sessionKey, raw]]); const f = fixture(n.fetcher, { storage }); await f.ready;
+    assert.equal(n.calls.length, 0); assert.equal(storage.size, 0); assert.equal(f.$('workspace').hidden, true);
+  }
+});
+test('Session : déconnexion et expiration effacent aussi le stockage de l’onglet', async () => {
+  for (const kind of ['logout', 'expiry']) {
+    const f = fixture(network().fetcher, { storage: savedSession() }); await f.ready;
+    if (kind === 'logout') f.$('logout').listeners.click(); else [...f.timers.values()][0]();
+    assert.equal(f.storage.size, 0); assert.equal(f.$('workspace').hidden, true);
+  }
+});
+test('Session : refus serveur à la restauration supprime le jeton conservé', async () => {
+  for (const status of [401, 403]) {
+    const f = fixture(network({ list: () => reply({ error: 'Refus' }, status) }).fetcher, { storage: savedSession() }); await f.ready;
+    assert.equal(f.storage.size, 0); assert.equal(f.$('workspace').hidden, true); assert.equal(f.button.disabled, false);
+  }
+});
+test('Session : panne réseau pendant restauration conserve le jeton sans exposer de données', async () => {
+  const n = network({ list: () => { throw new TypeError('offline'); } }); const f = fixture(n.fetcher, { storage: savedSession() }); await f.ready;
+  assert.equal(f.$('workspace').hidden, true); assert.equal(f.$('participants-body').children.length, 0);
+  assert.equal(f.storage.size, 1); assert.equal(n.calls.some(call => call.url.includes('/logout')), false);
+  assert.equal(f.button.disabled, false);
+});
+test('Session : stockage bloqué n’empêche ni connexion ni déconnexion', async () => {
+  const f = fixture(network().fetcher, { storageBlocked: true }); await f.ready; await f.login();
+  assert.equal(f.$('workspace').hidden, false); f.$('logout').listeners.click(); assert.equal(f.$('workspace').hidden, true);
+});
+test('Session : retour navigateur restaure après pagehide sans réutiliser de données affichées', async () => {
+  const n = network(); const f = fixture(n.fetcher); await f.login(); f.windowEvents.pagehide();
+  assert.equal(f.$('participants-body').children.length, 0); await f.windowEvents.pageshow();
+  assert.equal(f.$('workspace').hidden, false); assert.equal(n.calls.filter(call => call.url.includes('/consulter-participants')).length, 2);
 });

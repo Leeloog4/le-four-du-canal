@@ -59,3 +59,13 @@
   #score-dialog .dialog-actions { flex-wrap: wrap; gap: 12px; }
   #score-dialog .dialog-actions .button { flex: 1 1 140px; justify-content: center; min-height: 48px; padding: 14px; font-size: 16px; }
 }
+
+/* Visuel gourmand du concours, dimensionné dès le premier affichage. */
+.hero-art.hero-photo { padding: 0; min-height: 0; margin: 0; background: #727550; width: 100%; border-radius: 46% 46% 5px 5px; }
+.hero-photo picture, .hero-photo img { display: block; width: 100%; }
+.hero-photo img { height: auto; aspect-ratio: 1122 / 1402; object-fit: cover; }
+.hero-photo figcaption { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: #fffdf2ed; color: var(--ink); border-radius: 30px; padding: 10px 18px; font-size: 10px; letter-spacing: 1.8px; }
+@media (max-width: 650px) {
+  .hero-art.hero-photo { width: min(390px, 100%); margin-inline: auto; }
+  .hero-photo figcaption { bottom: 16px; font-size: 9px; padding: 9px 15px; }
+}

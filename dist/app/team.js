@@ -3,6 +3,7 @@ const publicKey = 'sb_publishable_UWnzlp30PvZJbIUS09Z5nQ_oWaT37AM';
 const $ = id => document.getElementById(id);
 const loginButton = $('login').querySelector('button[type="submit"]');
 let session = null, expiryTimer, generation = 0;
+const SESSION_KEY = 'four-du-canal-team-session-v1';
 let editingParticipant = null, savingScores = false;
 let changingStatus = false;
 let testingEmail = false, emailTestBlocked = false, emailTestOutcome = '';
@@ -58,9 +59,50 @@ function renderRanking(participants) {
   $('ranking-count').textContent = ranked.length + ' au classement';
   $('ranking-empty').hidden = ranked.length > 0;
 }
-function clearSession() {
+function forgetStoredSession() {
+  try { window.sessionStorage.removeItem(SESSION_KEY); } catch { /* Stockage indisponible. */ }
+}
+function startSession(record) {
+  clearTimeout(expiryTimer);
+  session = { accessToken: record.accessToken, expiresAt: record.expiresAt };
+  expiryTimer = setTimeout(() => {
+    clearSession(); message('Votre session a expiré. Reconnectez-vous.', true);
+  }, Math.max(0, record.expiresAt - Date.now()));
+}
+function rememberSession() {
+  try {
+    // Uniquement le jeton temporaire et son échéance ; jamais le mot de passe,
+    // un refresh token, le rôle ou les données des participants.
+    window.sessionStorage.setItem(SESSION_KEY, JSON.stringify({ accessToken: session.accessToken, expiresAt: session.expiresAt }));
+  } catch { /* La connexion reste utilisable en mémoire si le stockage est bloqué. */ }
+}
+async function restoreSession() {
+  let stored;
+  try { stored = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null'); }
+  catch { forgetStoredSession(); return; }
+  if (!stored) return;
+  if (typeof stored.accessToken !== 'string' || !stored.accessToken || stored.accessToken.length > 8192
+    || !Number.isFinite(stored.expiresAt) || stored.expiresAt <= Date.now() || stored.expiresAt > Date.now() + 3600000) {
+    forgetStoredSession(); return;
+  }
+  const current = ++generation;
+  loginButton.disabled = true;
+  loginButton.textContent = 'Reconnexion…';
+  message('Rétablissement de votre connexion…');
+  startSession(stored);
+  // Aucune donnée interne n’est affichée avant la vérification serveur du rôle.
+  try { await loadParticipants(); }
+  finally {
+    if (current === generation || !session) {
+      loginButton.disabled = false;
+      loginButton.textContent = 'Se connecter ↗';
+    }
+  }
+}
+function clearSession({ forget = true } = {}) {
   generation++;
   session = null;
+  if (forget) forgetStoredSession();
   closeScores();
   clearTimeout(expiryTimer);
   $('workspace').hidden = true;
@@ -176,7 +218,7 @@ async function loadParticipants(announce = true) {
     return data;
   } catch (error) {
     if (current !== generation) return false;
-    if ($('workspace').hidden) { clearSession(); void revoke(token); }
+    if ($('workspace').hidden) clearSession({ forget: false });
     message(error instanceof TypeError || error.name === 'TimeoutError' ? 'Connexion interrompue. Réessayez dans un instant.' : error.message, true);
     return false;
   } finally {
@@ -296,6 +338,7 @@ $('login').addEventListener('submit', async event => {
   event.preventDefault();
   if (loginButton.disabled) return;
   if (!$('login').reportValidity()) return;
+  forgetStoredSession();
   const current = ++generation;
   loginButton.disabled = true;
   loginButton.textContent = 'Connexion…';
@@ -311,10 +354,9 @@ $('login').addEventListener('submit', async event => {
     if (current !== generation) return;
     if (!response.ok) throw new Error(response.status === 429 ? 'Trop de tentatives. Patientez avant de réessayer.' : data.code === 'email_not_confirmed' ? 'Votre adresse e-mail doit être confirmée par l’organisation.' : 'Adresse e-mail ou mot de passe incorrect.');
     if (typeof data.access_token !== 'string' || !Number.isFinite(data.expires_in) || data.expires_in <= 0) throw new Error('Réponse du service de connexion invalide.');
-    session = { accessToken: data.access_token };
-    // Jeton conservé uniquement en mémoire ; aucun mot de passe ou jeton en stockage navigateur.
-    expiryTimer = setTimeout(() => { clearSession(); message('Votre session a expiré. Reconnectez-vous.', true); }, Math.min(data.expires_in * 1000, 3600000));
-    await loadParticipants();
+    startSession({ accessToken: data.access_token, expiresAt: Date.now() + Math.min(data.expires_in * 1000, 3600000) });
+    const loaded = await loadParticipants();
+    if (loaded && current === generation && session) rememberSession();
   } catch (error) {
     if (current === generation) {
       clearSession();
@@ -459,4 +501,6 @@ $('logout').addEventListener('click', () => {
   message('Vous êtes déconnecté.');
   if (token) void revoke(token);
 });
-window.addEventListener('pagehide', clearSession);
+window.addEventListener('pagehide', () => clearSession({ forget: false }));
+window.addEventListener('pageshow', () => { if (!session && !loginButton.disabled) return restoreSession(); });
+restoreSession();

@@ -32,11 +32,13 @@ Le classement utilise la somme sur 30 des trois notes complètes, pour les parti
 
 Le service worker ne conserve que les ressources statiques de connexion. Inscriptions, notes, mots de passe, jetons et API ne sont pas mis en cache. Internet est nécessaire pour charger et modifier les données.
 
-## Travail encore en cours
+## État actuel et prochaine recette
 
-La nouvelle version de `supabase/functions/inscrire-participant/index.ts` prépare l’inscription et ses deux messages dans une transaction, puis tente la confirmation. **Elle n’est pas encore déployée dans Supabase.** Le formulaire est déjà compatible avec ses futurs statuts et avec la fonction actuellement déployée.
+La confirmation automatique a été reçue après une inscription contrôlée. Supabase Cron et le traitement des rappels sont configurés : une tâche fictive due a été traitée en simulation sans répétition ; aucune livraison réelle de rappel n’est revendiquée. L’historique des confirmations/rappels est réservé à l’organisateur. Les retirés restent chez l’organisateur et sont masqués pour le jury.
 
-La confirmation automatique doit encore être activée et testée par une nouvelle inscription contrôlée. Le rappel automatique et son planificateur restent à implémenter/configurer. Aucun envoi automatique de rappel n’est revendiqué. Lire [DEPLOYMENT.md](DEPLOYMENT.md) pour les différences entre sources et déploiement.
+La PWA affiche des cartes sur téléphone. Nouvelle version : connexion conservée après actualisation dans le même onglet, sous échéance absolue d’une heure maximum. Seuls le jeton d’accès temporaire et l’échéance sont dans sessionStorage ; aucun mot de passe, refresh token ou donnée métier. Déconnexion et expiration suppriment ce stockage. Les droits sont revérifiés côté serveur avant affichage. Le service worker ne met jamais ces informations en cache.
+
+La landing utilise un visuel de gâteau avec projections de farine, généré pour l’exercice et servi en WebP responsive. Recette utilisateur de cette nouvelle version (actualisation, déconnexion et visuel) encore à confirmer. Lire [DEPLOYMENT.md](DEPLOYMENT.md) et [docs/recette.md](docs/recette.md) pour les preuves et limites ; intégration WordPress réelle et livraison réelle du rappel restent non vérifiées.
 
 ## Tests
 
