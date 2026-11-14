@@ -77,3 +77,7 @@ Le jury voit uniquement les participants actifs ; les retirés restent consultab
 ## Actualisation de la session et identité visuelle
 
 À la demande utilisateur : session de l’onglet conservée après actualisation pendant sa durée de validité (une heure maximum), avec nouveau contrôle des droits côté serveur. Voir D24 pour le stockage sessionStorage et les limites du frontend statique. Nouveau visuel généré de gâteau et farine pour identifier le concours de pâtisserie. Ces ajustements ne changent pas les rôles, barème ou données fictives.
+
+## Synchronisation avec Notion
+
+Le 14 novembre 2026, la note Notion 417ec4a3bfbd81d7b738c6cf9f62c85f est mise à jour en V1 avec les décisions de réalisation et les preuves de recette. Copie de travail : note-cadrage-actualisee.md ; copie initiale dans sources/note-notion.md conservée.

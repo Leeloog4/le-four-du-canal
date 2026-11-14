@@ -266,3 +266,10 @@ README et scénario docs/demo.md réécrits pour les services réellement héber
 ### Déconnexion suivie d’actualisation — 14 novembre 2026
 
 L’utilisateur confirme que le formulaire de connexion reste affiché après Se déconnecter puis actualisation complète de la PWA. Recette utilisateur de déconnexion avec session conservée clôturée : connexion maintenue à l’actualisation avant déconnexion, aucune restauration après déconnexion. Observation utilisateur sans inspection indépendante du stockage ; suppression et expiration couvertes également par les tests substitués. Rendu final du fond gâteau et répétition/enregistrement de démonstration restent à confirmer séparément.
+
+
+### Synchronisation de la note de cadrage Notion — 14 novembre 2026
+
+À la demande de l’utilisateur, lecture de la note existante puis mises à jour ciblées de 23 passages et ajout d’un bilan de recette/liens du projet. Les deux opérations Notion ont retourné le même identifiant de page sans erreur ni avertissement. Structure de 21 rubriques conservée ; V1 remplace les propositions obsolètes (Vercel, droits non précisés, états envoyés ambigus) par Sites/Supabase/Brevo serveur sans Make, PWA distincte, actifs uniquement pour le jury, retrait/réactivation, session d’onglet d’une heure maximum, date/lieu fictifs et gâteau en fond. Rappel simulé distingué de réception réelle, hypothèses distinguées de réponses client. Sources Notion initiales et fichiers docs/sources inchangés.
+
+Copie de travail actualisée dans docs/note-cadrage-actualisee.md. Aucun changement d’accès, déploiement applicatif, donnée métier ou e-mail. Résultats précédents 139 tests inchangés, pas de nouvelle exécution pour une mise à jour documentaire.
