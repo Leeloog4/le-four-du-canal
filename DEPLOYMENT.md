@@ -6,7 +6,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | --- | --- |
 | Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
-| Dernier commit source Sites publié | ee5af4209c40ab51069f0d9606812c9a67b31371 |
+| Dernier commit source Sites publié | 95c58a2c82bc7cce646b420531bd853f566021b8 |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
 | consulter-participants | Version avec lecture des notes déployée manuellement ; lecture réelle confirmée |
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
@@ -25,5 +25,5 @@ Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il r
 ## Historique organisateur — nouvelle version préparée
 
 - consulter-emails : nouveau fichier prêt, à créer manuellement dans les fonctions Supabase, vérification JWT héritée désactivée ; vérifie Supabase Auth et rôle organizer dans son code. Aucun nouveau script SQL nécessaire.
-- PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication en cours ; la fonction doit être installée avant recette réelle. Jusqu’à cette installation, un chargement d’historique peut afficher une indisponibilité.
+- PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication réussie, déploiement appgdep_6af8831e645081919b125457d59a05a9 ; la fonction doit être installée avant recette réelle. Jusqu’à cette installation, un chargement d’historique peut afficher une indisponibilité.
 - Suite locale : 126 tests réussis ; aucune vérification navigateur réelle de cette nouvelle interface.
