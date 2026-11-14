@@ -273,3 +273,10 @@ L’utilisateur confirme que le formulaire de connexion reste affiché après Se
 À la demande de l’utilisateur, lecture de la note existante puis mises à jour ciblées de 23 passages et ajout d’un bilan de recette/liens du projet. Les deux opérations Notion ont retourné le même identifiant de page sans erreur ni avertissement. Structure de 21 rubriques conservée ; V1 remplace les propositions obsolètes (Vercel, droits non précisés, états envoyés ambigus) par Sites/Supabase/Brevo serveur sans Make, PWA distincte, actifs uniquement pour le jury, retrait/réactivation, session d’onglet d’une heure maximum, date/lieu fictifs et gâteau en fond. Rappel simulé distingué de réception réelle, hypothèses distinguées de réponses client. Sources Notion initiales et fichiers docs/sources inchangés.
 
 Copie de travail actualisée dans docs/note-cadrage-actualisee.md. Aucun changement d’accès, déploiement applicatif, donnée métier ou e-mail. Résultats précédents 139 tests inchangés, pas de nouvelle exécution pour une mise à jour documentaire.
+
+
+### Vérification des attendus de remise fournis par l’utilisateur
+
+Liste de l’utilisateur confrontée aux sources et au code des e-mails : fiche docs/remise.md ajoutée (articulation WordPress concrète sans intégration revendiquée, rôles et limites, contenu/déclencheur/destinataire/statut de chaque message, trois vérifications manuelles et état des livrables). README raccourci et guide de démo complété pour montrer confirmation et rappel. Les copies de référence docs/sources sont conservées. La phrase historique du message de test « avant leur activation » est reproduite comme contenu versionné, avec précision que les confirmations sont désormais actives.
+
+Restent : rendu final de l’image de fond, réalisation de la démonstration et accès du destinataire aux liens privés. La fiche n’annonce ni vidéo existante, ni partage externe, ni réception réelle du rappel. Aucun changement applicatif ; tests précédents 139 réussis, non relancés pour la documentation. Contrôle des liens locaux et git diff --check prévus avant commit.

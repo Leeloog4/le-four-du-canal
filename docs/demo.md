@@ -20,6 +20,10 @@ Pour une inscription pendant la présentation, choisir à l’avance une adresse
 
 La démonstration proposée n’a pas encore été enregistrée. Répéter les transitions entre comptes avant de filmer. Les données réellement présentes priment sur les exemples du guide ; ne pas annoncer un résultat absent de l’écran.
 
+## Montrer les deux e-mails sans allonger la présentation
+
+Dans l’onglet E-mails organisateur, ouvrir successivement Voir le message pour une confirmation et un rappel, puis montrer objet, contenu, destinataire et échéance. Dire : « La confirmation se déclenche après enregistrement ; le rappel à J−1, via Cron. La confirmation réelle a été reçue sur une adresse contrôlée. Ce rappel affiché est simulé et a été traité une fois. » Ne pas déclencher de nouvel envoi pour montrer les contenus. La [fiche de remise](remise.md) contient les textes complets, l’articulation WordPress et les limites de sécurité.
+
 ## Points à expliquer si on vous interroge
 
 - Concours fictif : 4 décembre 2026 à 15 h Paris ; rappel J−1 le 3 décembre à 15 h Paris.
