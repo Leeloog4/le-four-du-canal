@@ -211,3 +211,8 @@ L’utilisateur confirme les actions mobiles visibles après publication des car
 npm run check réussi ; npm test 131 réussis, zéro échec. Scénarios supplémentaires : retiré absent de la réponse jury même si la base substituée le renvoie, filtre de requête selon rôle, organisateur conservant le retiré, jury sans ligne ni action lorsque tous retirés, réactivation visible après actualisation et action Réactiver organisateur. Aucun changement de données ou e-mail réel. Publication frontend à suivre ; la nouvelle version serveur doit être déployée manuellement dans Supabase avant de déclarer le filtre serveur actif. Recette réelle : Test Cron Fictif retiré absent côté jury et toujours visible côté organisateur.
 
 Publication du filtre PWA : commit 19a9e7e9d73d3720c547f88b425845ac4ce6a916, déploiement appgdep_6af887fe72e88191acd29cdde603d1bb succeeded, audience privée conservée. Filtre serveur et recette réelle encore à confirmer après remplacement manuel de consulter-participants.
+
+
+### Vérification utilisateur du filtre jury — 14 novembre 2026
+
+Après consigne de remplacement complet de consulter-participants puis déploiement, l’utilisateur répond « ok » : nouvelle version serveur signalée comme déployée. Après actualisation de la PWA avec le compte jury, il confirme que Test Cron Fictif retiré a disparu. Parcours réel de masquage jury validé par son observation ; aucune inspection directe du corps de réponse authentifiée par l’agent. Conservation des retirés et de l’action Réactiver pour l’organisateur couverte par les tests locaux ; contrôle manuel avec ce participant encore possible. Aucun changement de notes ni envoi d’e-mail.

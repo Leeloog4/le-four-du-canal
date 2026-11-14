@@ -33,3 +33,5 @@ Adaptation mobile PWA publiée : cartes sous 760 px, actions visibles en pleine 
 Filtre jury actifs : nouvelle version de consulter-participants préparée avec filtre serveur, à remplacer manuellement dans Supabase. Frontend prêt à masquer les retirés et à recalculer le compteur ; ne pas confondre publication PWA et déploiement de cette fonction.
 
 Filtre frontend jury publié, déploiement appgdep_6af887fe72e88191acd29cdde603d1bb succeeded. Mise à jour serveur consulter-participants encore en attente de déploiement manuel utilisateur.
+
+Filtre serveur jury : déploiement manuel de consulter-participants signalé comme effectué par l’utilisateur ; disparition de Test Cron Fictif après actualisation jury confirmée. Les mentions de mise à jour en attente ci-dessus sont historiques.
