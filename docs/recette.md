@@ -183,3 +183,10 @@ Restent à confirmer manuellement : déconnexion de l’organisateur puis connex
 ### Séparation jury de l’historique — 14 novembre 2026
 
 À la consigne de déconnecter l’organisateur puis de connecter le jury pour vérifier Participants/Classement, absence de l’onglet E-mails et absence d’adresses des inscrits, l’utilisateur répond « ok ». Scénario manuel signalé comme validé ; aucune capture ni inspection du réseau pour cette étape. Le refus serveur du jury sur consulter-emails est couvert séparément par les tests locaux avec réponses substituées. Recette guidée de l’historique clôturée sur cette base. Aucun nouveau déploiement ni envoi d’e-mail.
+
+
+### Affichage mobile de la landing — 14 novembre 2026
+
+L’utilisateur rencontre initialement HTTP 401 sur téléphone. Vérification native Sites : site actif, audience custom avec propriétaire seul ; aucun changement d’accès effectué. Après consigne de connexion au même compte ChatGPT dans le navigateur mobile, l’utilisateur indique « c’est bon ». Cause liée à l’accès privé probable, sans inspection réseau du téléphone.
+
+Il confirme ensuite les trois critères visuels : textes lisibles sans zoom, absence de débordement horizontal, formulaire et bouton entièrement visibles. Affichage mobile nominal validé par observation utilisateur, sans capture, modèle de téléphone ni largeur précise. Validation des champs et soumission depuis téléphone non testées séparément ; ne pas en déduire une recette complète du formulaire mobile. Aucun changement applicatif, nouveau déploiement ou envoi.

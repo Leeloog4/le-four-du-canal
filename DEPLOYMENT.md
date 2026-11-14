@@ -4,7 +4,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 
 | Composant | État constaté |
 | --- | --- |
-| Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée |
+| Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
 | Dernier commit source Sites publié | 95c58a2c82bc7cce646b420531bd853f566021b8 |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
