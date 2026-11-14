@@ -16,7 +16,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | SQL guidé | Étapes exécutées par l’utilisateur dans la conversation ; contrôle direct du schéma non disponible pour l’agent |
 | Confirmation automatique | Préparée dans les sources, non activée dans Supabase à ce stade |
 | Rappel automatique | Non activé ; planificateur et traitement encore à construire/configurer |
-| GitHub | Dépôt local consolidé prêt ; dépôt distant non encore créé ni synchronisé |
+| GitHub | Connexion Leeloog4 confirmée ; création privée refusée par les permissions de l’intégration. Dépôt local prêt, dépôt distant à créer manuellement, aucun push GitHub effectué |
 
 Les inscriptions et notes de démonstration ne sont pas exportées de Supabase. Aucun secret Brevo ou Supabase privilégié n’est stocké dans ce dépôt. La clé publiable Supabase est publique par conception et ne confère pas un rôle organisateur.
 
