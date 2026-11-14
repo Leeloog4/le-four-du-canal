@@ -1,4 +1,4 @@
-const CACHE = 'four-du-canal-app-shell-v5-email-test';
+const CACHE = 'four-du-canal-app-shell-v6-email-status';
 const SHELL = [
   '/app/', '/app/team.js', '/app/pwa.js', '/style.css', '/app/manifest.webmanifest',
   '/app/icons/icon-192.png', '/app/icons/icon-512.png',

@@ -3,6 +3,16 @@ const result = document.getElementById('form-result');
 const button = form.querySelector('button[type="submit"]');
 const endpoint = 'https://xeeixhbhfsdxrgeotlix.supabase.co/functions/v1/inscrire-participant';
 let submitting = false;
+const emailStates = {
+  not_configured: 'Aucun e-mail n’a été envoyé : cette fonction n’est pas encore activée.',
+  simulated: 'Confirmation simulée pour cette adresse fictive : aucun e-mail envoyé.',
+  accepted: 'Brevo a accepté la demande d’e-mail de confirmation. Vérifiez votre boîte de réception et les indésirables ; la livraison reste à vérifier.',
+  pending: 'L’e-mail de confirmation est en attente de traitement.',
+  processing: 'L’e-mail de confirmation est en cours de traitement.',
+  failed: 'L’envoi de la confirmation a échoué. Votre inscription reste enregistrée.',
+  uncertain: 'Le résultat de l’envoi de la confirmation reste à vérifier. Votre inscription est conservée.',
+  skipped: 'La confirmation n’a pas été envoyée : son traitement a été annulé.'
+};
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
@@ -26,13 +36,13 @@ form.addEventListener('submit', async event => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
-      signal: AbortSignal.timeout(20000)
+      signal: AbortSignal.timeout(45000)
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'L’inscription n’a pas pu être enregistrée.');
     if (typeof data.reference !== 'string' || !data.reference) throw new Error('Réponse inattendue. Vérifiez votre inscription auprès de l’organisation avant de réessayer.');
     result.className = 'notice success';
-    result.textContent = 'Votre participation est enregistrée. Référence : ' + data.reference.slice(0, 8).toUpperCase() + '. Aucun e-mail n’a été envoyé : cette fonction n’est pas encore activée.';
+    result.textContent = 'Votre participation est enregistrée. Référence : ' + data.reference.slice(0, 8).toUpperCase() + '. ' + (emailStates[data.email_state] || 'Le statut de la confirmation n’est pas disponible pour le moment.');
     form.reset();
   } catch (error) {
     result.className = 'notice error';

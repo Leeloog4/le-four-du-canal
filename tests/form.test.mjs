@@ -78,3 +78,20 @@ test('Formulaire : validation navigateur et réponse incomplète', async () => {
   assert.equal(malformed.result.className, 'notice error');
   assert.equal(malformed.form.resetCount, 0);
 });
+test('Formulaire : statuts e-mail honnêtes après inscription, sans prétendre à la livraison', async () => {
+  for (const [state, expected] of [
+    ['accepted', /livraison reste à vérifier/],
+    ['simulated', /aucun e-mail envoyé/],
+    ['pending', /en attente/],
+    ['processing', /en cours/],
+    ['failed', /échoué/],
+    ['uncertain', /reste à vérifier/],
+    ['unknown', /pas disponible/]
+  ]) {
+    const f = fixture(async () => new Response(JSON.stringify({ reference: 'reference-test', email_state: state }), { status: 201 }));
+    await f.submit();
+    assert.match(f.result.textContent, /participation est enregistrée/);
+    assert.match(f.result.textContent, expected);
+    assert.equal(f.form.resetCount, 1);
+  }
+});

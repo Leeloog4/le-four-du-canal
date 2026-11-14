@@ -26,7 +26,7 @@ Manifeste, icônes et service worker limités à l’application. Seule la coqui
 
 ## Vérifications
 
-`npm test` : 36 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
+`npm test` : 37 tests réussis avec réponses réseau substituées (inscription, connexion, PWA et notation). Syntaxe JavaScript et ressources vérifiées. Ces tests ne valent pas une saisie réelle dans Supabase ni une recette visuelle. Contrôles réels anonymes : les fonctions de consultation et de notation renvoient 401 sans session.
 
 Recette à faire : compte jury → Camille → 8/9/7 → message 24/30 → actualisation → mêmes notes → compte organisateur en lecture seule. Aucun mot de passe de compte utilisateur n’est fourni à l’agent.
 
@@ -49,3 +49,13 @@ Vue E-mails réservée à l’organisateur, avec bouton Envoyer l’e-mail de te
 La réponse distingue accepted avec messageId, refus et résultat incertain. Accepted ne signifie pas livré : réception à confirmer par l’utilisateur. Un résultat accepté ou incertain bloque un second clic dans cette session ; aucun renvoi automatique, même après interruption réseau. Le résultat est effacé à la déconnexion et n’est pas mis en cache. Les confirmations et rappels automatiques ne sont pas activés.
 
 Contrôles réels sans envoi : OPTIONS 204, POST anonyme 401, jeton invalide 401. 4 tests frontend supplémentaires et 9 tests backend avec réseau substitué, sans appel Brevo réel. Premier envoi et réception à vérifier par l’utilisateur via le bouton de la PWA.
+
+## Préparation des confirmations automatiques
+
+Le formulaire affiche le statut e-mail renvoyé par inscrire-participant : non configuré, simulé, en attente, en traitement, accepté par Brevo, échec ou incertain. Aucun statut ne prétend prouver la livraison. Compatibilité conservée avec la fonction actuellement déployée (not_configured). Le délai de réponse du formulaire permet la tentative d’envoi sans changer l’acquisition de l’inscription.
+
+Le nouveau code serveur est préparé dans le projet local : RPC atomique d’inscription et deux tâches, confirmation par Brevo côté serveur, adresses réservées simulées, rappel en attente de son planificateur. Ce code doit encore être déployé manuellement dans Supabase avant activation. La publication de cet affichage ne déclenche aucun envoi et ne remplace pas la fonction Supabase.
+
+## Versionnement actuel
+
+Ce dépôt est un dépôt Git hébergé par Sites, pas un dépôt GitHub. Le site/PWA et leurs tests sont commités et poussés avant chaque publication. Les fonctions Supabase, scripts SQL et documentation de cadrage restent dans le projet local /workspace/le-four-du-canal ; aucun dépôt GitHub distant ne les héberge encore. Un raccordement GitHub de l’ensemble reste à réaliser. Aucun secret réel ne doit y être ajouté.
