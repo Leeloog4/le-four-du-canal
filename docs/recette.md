@@ -142,3 +142,10 @@ Après chaque changement, rattacher l’exigence, noter la commande ou manipulat
 L’utilisateur signale avoir appliqué le SQL 09, déployé traiter-rappels puis créé REMINDERS_CRON_SECRET. Après le test guidé POST avec x-cron-secret, il confirme le résultat attendu enabled:false / processed:0 ; réponse exacte non inspectée par l’agent. Création dans Vault du secret reminders_cron_secret signalée ensuite comme effectuée. Aucune valeur privée transmise à l’agent.
 
 Script 10 préparé pour une tâche Cron chaque minute avec pg_net et lecture du secret depuis Vault ; aucun secret littéral dans la commande planifiée. Refus d’un doublon de tâche et contrôle de présence du secret. Le script n’a pas été exécuté par l’agent ; son application et les réponses HTTP du planificateur restent à vérifier. La création de la tâche ne définit pas REMINDERS_ENABLED : l’envoi reste désactivé selon la configuration guidée. Les succès Cron attestent le lancement SQL ; vérifier séparément la réponse HTTP de la fonction.
+
+
+### Activation guidée et préparation de la recette simulée
+
+L’utilisateur signale le succès du SQL 10. Capture de traiter-rappels : quatre invocations, taux d’erreurs 4xx/5xx à zéro. Il confirme ensuite le statut 200 dans les journaux, le test guidé sans x-cron-secret (attendu 401), puis l’enregistrement de REMINDERS_ENABLED=true. Réponses détaillées non inspectées par l’agent ; configuration exacte non accessible directement.
+
+SQL 11/12 préparés : création atomique d’un participant .test distinct, confirmation simulée et rappel pending dû ; refus de recréation ; lecture filtrée du résultat. Revue des scripts contre les contrats SQL 07/08 et la protection des domaines réservés du worker. Aucun changement de code applicatif ; suite antérieure 103 tests réussis, non relancée pour ces scripts et documents. SQL non exécuté par l’agent. Résultat attendu à confirmer par l’utilisateur : simulated, attempts=1, aucun message_id, puis absence de retraitement à la minute suivante avec PWA fermée. Aucune réception de rappel réel revendiquée.

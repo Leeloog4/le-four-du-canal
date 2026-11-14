@@ -1,6 +1,6 @@
 # Prochaine étape : traitement des rappels
 
-État : préparation d’architecture, aucune activation.
+État courant : activation signalée par l’utilisateur, recette métier du rappel dû encore à vérifier. Les sections de préparation ci-dessous retracent les étapes.
 
 Conserver email_jobs comme file métier et Brevo exclusivement côté serveur. Une fonction Supabase dédiée traitera les tâches dues, avec la réclamation atomique dédiée claim_reminders. Un déclencheur Supabase Cron appellera cette fonction même si la PWA est fermée ; aucun Make.
 
@@ -31,3 +31,12 @@ Aucun de ces déploiements, secrets, appels Cron ou envois de rappel n’est rev
 SQL 09, fonction et secrets serveur/Vault signalés comme configurés par l’utilisateur ; test authentifié désactivé confirmé. Script 10 préparé, non exécuté par l’agent, pour créer la tâche Cron sans changer REMINDERS_ENABLED. Sa commande ne contient que le nom du secret Vault. Le contrôle suivant devra vérifier une réponse HTTP 200 avec enabled:false, et pas seulement le statut SQL du job Cron.
 
 Pour suspendre ultérieurement le déclencheur : `select cron.unschedule('four-du-canal-rappels');`. Pour couper immédiatement le traitement sans supprimer la tâche, conserver `REMINDERS_ENABLED=false` dans les secrets de fonctions. Aucun de ces changements ne doit être présenté comme effectué sans confirmation.
+
+
+## Recette du rappel dû — préparation
+
+Tâche Cron créée selon l’utilisateur ; capture montrant quatre invocations sans erreur, puis confirmation du statut HTTP 200 dans les journaux. Refus sans secret confirmé après test guidé. L’utilisateur signale avoir enregistré REMINDERS_ENABLED=true. Aucun rappel métier traité n’est encore prouvé.
+
+Le script 11 crée atomiquement Test Cron Fictif / recette-rappel-cron@example.test, une confirmation déjà simulée et un rappel pending dû depuis une minute. L’adresse .test est réservée : le worker enregistre simulated sans appel fournisseur. Le script refuse de recréer ce test ; il ne change ni les dates ni les tâches des autres inscrits. Le script 12 lit uniquement cette recette. Attendu après Cron : rappel simulated, attempts=1, message_id NULL et processed_at renseigné. Refaire uniquement la lecture après une autre minute : attempts doit rester à 1. La PWA peut rester fermée pendant la recette. Si événement déjà passé, skipped est attendu à la place : cette recette est prévue avant le 4 décembre 2026 à 14 h UTC.
+
+Après vérification, retirer Test Cron Fictif via le compte organisateur afin de le conserver dans la traçabilité sans le laisser actif. Le scénario prouve le traitement planifié simulé ; il ne prouve ni un appel Brevo de rappel ni sa livraison. La réception réelle du message de confirmation a été vérifiée séparément.

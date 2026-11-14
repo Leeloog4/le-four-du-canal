@@ -15,7 +15,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | inscrire-participant | Version avec transaction inscription + deux tâches déployée manuellement ; inscription et réception de confirmation validées par l’utilisateur |
 | SQL guidé | Étapes exécutées par l’utilisateur dans la conversation ; contrôle direct du schéma non disponible pour l’agent |
 | Confirmation automatique | Activée ; réception confirmée par l’utilisateur pour une nouvelle inscription avec adresse contrôlée |
-| Rappel automatique | Envoi non activé ; SQL 09, fonction traiter-rappels, secret serveur et Vault configurés selon l’utilisateur ; test manuel enabled:false confirmé. Tâche Cron (SQL 10) préparée, pas encore créée |
+| Rappel automatique | SQL 09/10, fonction, secrets et Cron configurés selon l’utilisateur ; appels 200 et refus sans secret confirmés. REMINDERS_ENABLED=true enregistré selon l’utilisateur. Recette de traitement dû (SQL 11/12) préparée, résultat encore à vérifier ; aucun rappel envoyé revendiqué |
 | GitHub | Dépôt privé https://github.com/Leeloog4/le-four-du-canal créé par l’utilisateur, branche main ; source consolidée avec historique conservé |
 
 Les inscriptions et notes de démonstration ne sont pas exportées de Supabase. Aucun secret Brevo ou Supabase privilégié n’est stocké dans ce dépôt. La clé publiable Supabase est publique par conception et ne confère pas un rôle organisateur.
