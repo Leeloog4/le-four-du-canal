@@ -19,7 +19,7 @@ Tests : npm test. Vérification syntaxique : npm run check. Node >=24.
 - tests/ : tests frontend et fonctions serveur avec réseau substitué ; aucun e-mail réel dans les tests.
 - prototype-local/ : archive Node/SQLite initiale, distincte de l’application hébergée.
 - Ne pas appliquer migrations/001_initial.sql au projet Supabase existant ; les étapes guided/ ont été utilisées progressivement.
-- inscrire-participant contient une nouvelle version préparée mais non encore déployée. Ne pas activer les confirmations ou rappels sans suivre le parcours de recette.
+- inscrire-participant : version avec confirmation déployée manuellement et recette utilisateur validée. Le traitement automatique des rappels reste à préparer ; suivre le parcours de recette avant activation.
 - GitHub doit rester privé ; ne publier aucun secret, jeton de session, fichier .env ou base de données.
 - Source de travail principale : ce dépôt consolidé, GitHub origin https://github.com/Leeloog4/le-four-du-canal.git, branche main.
 - Ne plus modifier les anciennes copies /workspace/le-four-du-canal et /workspace/sites/four-du-canal-demo comme des sources parallèles. Pousser les changements complets sur origin ; avant une publication Sites, pousser le même commit sur sites et utiliser ce même checkout pour l’archive.

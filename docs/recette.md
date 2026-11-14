@@ -63,6 +63,18 @@ Statut : **non exécutée**. L’environnement n’expose pas le chemin de contr
 
 ## Règle de mise à jour
 
+### État courant — confirmation automatique validée, 14 novembre 2026
+
+Les entrées plus anciennes ci-dessous décrivent les étapes historiques, pas l’état courant.
+
+- L’utilisateur signale le déploiement manuel de la nouvelle fonction inscrire-participant.
+- Nouvelle inscription avec une adresse contrôlée : succès et réception de la confirmation confirmés par l’utilisateur.
+- Consultation de email_jobs : confirmation accepted et rappel pending au 3 décembre 2026 à 14 h UTC (15 h Paris), tous deux confirmés par l’utilisateur.
+- Nouvelle soumission avec la même adresse : l’utilisateur confirme le scénario de refus du doublon. Texte exact du retour, comptage des lignes et absence de nouvel appel fournisseur non inspectés indépendamment par l’agent.
+- Aucun accès de l’agent à la boîte de réception, aux secrets ou au schéma authentifié. Aucun envoi effectué par l’agent.
+- Rappel automatique toujours NON activé : le statut pending constitue une tâche enregistrée, pas une preuve de planification ni d’envoi.
+
+
 Raccordement GitHub : dépôt Leeloog4/le-four-du-canal fourni par l’utilisateur. Métadonnées vérifiées : privé, vide, droits de push ; aucun historique distant à remplacer. Source consolidée choisie comme référence, historique Sites conservé, clés/base/export exclus. Le raccordement ne modifie pas le déploiement Supabase ou Sites et n’active aucun envoi d’e-mail.
 
 Consolidation GitHub préparée le 14 novembre 2026 dans un dépôt local unique : historique Git du site conservé (9 commits avant consolidation), site/PWA, fonctions Supabase, SQL, documentation, tests et archive du prototype réunis. `npm run check`, `npm test` (86 réussis) et `npm run test:local` (20 réussis) exécutés avec succès. Contrôle ciblé de 73 fichiers texte sans secret reconnaissable ni base locale. Aucune modification de la démonstration hébergée par cette consolidation. GitHub distant non créé : intégration GitHub non encore ajoutée/autorisée ; proposition disponible pour l’utilisateur.

@@ -12,9 +12,9 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
 | changer-statut-participant | Déployée ; retrait/réactivation et conservation des notes confirmés |
 | envoyer-email-test | Déployée ; réception réelle du message de test confirmée par l’utilisateur |
-| inscrire-participant | La version déployée enregistre les inscriptions sans confirmation automatique. Le fichier de ce dépôt contient la NOUVELLE version préparée, à déployer manuellement après les règles SQL e-mail |
+| inscrire-participant | Version avec transaction inscription + deux tâches déployée manuellement ; inscription et réception de confirmation validées par l’utilisateur |
 | SQL guidé | Étapes exécutées par l’utilisateur dans la conversation ; contrôle direct du schéma non disponible pour l’agent |
-| Confirmation automatique | Préparée dans les sources, non activée dans Supabase à ce stade |
+| Confirmation automatique | Activée ; réception confirmée par l’utilisateur pour une nouvelle inscription avec adresse contrôlée |
 | Rappel automatique | Non activé ; planificateur et traitement encore à construire/configurer |
 | GitHub | Dépôt privé https://github.com/Leeloog4/le-four-du-canal créé par l’utilisateur, branche main ; source consolidée avec historique conservé |
 
