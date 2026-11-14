@@ -6,7 +6,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | --- | --- |
 | Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
-| Dernier commit source Sites publié | 95c58a2c82bc7cce646b420531bd853f566021b8 |
+| Dernier commit source Sites publié | 5c0085b113e483a4292f10b0b5abd19db7eb0358 |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
 | consulter-participants | Version avec lecture des notes déployée manuellement ; lecture réelle confirmée |
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
@@ -27,3 +27,5 @@ Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il r
 - consulter-emails : déploiement manuel signalé par l’utilisateur après les consignes ; lecture de l’historique et des détails organisateur confirmée. Vérifie Supabase Auth et rôle organizer dans son code. Aucun nouveau script SQL nécessaire.
 - PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication réussie, déploiement appgdep_6af8831e645081919b125457d59a05a9 ; fonction installée selon l’utilisateur ; statuts et détails organisateur confirmés par sa recette.
 - Suite locale : 126 tests réussis ; recette navigateur organisateur confirmée par l’utilisateur ; absence d’onglet E-mails et d’adresses des inscrits côté jury confirmée par la recette utilisateur.
+
+Adaptation mobile PWA publiée : cartes sous 760 px, actions visibles en pleine largeur ; déploiement appgdep_6af8872877a48191a127f6afe72889bd succeeded. Recette téléphone après correction encore à confirmer.
