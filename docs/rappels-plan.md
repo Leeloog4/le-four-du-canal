@@ -2,7 +2,7 @@
 
 État : préparation d’architecture, aucune activation.
 
-Conserver email_jobs comme file métier et Brevo exclusivement côté serveur. Une fonction Supabase dédiée traitera les tâches dues, en réutilisant la réclamation atomique claim_emails. Un déclencheur Supabase Cron appellera cette fonction même si la PWA est fermée ; aucun Make.
+Conserver email_jobs comme file métier et Brevo exclusivement côté serveur. Une fonction Supabase dédiée traitera les tâches dues, avec la réclamation atomique dédiée claim_reminders. Un déclencheur Supabase Cron appellera cette fonction même si la PWA est fermée ; aucun Make.
 
 L’appel du planificateur devra être authentifié avec un secret technique conservé côté Supabase, jamais dans la PWA ou GitHub. Aucun nouvel essai automatique après résultat incertain ou acceptation. Une participation retirée ne doit pas être envoyée ; un rappel après l’événement doit être ignoré. Les états et identifiants fournisseur doivent être enregistrés sans confondre acceptation et livraison.
 
@@ -24,3 +24,10 @@ Avant activation : écrire et tester la fonction sans réseau fournisseur réel,
 5. Valider la recette contrôlée avant activation. Le prochain rappel métier reste prévu au 3 décembre à 15 h Paris. Aucun rappel réel d’inscrit ne doit être avancé pour la recette.
 
 Aucun de ces déploiements, secrets, appels Cron ou envois de rappel n’est revendiqué comme réalisé. La RPC n’a pas été exécutée sur PostgreSQL par l’agent ; concurrence et échéances SQL restent à vérifier sur Supabase. Les tests JavaScript utilisent des réponses réseau substituées.
+
+
+## Progression guidée
+
+SQL 09, fonction et secrets serveur/Vault signalés comme configurés par l’utilisateur ; test authentifié désactivé confirmé. Script 10 préparé, non exécuté par l’agent, pour créer la tâche Cron sans changer REMINDERS_ENABLED. Sa commande ne contient que le nom du secret Vault. Le contrôle suivant devra vérifier une réponse HTTP 200 avec enabled:false, et pas seulement le statut SQL du job Cron.
+
+Pour suspendre ultérieurement le déclencheur : `select cron.unschedule('four-du-canal-rappels');`. Pour couper immédiatement le traitement sans supprimer la tâche, conserver `REMINDERS_ENABLED=false` dans les secrets de fonctions. Aucun de ces changements ne doit être présenté comme effectué sans confirmation.

@@ -136,3 +136,9 @@ Aperçu distinct publié le 13 novembre 2026 via Sites : https://four-du-canal-e
 Modification du 13 novembre 2026 : date à J+21 (4 décembre 2026 à 15 h, Paris) et lieu fictif Atelier du Canal. Vérification ciblée exécutée : calcul des 21 jours, date UTC, mention fictive et cohérence du lieu entre configuration et HTML. Résultat : réussi. Aucun contrôle visuel supplémentaire effectué.
 
 Après chaque changement, rattacher l’exigence, noter la commande ou manipulation, le résultat réel et la limite de vérification. Ne pas transformer un test avec substitut en preuve d’intégration fournisseur.
+
+### Configuration guidée des rappels — suite du 14 novembre 2026
+
+L’utilisateur signale avoir appliqué le SQL 09, déployé traiter-rappels puis créé REMINDERS_CRON_SECRET. Après le test guidé POST avec x-cron-secret, il confirme le résultat attendu enabled:false / processed:0 ; réponse exacte non inspectée par l’agent. Création dans Vault du secret reminders_cron_secret signalée ensuite comme effectuée. Aucune valeur privée transmise à l’agent.
+
+Script 10 préparé pour une tâche Cron chaque minute avec pg_net et lecture du secret depuis Vault ; aucun secret littéral dans la commande planifiée. Refus d’un doublon de tâche et contrôle de présence du secret. Le script n’a pas été exécuté par l’agent ; son application et les réponses HTTP du planificateur restent à vérifier. La création de la tâche ne définit pas REMINDERS_ENABLED : l’envoi reste désactivé selon la configuration guidée. Les succès Cron attestent le lancement SQL ; vérifier séparément la réponse HTTP de la fonction.
