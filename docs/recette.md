@@ -190,3 +190,8 @@ Restent à confirmer manuellement : déconnexion de l’organisateur puis connex
 L’utilisateur rencontre initialement HTTP 401 sur téléphone. Vérification native Sites : site actif, audience custom avec propriétaire seul ; aucun changement d’accès effectué. Après consigne de connexion au même compte ChatGPT dans le navigateur mobile, l’utilisateur indique « c’est bon ». Cause liée à l’accès privé probable, sans inspection réseau du téléphone.
 
 Il confirme ensuite les trois critères visuels : textes lisibles sans zoom, absence de débordement horizontal, formulaire et bouton entièrement visibles. Affichage mobile nominal validé par observation utilisateur, sans capture, modèle de téléphone ni largeur précise. Validation des champs et soumission depuis téléphone non testées séparément ; ne pas en déduire une recette complète du formulaire mobile. Aucun changement applicatif, nouveau déploiement ou envoi.
+
+
+### Validation des champs obligatoires sur téléphone
+
+L’utilisateur confirme qu’une soumission avec les champs vides est bloquée et signale les champs obligatoires. Validation mobile de ce scénario confirmée par son observation ; aucune nouvelle inscription ni vérification réseau indépendante. La soumission complète depuis téléphone et la saisie de notes dans la PWA mobile restent à vérifier séparément.
