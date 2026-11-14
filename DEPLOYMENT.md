@@ -6,7 +6,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | --- | --- |
 | Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
-| Dernier commit source Sites publié | 5c0085b113e483a4292f10b0b5abd19db7eb0358 |
+| Dernier commit source Sites publié | 19a9e7e9d73d3720c547f88b425845ac4ce6a916 |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
 | consulter-participants | Version avec lecture des notes déployée manuellement ; lecture réelle confirmée |
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
@@ -31,3 +31,5 @@ Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il r
 Adaptation mobile PWA publiée : cartes sous 760 px, actions visibles en pleine largeur ; déploiement appgdep_6af8872877a48191a127f6afe72889bd succeeded. Recette téléphone après correction encore à confirmer.
 
 Filtre jury actifs : nouvelle version de consulter-participants préparée avec filtre serveur, à remplacer manuellement dans Supabase. Frontend prêt à masquer les retirés et à recalculer le compteur ; ne pas confondre publication PWA et déploiement de cette fonction.
+
+Filtre frontend jury publié, déploiement appgdep_6af887fe72e88191acd29cdde603d1bb succeeded. Mise à jour serveur consulter-participants encore en attente de déploiement manuel utilisateur.
