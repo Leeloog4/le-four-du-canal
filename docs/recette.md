@@ -221,3 +221,8 @@ Après consigne de remplacement complet de consulter-participants puis déploiem
 ### Vérification organisateur des retirés — 14 novembre 2026
 
 L’utilisateur confirme que Test Cron Fictif reste visible avec le compte organisateur, statut Retiré et bouton Réactiver, sans cliquer dessus. Conservation et gestion des retirés côté organisateur validées par son observation. Recette du filtre par rôle clôturée : jury actifs uniquement, organisateur actifs et retirés. Aucun participant réactivé pendant cette vérification.
+
+
+### Notation sur téléphone — 14 novembre 2026
+
+À la consigne de se connecter jury sur téléphone, ouvrir Modifier les notes de Camille Martin, vérifier les trois champs et le bouton accessibles sans zoom ni balayage horizontal puis enregistrer en gardant les valeurs actuelles, l’utilisateur confirme le message d’enregistrement. Parcours mobile de modification/enregistrement signalé comme réussi, sans capture ni inspection directe du réseau. Les valeurs existantes devaient être conservées ; aucune nouvelle valeur n’est déduite de cette confirmation. Aucun test supplémentaire d’installation PWA mobile ou de livraison de rappel réel revendiqué.
