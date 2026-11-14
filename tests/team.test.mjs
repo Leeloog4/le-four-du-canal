@@ -59,6 +59,7 @@ function network(options = {}) {
       const input = JSON.parse(init.body); currentStatus = input.status;
       return reply({ participant_id: input.participant_id, status: currentStatus });
     }
+    if (url.includes('/consulter-emails')) return options.emails ? options.emails(init) : reply({ emails: [] });
     if (url.includes('/envoyer-email-test')) return options.emailTest
       ? options.emailTest(init) : reply({ state: 'accepted', message_id: '<message-test>' });
     throw new Error('URL inattendue');
@@ -367,4 +368,56 @@ test('E-mail PWA : double clic puis déconnexion pendant l’envoi sans retour t
   assert.equal(f.$('workspace').hidden, true);
   assert.equal(f.$('email-test-result').textContent, '');
   assert.equal(f.$('view-emails').hidden, true);
+});
+
+
+const historyRow = { id: 'job', recipient: 'camille@example.test', kind: 'reminder', state: 'simulated', due_at: '2026-12-03T14:00:00Z',
+  attempts: 1, message_id: null, processed_at: '2026-11-14T15:37:00Z', last_error: 'Adresse fictive',
+  subject: '<img src=x onerror=alert(1)>', content: '<script>secret</script>', participant: { first_name: 'Camille', last_name: 'Martin', status: 'withdrawn' } };
+test('Historique UI : lecture sur demande organisateur, destinataire et contenu en texte brut', async () => {
+  const n = network({ emails: () => reply({ emails: [historyRow] }) }); const f = fixture(n.fetcher); await f.login();
+  assert.equal(n.calls.some(call => call.url.includes('consulter-emails')), false);
+  await f.$('view-emails').listeners.click();
+  const cells = f.$('emails-body').children[0].children;
+  assert.equal(cells[0].textContent, 'Camille Martin (retiré)'); assert.equal(cells[1].textContent, historyRow.recipient);
+  assert.match(cells[3].textContent, /Simulé/); assert.match(cells[4].textContent, /15:00/);
+  const details = cells[5].children[0]; assert.equal(details.children[1].textContent, historyRow.subject); assert.equal(details.children[2].textContent, historyRow.content);
+  const call = n.calls.find(call => call.url.includes('consulter-emails')); assert.equal(call.init.headers.Authorization, 'Bearer session-test'); assert.equal(call.init.method, undefined);
+  assert.equal(f.$('refresh-emails').disabled, false); assert.equal(n.calls.some(call => call.url.includes('envoyer-email-test')), false);
+});
+test('Historique UI : jury ne charge aucun message même via événement forcé', async () => {
+  const n = network({ role: 'jury' }); const f = fixture(n.fetcher); await f.login();
+  await f.$('view-emails').listeners.click(); await f.$('refresh-emails').listeners.click();
+  assert.equal(n.calls.length, 2); assert.equal(f.$('view-emails').hidden, true);
+});
+test('Historique UI : états acceptation, incertitude et inconnu explicités sans prétendre livraison', async () => {
+  const emails = ['accepted', 'uncertain', 'pending', 'processing', 'failed', 'skipped', 'inconnu'].map(state => ({ ...historyRow, state }));
+  const n = network({ emails: () => reply({ emails }) }); const f = fixture(n.fetcher); await f.login(); await f.$('view-emails').listeners.click();
+  const states = f.$('emails-body').children.map(row => row.children[3].textContent);
+  assert.equal(states[0], 'Accepté par Brevo'); assert.match(states[1], /incertain/); assert.match(states.at(-1), /inconnu/);
+});
+test('Historique UI : vide distinct d’erreur, actualisation efface les résultats périmés', async () => {
+  let mode = 'normal'; const n = network({ emails: () => mode === 'error' ? reply({ error: 'Indisponible' }, 503) : reply({ emails: mode === 'empty' ? [] : [historyRow] }) });
+  const f = fixture(n.fetcher); await f.login(); await f.$('view-emails').listeners.click();
+  mode = 'error'; await f.$('refresh-emails').listeners.click();
+  assert.equal(f.$('emails-body').children.length, 0); assert.equal(f.$('emails-empty').hidden, true); assert.match(f.$('emails-message').textContent, /Indisponible/);
+  mode = 'empty'; await f.$('refresh-emails').listeners.click(); assert.equal(f.$('emails-empty').hidden, false);
+});
+test('Historique UI : expiration serveur efface session et historique', async () => {
+  const n = network({ emails: () => reply({ error: 'Session expirée' }, 401) }); const f = fixture(n.fetcher); await f.login();
+  await f.$('view-emails').listeners.click(); assert.equal(f.$('workspace').hidden, true); assert.equal(f.$('emails-body').children.length, 0);
+});
+test('Historique UI : requête tardive après déconnexion ignorée, sans double chargement', async () => {
+  let finish; const n = network({ emails: () => new Promise(resolve => { finish = resolve; }) }); const f = fixture(n.fetcher); await f.login();
+  const pending = f.$('view-emails').listeners.click(); await f.$('view-emails').listeners.click();
+  assert.equal(n.calls.filter(call => call.url.includes('consulter-emails')).length, 1);
+  f.$('logout').listeners.click(); finish(reply({ emails: [historyRow] })); await pending;
+  assert.equal(f.$('emails-body').children.length, 0); assert.equal(f.$('emails-message').textContent, '');
+});
+test('Historique UI : déconnexion et sortie de page effacent les détails des e-mails', async () => {
+  for (const kind of ['logout', 'pagehide']) {
+    const n = network({ emails: () => reply({ emails: [historyRow] }) }); const f = fixture(n.fetcher); await f.login(); await f.$('view-emails').listeners.click();
+    if (kind === 'logout') f.$('logout').listeners.click(); else f.windowEvents.pagehide();
+    assert.equal(f.$('emails-body').children.length, 0); assert.equal(f.$('emails-count').textContent, '');
+  }
 });

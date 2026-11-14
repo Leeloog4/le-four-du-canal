@@ -37,3 +37,7 @@ La PWA est un choix de réalisation et non une exigence du brief. Ajout du manif
 ## D19 — Planification Supabase des rappels
 
 Cron est disponible et son installation a été signalée par l’utilisateur. Préparer un worker serveur dédié et une RPC limitée aux rappels, avec horloge base, réservation atomique et lot de deux. Authentification par secret serveur distinct des comptes organisateur/jury, activation explicite après recette ; aucun Make. Les confirmations immédiates restent dans inscrire-participant. Ne jamais reprendre automatiquement les états processing, uncertain, failed ou accepted. Déploiement et exécution réelle restent à faire ; voir rappels-plan.md.
+
+## D20 — Historique des e-mails dans la PWA
+
+Ajouter un endpoint GET consulter-emails réservé à l’organisateur après vérification Supabase Auth et rôle serveur. Lecture seule de email_jobs et des noms/statuts associés ; aucun accès jury, aucune clé privée côté navigateur, aucun bouton de renvoi. L’onglet E-mails charge l’historique à l’ouverture et sur actualisation volontaire. Affichage des destinataires, types, échéances Paris, statuts exacts et détails (contenu, nombre de tentatives, traitement, identifiant Brevo, erreur). La livraison n’est pas suivie : accepted reste « Accepté par Brevo ». Effacer les données lors de la déconnexion, expiration ou sortie, et ignorer les réponses tardives. Cache PWA limité à la coquille statique, inchangé dans son périmètre.

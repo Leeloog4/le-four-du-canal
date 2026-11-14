@@ -6,6 +6,7 @@ let session = null, expiryTimer, generation = 0;
 let editingParticipant = null, savingScores = false;
 let changingStatus = false;
 let testingEmail = false, emailTestBlocked = false, emailTestOutcome = '';
+let emailHistoryRequest = 0, loadingEmails = false;
 
 function completeScores(scores) {
   return scores && ['taste', 'texture', 'presentation'].every(key => Number.isInteger(scores[key]) && scores[key] >= 0 && scores[key] <= 10);
@@ -63,6 +64,7 @@ function clearSession() {
   $('ranking-count').textContent = '';
   $('ranking-empty').hidden = true;
   $('view-emails').hidden = true;
+  clearEmails();
   $('email-test-result').textContent = '';
   $('email-test-result').className = '';
   emailTestBlocked = false;
@@ -88,6 +90,7 @@ function render(data) {
   session.role = data.user.role;
   $('view-emails').hidden = !organizer;
   if (!organizer) {
+    clearEmails();
     $('email-test-result').textContent = '';
     if (!$('emails-panel').hidden) showView('participants');
   }
@@ -316,7 +319,85 @@ $('login').addEventListener('submit', async event => {
 $('refresh').addEventListener('click', () => loadParticipants());
 $('view-participants').addEventListener('click', () => { if (session) showView('participants'); });
 $('view-ranking').addEventListener('click', () => { if (session) showView('ranking'); });
-$('view-emails').addEventListener('click', () => { if (session?.role === 'organizer') showView('emails'); });
+$('view-emails').addEventListener('click', () => { if (session?.role === 'organizer') { showView('emails'); return loadEmails(); } });
+$('refresh-emails').addEventListener('click', loadEmails);
+function clearEmails() {
+  emailHistoryRequest++;
+  loadingEmails = false;
+  $('emails-body').replaceChildren();
+  $('emails-count').textContent = '';
+  $('emails-message').textContent = '';
+  $('emails-message').className = '';
+  $('emails-empty').hidden = true;
+  $('refresh-emails').disabled = false;
+}
+function emailDate(value) {
+  if (!value) return '—';
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? '—' : new Intl.DateTimeFormat('fr-FR', {
+    dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Paris'
+  }).format(date);
+}
+function renderEmails(emails) {
+  const labels = { pending: 'En attente', processing: 'En cours — vérifier avant toute reprise',
+    simulated: 'Simulé — aucun envoi réel', accepted: 'Accepté par Brevo', failed: 'Échec',
+    uncertain: 'Résultat incertain — à vérifier', skipped: 'Non envoyé' };
+  $('emails-body').replaceChildren(...emails.map(email => {
+    const row = document.createElement('tr');
+    const participant = email.participant;
+    const name = participant ? participant.first_name + ' ' + participant.last_name + (participant.status === 'withdrawn' ? ' (retiré)' : '') : 'Participant indisponible';
+    for (const value of [name, email.recipient, email.kind === 'confirmation' ? 'Confirmation' : email.kind === 'reminder' ? 'Rappel' : 'Type inconnu',
+      labels[email.state] || 'Statut inconnu — à vérifier', emailDate(email.due_at)]) {
+      const cell = document.createElement('td'); cell.textContent = value; row.append(cell);
+    }
+    const cell = document.createElement('td');
+    const details = document.createElement('details');
+    const summary = document.createElement('summary'); summary.textContent = 'Voir le message'; details.append(summary);
+    for (const text of [email.subject, email.content, 'Tentatives de traitement : ' + email.attempts,
+      'Traité (Paris) : ' + emailDate(email.processed_at), 'Identifiant Brevo : ' + (email.message_id || '—'),
+      'Information : ' + (email.last_error || '—')]) {
+      const paragraph = document.createElement('p'); paragraph.className = 'email-detail'; paragraph.textContent = text; details.append(paragraph);
+    }
+    cell.append(details); row.append(cell); return row;
+  }));
+  $('emails-count').textContent = emails.length + ' message' + (emails.length > 1 ? 's' : '') + ' lié' + (emails.length > 1 ? 's' : '') + ' aux inscriptions';
+  $('emails-empty').hidden = emails.length > 0;
+}
+async function loadEmails() {
+  if (!session || session.role !== 'organizer' || loadingEmails) return;
+  const current = generation, requestId = ++emailHistoryRequest;
+  const token = session.accessToken;
+  loadingEmails = true;
+  $('refresh-emails').disabled = true;
+  $('emails-body').replaceChildren();
+  $('emails-count').textContent = '';
+  $('emails-empty').hidden = true;
+  $('emails-message').className = 'quiet';
+  $('emails-message').textContent = 'Chargement de l’historique…';
+  try {
+    const response = await fetch(baseUrl + '/functions/v1/consulter-emails', {
+      headers: { apikey: publicKey, Authorization: 'Bearer ' + token }, signal: AbortSignal.timeout(20000)
+    });
+    const data = await response.json();
+    if (current !== generation || requestId !== emailHistoryRequest || session?.role !== 'organizer') return;
+    if ([401, 403].includes(response.status)) {
+      clearSession(); void revoke(token); message(data.error || 'Accès refusé. Reconnectez-vous.', true); return;
+    }
+    if (!response.ok) throw new Error(data.error || 'Historique indisponible. Réessayez dans un instant.');
+    if (!Array.isArray(data.emails)) throw new Error('Réponse du serveur invalide.');
+    renderEmails(data.emails);
+    $('emails-message').textContent = 'Historique actualisé. Aucun envoi déclenché.';
+  } catch (error) {
+    if (current !== generation || requestId !== emailHistoryRequest) return;
+    $('emails-message').className = 'notice error';
+    $('emails-message').textContent = error instanceof TypeError || error instanceof SyntaxError || error.name === 'TimeoutError'
+      ? 'Historique indisponible. Vérifiez votre connexion puis actualisez.' : error.message;
+  } finally {
+    if (current === generation && requestId === emailHistoryRequest) {
+      loadingEmails = false; $('refresh-emails').disabled = false;
+    }
+  }
+}
 $('send-email-test').addEventListener('click', async () => {
   if (!session || session.role !== 'organizer' || testingEmail || emailTestBlocked) return;
   if (!window.confirm('Envoyer maintenant un vrai e-mail à votre adresse de test configurée ? Aucun message ne sera envoyé aux participants.')) return;

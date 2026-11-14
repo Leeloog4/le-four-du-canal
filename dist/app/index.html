@@ -74,7 +74,19 @@
         <p id="ranking-empty" class="empty" hidden>Le classement apparaîtra après la première évaluation complète d’une participation active.</p>
       </section>
       <section id="emails-panel" hidden>
-        <h2>Tester la réception des e-mails</h2>
+        <div class="section-heading"><h2>Le suivi des e-mails</h2><button id="refresh-emails" type="button" class="button small secondary">Actualiser l’historique</button></div>
+        <p class="quiet">Confirmations et rappels liés aux inscriptions. « Accepté par Brevo » signifie que la demande a été acceptée ; la livraison n’est pas suivie ici. L’actualisation ne déclenche aucun envoi.</p>
+        <p id="emails-message" role="status" aria-live="polite"></p>
+        <p id="emails-count" class="quiet"></p>
+        <div class="table-scroll">
+          <table>
+            <caption class="sr-only">Historique des confirmations et rappels, du plus récent au plus ancien</caption>
+            <thead><tr><th scope="col">Participant</th><th scope="col">Destinataire</th><th scope="col">Message</th><th scope="col">Statut</th><th scope="col">Prévu (Paris)</th><th scope="col">Détails</th></tr></thead>
+            <tbody id="emails-body"></tbody>
+          </table>
+        </div>
+        <p id="emails-empty" class="empty" hidden>Aucun message lié aux inscriptions pour le moment.</p>
+        <h3>Tester la réception des e-mails</h3>
         <p class="quiet">Ce test envoie un vrai message uniquement à votre adresse de test configurée. Il n’envoie aucun message aux participants. Ce bouton est indépendant des messages liés aux inscriptions.</p>
         <button id="send-email-test" type="button" class="button">Envoyer l’e-mail de test</button>
         <p id="email-test-result" role="status" aria-live="polite" tabindex="-1"></p>

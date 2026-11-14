@@ -21,3 +21,9 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 Les inscriptions et notes de démonstration ne sont pas exportées de Supabase. Aucun secret Brevo ou Supabase privilégié n’est stocké dans ce dépôt. La clé publiable Supabase est publique par conception et ne confère pas un rôle organisateur.
 
 Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il recréerait des tables déjà présentes. Les scripts `supabase/guided/` gardent la trace des étapes successives ; ne pas les relancer en bloc sans vérifier l’état réel. Les fichiers SQL déjà appliqués sont conservés sans réécriture.
+
+## Historique organisateur — nouvelle version préparée
+
+- consulter-emails : nouveau fichier prêt, à créer manuellement dans les fonctions Supabase, vérification JWT héritée désactivée ; vérifie Supabase Auth et rôle organizer dans son code. Aucun nouveau script SQL nécessaire.
+- PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication en cours ; la fonction doit être installée avant recette réelle. Jusqu’à cette installation, un chargement d’historique peut afficher une indisponibilité.
+- Suite locale : 126 tests réussis ; aucune vérification navigateur réelle de cette nouvelle interface.

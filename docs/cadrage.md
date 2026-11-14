@@ -65,3 +65,7 @@ La landing page est limitée à la présentation, aux informations du concours, 
 ## Précision demandée le 13 novembre 2026
 
 La date est fixée à trois semaines à compter du 13 novembre 2026, soit le vendredi 4 décembre 2026. Horaire de démonstration conservé : 15 h, Europe/Paris. Le lieu fictif est l’Atelier du Canal, 12 rue des Gourmands, 75010 Paris. Ces informations servent à l’exercice et ne constituent pas une annonce réelle.
+
+## Suivi des e-mails — PWA hébergée
+
+E08/E09 : historique des confirmations/rappels implémenté dans dist/app et endpoint Supabase consulter-emails préparé, réservé à l’organisateur. Tests locaux lecture/droits/états réussis ; installation manuelle de cet endpoint et recette de consultation réelle encore à faire. Historique en lecture seule ; aucune reprise automatique ni renvoi depuis cette vue. Le bouton de test indépendant n’ajoute pas de message à email_jobs.
