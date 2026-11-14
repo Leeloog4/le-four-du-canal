@@ -43,3 +43,5 @@ Après vérification, retirer Test Cron Fictif via le compte organisateur afin d
 
 
 Preuve reçue : capture du rappel simulated, attempts=1, message_id NULL, processed_at au 14 novembre 2026 à 15:37 UTC. Le traitement dû simulé est vérifié. La seconde lecture pour absence de retraitement reste à faire ; aucune livraison réelle de rappel revendiquée.
+
+Clôture guidée : seconde lecture avec attempts=1 confirmée par l’utilisateur, puis retrait de Test Cron Fictif signalé comme effectué. Recette planifiée simulée validée ; fermeture de PWA non confirmée séparément, aucune réception réelle de rappel revendiquée.
