@@ -216,3 +216,8 @@ Publication du filtre PWA : commit 19a9e7e9d73d3720c547f88b425845ac4ce6a916, dé
 ### Vérification utilisateur du filtre jury — 14 novembre 2026
 
 Après consigne de remplacement complet de consulter-participants puis déploiement, l’utilisateur répond « ok » : nouvelle version serveur signalée comme déployée. Après actualisation de la PWA avec le compte jury, il confirme que Test Cron Fictif retiré a disparu. Parcours réel de masquage jury validé par son observation ; aucune inspection directe du corps de réponse authentifiée par l’agent. Conservation des retirés et de l’action Réactiver pour l’organisateur couverte par les tests locaux ; contrôle manuel avec ce participant encore possible. Aucun changement de notes ni envoi d’e-mail.
+
+
+### Vérification organisateur des retirés — 14 novembre 2026
+
+L’utilisateur confirme que Test Cron Fictif reste visible avec le compte organisateur, statut Retiré et bouton Réactiver, sans cliquer dessus. Conservation et gestion des retirés côté organisateur validées par son observation. Recette du filtre par rôle clôturée : jury actifs uniquement, organisateur actifs et retirés. Aucun participant réactivé pendant cette vérification.

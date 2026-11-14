@@ -35,3 +35,5 @@ Filtre jury actifs : nouvelle version de consulter-participants préparée avec 
 Filtre frontend jury publié, déploiement appgdep_6af887fe72e88191acd29cdde603d1bb succeeded. Mise à jour serveur consulter-participants encore en attente de déploiement manuel utilisateur.
 
 Filtre serveur jury : déploiement manuel de consulter-participants signalé comme effectué par l’utilisateur ; disparition de Test Cron Fictif après actualisation jury confirmée. Les mentions de mise à jour en attente ci-dessus sont historiques.
+
+Recette des retirés clôturée : disparition côté jury et maintien côté organisateur avec statut Retiré et bouton Réactiver confirmés par l’utilisateur.
