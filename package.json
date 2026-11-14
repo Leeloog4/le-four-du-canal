@@ -1,9 +1,14 @@
 {
-  "name": "four-du-canal-apercu",
-  "version": "0.1.0",
+  "name": "le-four-du-canal",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "test:local": "npm --prefix prototype-local test",
+    "check": "node tools/check.mjs"
+  },
+  "engines": {
+    "node": ">=24.0.0"
   }
 }

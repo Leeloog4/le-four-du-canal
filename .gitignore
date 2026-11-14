@@ -1,3 +1,14 @@
 node_modules/
-.env*
+.env
+.env.*
+!.env.example
+data/
+*.sqlite
+*.sqlite-*
+*.db
+coverage/
+work/
 *.tar.gz
+*.zip
+.DS_Store
+.secrets/

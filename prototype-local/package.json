@@ -1,0 +1,13 @@
+{
+  "name": "le-four-du-canal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.mjs",
+    "setup-demo": "node --env-file-if-exists=.env scripts/setup-demo.mjs",
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "check": "node scripts/check.mjs"
+  }
+}
