@@ -252,3 +252,5 @@ Publication session et visuel : résultat natif succeeded, commit c1f25377da25a7
 L’utilisateur demande de sortir le gâteau du cadre. Fond pleine largeur derrière le texte, suppression de la figure en arche et de sa pastille ; voile sombre pour lisibilité, CTA clair. Visuel paysage généré par extension de l’image précédente, inspecté localement ; variantes WebP 1024x576 et 1672x941. Source portrait conservée pour le fond mobile, texte en haut et gâteau en bas. Aucun changement du formulaire ou de la session.
 
 npm run check réussi ; npm test 139 tests réussis zéro échec ; git diff --check et contrôle des fichiers/srcset (largeurs réelles) réussis. Aucune nouvelle suite miroir du style. Navigateur indisponible : rendu ordinateur/téléphone et contraste réel à confirmer par l’utilisateur après publication. Aucun appel métier réel ni e-mail envoyé.
+
+Publication fond gâteau : commit 7208473a2b82d9022aff33ca2e6450312712cabc, déploiement appgdep_6af88d3255208191937961bb445b2995 succeeded. Audience propriétaire privée conservée ; rendu téléphone/ordinateur en attente utilisateur.
