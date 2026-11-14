@@ -226,3 +226,9 @@ L’utilisateur confirme que Test Cron Fictif reste visible avec le compte organ
 ### Notation sur téléphone — 14 novembre 2026
 
 À la consigne de se connecter jury sur téléphone, ouvrir Modifier les notes de Camille Martin, vérifier les trois champs et le bouton accessibles sans zoom ni balayage horizontal puis enregistrer en gardant les valeurs actuelles, l’utilisateur confirme le message d’enregistrement. Parcours mobile de modification/enregistrement signalé comme réussi, sans capture ni inspection directe du réseau. Les valeurs existantes devaient être conservées ; aucune nouvelle valeur n’est déduite de cette confirmation. Aucun test supplémentaire d’installation PWA mobile ou de livraison de rappel réel revendiqué.
+
+### Lisibilité mobile de la PWA — amélioration demandée
+
+L’utilisateur trouve les écritures trop petites dans l’application jury après validation fonctionnelle de la notation. Ajustement CSS limité à la PWA sous 760 px : textes courants, consignes, onglets et boutons à 16 px, libellés de cartes 14 px, noms 20 px ; champs de connexion 18 px et notes 20 px ; boutons tactiles de 48 px minimum. Dialogue de notation défilable verticalement dans la hauteur disponible et actions pouvant revenir à la ligne. Les cartes mobiles sont conservées. Cache coquille v10-mobile-readability.
+
+npm run check réussi ; npm test 131 réussis, zéro échec ; git diff --check réussi. Aucun nouveau test miroir du CSS. Pas de changement serveur, de notes, de droits ou d’e-mails. Navigateur de contrôle indisponible : appréciation réelle de la taille, vérification d’absence de débordement et dialogue avec clavier ouvert à confirmer sur le téléphone utilisateur après publication.

@@ -49,3 +49,7 @@ Retour utilisateur : le défilement horizontal du tableau masque les actions sur
 ## D22 — Participants retirés réservés à l’organisateur
 
 À la demande de l’utilisateur : le jury ne consulte que les participants registered, dans sa liste comme au classement. L’organisateur conserve inscrits/retirés et la réactivation. Filtrer dans la requête Supabase après vérification du rôle, puis avant sérialisation ; filtrage défensif dans la PWA et compteurs basés sur les seuls participants visibles. Une réactivation rend le participant de nouveau visible après actualisation. Aucun effacement des données ou des notes. La RPC de notation continue de refuser une participation retirée même si un formulaire ancien est resté ouvert.
+
+## D23 — Lisibilité mobile de l’application
+
+Demande utilisateur : augmenter la taille des textes de la PWA jury. Sous 760 px, texte courant 16 px, libellés secondaires 14 px, noms et champs de notes 20 px, boutons de 48 px minimum ; dialogue utilisable dans la hauteur disponible et boutons pouvant se répartir sur plusieurs lignes. Règles limitées à la PWA et son dialogue de notation, sans agrandir la landing. La lisibilité réelle reste à confirmer avec l’utilisateur.
