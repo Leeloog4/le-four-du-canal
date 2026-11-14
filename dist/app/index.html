@@ -53,10 +53,10 @@
       <p id="participant-help" class="quiet">Les inscriptions reçues depuis le formulaire du concours.</p>
       <p class="quiet">Barème fictif pour l’exercice : goût, texture et présentation, chacun sur 10. Total sur 30.</p>
       <div class="table-scroll">
-        <table>
+        <table class="responsive-table" role="table">
           <caption class="sr-only">Inscriptions au concours</caption>
-          <thead><tr id="participants-head"></tr></thead>
-          <tbody id="participants-body"></tbody>
+          <thead role="rowgroup"><tr id="participants-head" role="row"></tr></thead>
+          <tbody id="participants-body" role="rowgroup"></tbody>
         </table>
       </div>
       <p id="participants-empty" class="empty" hidden>Aucune participation pour le moment.</p>
@@ -65,10 +65,10 @@
         <div class="section-heading"><h2>Le classement interne</h2><span id="ranking-count" class="pill"></span></div>
         <p class="quiet">Classement provisoire selon le barème fictif : goût, texture et présentation, somme sur 30. Seules les participations actives avec trois notes sont classées. Les scores égaux restent ex æquo.</p>
         <div class="table-scroll">
-          <table>
+          <table class="responsive-table" role="table">
             <caption class="sr-only">Classement interne du concours, par total décroissant</caption>
-            <thead><tr><th scope="col">Rang</th><th scope="col">Participant</th><th scope="col">Goût / 10</th><th scope="col">Texture / 10</th><th scope="col">Présentation / 10</th><th scope="col">Total / 30</th></tr></thead>
-            <tbody id="ranking-body"></tbody>
+            <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Rang</th><th scope="col" role="columnheader">Participant</th><th scope="col" role="columnheader">Goût / 10</th><th scope="col" role="columnheader">Texture / 10</th><th scope="col" role="columnheader">Présentation / 10</th><th scope="col" role="columnheader">Total / 30</th></tr></thead>
+            <tbody id="ranking-body" role="rowgroup"></tbody>
           </table>
         </div>
         <p id="ranking-empty" class="empty" hidden>Le classement apparaîtra après la première évaluation complète d’une participation active.</p>
@@ -79,10 +79,10 @@
         <p id="emails-message" role="status" aria-live="polite"></p>
         <p id="emails-count" class="quiet"></p>
         <div class="table-scroll">
-          <table>
+          <table class="responsive-table" role="table">
             <caption class="sr-only">Historique des confirmations et rappels, du plus récent au plus ancien</caption>
-            <thead><tr><th scope="col">Participant</th><th scope="col">Destinataire</th><th scope="col">Message</th><th scope="col">Statut</th><th scope="col">Prévu (Paris)</th><th scope="col">Détails</th></tr></thead>
-            <tbody id="emails-body"></tbody>
+            <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">Participant</th><th scope="col" role="columnheader">Destinataire</th><th scope="col" role="columnheader">Message</th><th scope="col" role="columnheader">Statut</th><th scope="col" role="columnheader">Prévu (Paris)</th><th scope="col" role="columnheader">Détails</th></tr></thead>
+            <tbody id="emails-body" role="rowgroup"></tbody>
           </table>
         </div>
         <p id="emails-empty" class="empty" hidden>Aucun message lié aux inscriptions pour le moment.</p>

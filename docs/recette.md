@@ -195,3 +195,9 @@ Il confirme ensuite les trois critères visuels : textes lisibles sans zoom, abs
 ### Validation des champs obligatoires sur téléphone
 
 L’utilisateur confirme qu’une soumission avec les champs vides est bloquée et signale les champs obligatoires. Validation mobile de ce scénario confirmée par son observation ; aucune nouvelle inscription ni vérification réseau indépendante. La soumission complète depuis téléphone et la saisie de notes dans la PWA mobile restent à vérifier séparément.
+
+### Correction de la PWA sur téléphone — accès aux actions
+
+Retour utilisateur : liste accessible comme jury, mais balayage horizontal nécessaire pour atteindre l’action. L’affichage PWA mobile n’est donc pas validé par la précédente recette de la landing. Correction : sous 760 px, les tableaux Participants, Classement et E-mails deviennent des cartes verticales avec libellés, texte pouvant revenir à la ligne et boutons d’action pleine largeur (hauteur minimale 44 px). Au-dessus, tableaux conservés. En-têtes conservés pour les aides techniques et rôles de table/ligne/cellule explicites ; contenu toujours en texte brut. Cache coquille v8-mobile-cards.
+
+Contrôles : npm run check réussi, npm test 126 réussis zéro échec ; git diff --check réussi. Pas de nouveau test miroir du CSS. Navigateur de contrôle indisponible : rendu mobile réel à faire confirmer par l’utilisateur après publication. Recette : actualiser la PWA, se connecter jury, atteindre Évaluer/Modifier sans défilement horizontal, ouvrir le dialogue puis annuler sans changer les notes. Vérifier aussi les cartes Classement, puis compte organisateur Participants et E-mails. Aucun changement serveur ou données, aucun e-mail envoyé.

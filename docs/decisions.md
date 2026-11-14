@@ -41,3 +41,7 @@ Cron est disponible et son installation a été signalée par l’utilisateur. P
 ## D20 — Historique des e-mails dans la PWA
 
 Ajouter un endpoint GET consulter-emails réservé à l’organisateur après vérification Supabase Auth et rôle serveur. Lecture seule de email_jobs et des noms/statuts associés ; aucun accès jury, aucune clé privée côté navigateur, aucun bouton de renvoi. L’onglet E-mails charge l’historique à l’ouverture et sur actualisation volontaire. Affichage des destinataires, types, échéances Paris, statuts exacts et détails (contenu, nombre de tentatives, traitement, identifiant Brevo, erreur). La livraison n’est pas suivie : accepted reste « Accepté par Brevo ». Effacer les données lors de la déconnexion, expiration ou sortie, et ignorer les réponses tardives. Cache PWA limité à la coquille statique, inchangé dans son périmètre.
+
+## D21 — Cartes sur téléphone pour les données de la PWA
+
+Retour utilisateur : le défilement horizontal du tableau masque les actions sur téléphone. Sous 760 px, afficher les lignes comme des cartes verticales avec libellés et action pleine largeur, pour Participants, Classement et E-mails. Conserver les tableaux sur grand écran et leurs informations sémantiques. Vérifier l’accès aux actions dans la recette mobile plutôt que déduire le responsive de la seule présence d’un conteneur défilant.

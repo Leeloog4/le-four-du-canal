@@ -8,6 +8,14 @@ let changingStatus = false;
 let testingEmail = false, emailTestBlocked = false, emailTestOutcome = '';
 let emailHistoryRequest = 0, loadingEmails = false;
 
+function labelCells(row, labels) {
+  row.setAttribute('role', 'row');
+  Array.from(row.children).forEach((cell, index) => {
+    cell.setAttribute('role', 'cell');
+    cell.setAttribute('data-label', labels[index]);
+  });
+  return row;
+}
 function completeScores(scores) {
   return scores && ['taste', 'texture', 'presentation'].every(key => Number.isInteger(scores[key]) && scores[key] >= 0 && scores[key] <= 10);
 }
@@ -45,7 +53,7 @@ function renderRanking(participants) {
     for (const value of [rank + (counts.get(participant.total) > 1 ? ' ex æquo' : ''), participant.first_name + ' ' + participant.last_name, participant.scores.taste, participant.scores.texture, participant.scores.presentation, participant.total + ' / 30']) {
       const cell = document.createElement('td'); cell.textContent = String(value); row.append(cell);
     }
-    return row;
+    return labelCells(row, ['Rang', 'Participant', 'Goût / 10', 'Texture / 10', 'Présentation / 10', 'Total / 30']);
   }));
   $('ranking-count').textContent = ranked.length + ' au classement';
   $('ranking-empty').hidden = ranked.length > 0;
@@ -99,7 +107,7 @@ function render(data) {
     ? 'Consultez les évaluations et gérez les participations. Un retrait conserve les données et les notes, mais exclut la participation du classement.'
     : 'Évaluez chaque participation active. Les coordonnées des participants sont réservées à l’organisateur.';
   $('participants-head').replaceChildren(...['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', 'Action'].map(value => {
-    const th = document.createElement('th'); th.textContent = value; th.scope = 'col'; return th;
+    const th = document.createElement('th'); th.textContent = value; th.scope = 'col'; th.setAttribute('role', 'columnheader'); return th;
   }));
   $('participants-body').replaceChildren(...data.participants.map(participant => {
     const tr = document.createElement('tr');
@@ -132,7 +140,7 @@ function render(data) {
       } else actions.textContent = '—';
       tr.append(actions);
     }
-    return tr;
+    return labelCells(tr, ['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', 'Action']);
   }));
   $('participant-count').textContent = data.participants.length + ' au total';
   renderRanking(data.participants);
@@ -358,7 +366,8 @@ function renderEmails(emails) {
       'Information : ' + (email.last_error || '—')]) {
       const paragraph = document.createElement('p'); paragraph.className = 'email-detail'; paragraph.textContent = text; details.append(paragraph);
     }
-    cell.append(details); row.append(cell); return row;
+    cell.append(details); row.append(cell);
+    return labelCells(row, ['Participant', 'Destinataire', 'Message', 'Statut', 'Prévu (Paris)', 'Détails']);
   }));
   $('emails-count').textContent = emails.length + ' message' + (emails.length > 1 ? 's' : '') + ' lié' + (emails.length > 1 ? 's' : '') + ' aux inscriptions';
   $('emails-empty').hidden = emails.length > 0;

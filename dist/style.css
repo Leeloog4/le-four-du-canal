@@ -6,3 +6,25 @@
 
 /* Contenu des messages conservé en texte brut, lisible sur petit écran. */
 .email-detail { white-space: pre-wrap; overflow-wrap: anywhere; min-width: 12rem; max-width: 32rem; }
+
+/* Sur téléphone, chaque ligne devient une carte avec ses libellés et son action. */
+@media (max-width: 760px) {
+  body:has(.team-main) .header { flex-wrap: wrap; padding-block: 14px; }
+  .team-toolbar, .section-heading { flex-wrap: wrap; gap: 12px; }
+  .team-toolbar > *, .section-heading > * { min-width: 0; max-width: 100%; }
+  .team-toolbar p { max-width: 100%; }
+  .tabs { flex-wrap: wrap; gap: 18px; }
+  .team-main .table-scroll { overflow: visible; border: 0; border-radius: 0; }
+  .responsive-table { display: block; width: 100%; background: transparent; }
+  .responsive-table thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%); }
+  .responsive-table tbody { display: grid; gap: 16px; width: 100%; }
+  .responsive-table tbody tr { display: block; min-width: 0; background: var(--white); border: 1px solid var(--line); border-radius: 6px; }
+  .responsive-table tbody tr td { display: block; width: 100%; min-width: 0; padding: 7px 16px; border: 0; overflow-wrap: anywhere; font-size: 14px; }
+  .responsive-table tbody td::before { content: attr(data-label); display: block; margin-bottom: 2px; color: var(--muted); font-size: 11px; font-weight: 400; }
+  .responsive-table tbody td:first-child { padding-top: 16px; font-size: 17px; font-weight: 600; }
+  .responsive-table tbody td:last-child { padding-bottom: 16px; }
+  .responsive-table .text-button { display: block; width: 100%; min-height: 44px; margin-top: 4px; padding: 12px; white-space: normal; text-align: center; border: 1px solid var(--green); border-radius: 4px; background: var(--pale); color: var(--green); font-size: 14px; }
+  .responsive-table details { min-width: 0; max-width: 100%; }
+  .responsive-table summary { min-height: 44px; padding-block: 10px; }
+  .responsive-table .email-detail { min-width: 0; max-width: 100%; }
+}
