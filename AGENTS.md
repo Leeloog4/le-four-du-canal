@@ -4,7 +4,7 @@ Lire docs/cadrage.md, docs/decisions.md et docs/recette.md avant de modifier.
 Sources originales : docs/sources/, les conserver sans réécriture.
 Pas de Make. Appels Brevo uniquement côté serveur. Ne jamais publier de secret.
 Inscription publique ; données des inscrits, notes et classement internes.
-Organisateur : lecture et changement de statut ; jury : saisie des notes, sans e-mails des participants.
+Organisateur : lecture et changement de statut ; jury : participants actifs uniquement et saisie des notes, sans e-mails des participants.
 Trois critères FICTIFS sur 10, somme sur 30 ; les égalités restent ex æquo.
 Ne pas inventer date, adresse, prix, capacités ou réponses du client.
 Tout e-mail non réellement accepté par Brevo doit rester identifié comme simulé, en attente ou en erreur.

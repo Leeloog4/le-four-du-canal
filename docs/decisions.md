@@ -45,3 +45,7 @@ Ajouter un endpoint GET consulter-emails réservé à l’organisateur après v�
 ## D21 — Cartes sur téléphone pour les données de la PWA
 
 Retour utilisateur : le défilement horizontal du tableau masque les actions sur téléphone. Sous 760 px, afficher les lignes comme des cartes verticales avec libellés et action pleine largeur, pour Participants, Classement et E-mails. Conserver les tableaux sur grand écran et leurs informations sémantiques. Vérifier l’accès aux actions dans la recette mobile plutôt que déduire le responsive de la seule présence d’un conteneur défilant.
+
+## D22 — Participants retirés réservés à l’organisateur
+
+À la demande de l’utilisateur : le jury ne consulte que les participants registered, dans sa liste comme au classement. L’organisateur conserve inscrits/retirés et la réactivation. Filtrer dans la requête Supabase après vérification du rôle, puis avant sérialisation ; filtrage défensif dans la PWA et compteurs basés sur les seuls participants visibles. Une réactivation rend le participant de nouveau visible après actualisation. Aucun effacement des données ou des notes. La RPC de notation continue de refuser une participation retirée même si un formulaire ancien est resté ouvert.

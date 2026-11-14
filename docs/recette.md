@@ -203,3 +203,9 @@ Retour utilisateur : liste accessible comme jury, mais balayage horizontal néce
 Contrôles : npm run check réussi, npm test 126 réussis zéro échec ; git diff --check réussi. Pas de nouveau test miroir du CSS. Navigateur de contrôle indisponible : rendu mobile réel à faire confirmer par l’utilisateur après publication. Recette : actualiser la PWA, se connecter jury, atteindre Évaluer/Modifier sans défilement horizontal, ouvrir le dialogue puis annuler sans changer les notes. Vérifier aussi les cartes Classement, puis compte organisateur Participants et E-mails. Aucun changement serveur ou données, aucun e-mail envoyé.
 
 Publication corrective mobile : résultat natif succeeded, commit 5c0085b113e483a4292f10b0b5abd19db7eb0358, déploiement appgdep_6af8872877a48191a127f6afe72889bd. Audience propriétaire privée conservée. Attente de confirmation visuelle utilisateur sur téléphone.
+
+### Jury : participants actifs uniquement
+
+L’utilisateur confirme les actions mobiles visibles après publication des cartes, puis demande que les retirés ne soient plus visibles pour le jury. Modification préparée de consulter-participants : filtre status=eq.registered dans la requête jury et filtrage avant sérialisation, organisateur sans filtre. PWA filtre également la liste et les compteurs pour le jury ; cache coquille v9-jury-active.
+
+npm run check réussi ; npm test 131 réussis, zéro échec. Scénarios supplémentaires : retiré absent de la réponse jury même si la base substituée le renvoie, filtre de requête selon rôle, organisateur conservant le retiré, jury sans ligne ni action lorsque tous retirés, réactivation visible après actualisation et action Réactiver organisateur. Aucun changement de données ou e-mail réel. Publication frontend à suivre ; la nouvelle version serveur doit être déployée manuellement dans Supabase avant de déclarer le filtre serveur actif. Recette réelle : Test Cron Fictif retiré absent côté jury et toujours visible côté organisateur.

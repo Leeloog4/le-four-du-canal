@@ -8,7 +8,7 @@ const uid = '6c47adac-7fc9-41be-beaa-11b7717dbba6';
 const origin = 'https://four-du-canal-exercice.leeloog4.chatgpt.site';
 const req = (authorization, method = 'GET') => new Request('https://test.invalid/functions/v1/consulter-participants', { method, headers: { Origin: origin, ...(authorization ? { Authorization: authorization } : {}) } });
 const response = (data, status = 200) => new Response(JSON.stringify(data), { status });
-function mock(t, role, authStatus = 200, scores = null) {
+function mock(t, role, authStatus = 200, scores = null, mixed = false) {
   const original = globalThis.fetch;
   t.after(() => { globalThis.fetch = original; });
   const calls = [];
@@ -25,6 +25,11 @@ function mock(t, role, authStatus = 200, scores = null) {
     }
     if (url.includes('/participants?')) {
       assert.ok(url.includes('scores(taste,texture,presentation,updated_at)'));
+      assert.equal(url.includes('&status=eq.registered'), role === 'jury');
+      if (mixed) return response([
+        { id: 'actif', first_name: 'Camille', last_name: 'Martin', status: 'registered' },
+        { id: 'retire', first_name: 'Alex', last_name: 'Dupont', status: 'withdrawn' }
+      ]);
       return response([{ id: 'p', first_name: 'Camille', last_name: 'Martin', email: 'camille@example.test', status: 'registered', scores }]);
     }
     throw new Error('Requête inattendue');
@@ -80,4 +85,15 @@ test('Espace équipe : panne réseau sans fuite de données ni de secret', async
   const res = await handler(req('Bearer session-test'));
   assert.equal(res.status, 503);
   assert.equal((await res.text()).includes('private-test'), false);
+});
+
+
+test('Liste serveur : jury uniquement actifs, organisateur conserve les retirés', async t => {
+  for (const role of ['jury', 'organizer']) await t.test(role, async t => {
+    mock(t, role, 200, null, true);
+    const response = await handler(req('Bearer session-test')); const data = await response.json();
+    assert.equal(response.status, 200);
+    assert.deepEqual(data.participants.map(row => row.id), role === 'jury' ? ['actif'] : ['actif', 'retire']);
+    if (role === 'jury') assert.equal(JSON.stringify(data.participants).includes('Alex'), false);
+  });
 });

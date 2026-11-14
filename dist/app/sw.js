@@ -1,4 +1,4 @@
-const CACHE = 'four-du-canal-app-shell-v8-mobile-cards';
+const CACHE = 'four-du-canal-app-shell-v9-jury-active';
 const SHELL = [
   '/app/', '/app/team.js', '/app/pwa.js', '/style.css', '/app/manifest.webmanifest',
   '/app/icons/icon-192.png', '/app/icons/icon-512.png',

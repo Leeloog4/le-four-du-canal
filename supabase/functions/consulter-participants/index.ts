@@ -44,16 +44,17 @@ async function consulterParticipants(request) {
     const fields = role === 'organizer'
       ? 'id,first_name,last_name,email,status,created_at,scores(taste,texture,presentation,updated_at)'
       : 'id,first_name,last_name,status,created_at,scores(taste,texture,presentation,updated_at)';
+    const statusFilter = role === 'jury' ? '&status=eq.registered' : '';
     const participants = [];
     for (let offset = 0; ; offset += 500) {
-      const response = await fetch(url + '/rest/v1/participants?select=' + fields + '&order=created_at.desc,id.asc', {
+      const response = await fetch(url + '/rest/v1/participants?select=' + fields + statusFilter + '&order=created_at.desc,id.asc', {
         headers: { ...privateHeaders, Range: `${offset}-${offset + 499}`, 'Range-Unit': 'items' },
         signal: AbortSignal.timeout(10000)
       });
       if (!response.ok) return reply(503, { error: 'Liste des participants indisponible.' });
       const rows = await response.json();
       if (!Array.isArray(rows)) return reply(503, { error: 'Réponse du service de données invalide.' });
-      participants.push(...rows.map(row => {
+      participants.push(...rows.filter(row => role === 'organizer' || row.status === 'registered').map(row => {
         const rawScores = Array.isArray(row.scores) ? row.scores[0] : row.scores;
         const scores = rawScores ? {
           taste: rawScores.taste, texture: rawScores.texture,

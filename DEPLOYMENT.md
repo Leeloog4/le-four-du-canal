@@ -29,3 +29,5 @@ Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il r
 - Suite locale : 126 tests réussis ; recette navigateur organisateur confirmée par l’utilisateur ; absence d’onglet E-mails et d’adresses des inscrits côté jury confirmée par la recette utilisateur.
 
 Adaptation mobile PWA publiée : cartes sous 760 px, actions visibles en pleine largeur ; déploiement appgdep_6af8872877a48191a127f6afe72889bd succeeded. Recette téléphone après correction encore à confirmer.
+
+Filtre jury actifs : nouvelle version de consulter-participants préparée avec filtre serveur, à remplacer manuellement dans Supabase. Frontend prêt à masquer les retirés et à recalculer le compteur ; ne pas confondre publication PWA et déploiement de cette fonction.

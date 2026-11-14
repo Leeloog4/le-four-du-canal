@@ -95,6 +95,7 @@ async function revoke(token) {
 }
 function render(data) {
   const organizer = data.user.role === 'organizer';
+  const participants = organizer ? data.participants : data.participants.filter(row => row.status === 'registered');
   session.role = data.user.role;
   $('view-emails').hidden = !organizer;
   if (!organizer) {
@@ -105,11 +106,11 @@ function render(data) {
   $('identity').textContent = data.user.email + ' · ' + (organizer ? 'Organisateur' : 'Jury');
   $('participant-help').textContent = organizer
     ? 'Consultez les évaluations et gérez les participations. Un retrait conserve les données et les notes, mais exclut la participation du classement.'
-    : 'Évaluez chaque participation active. Les coordonnées des participants sont réservées à l’organisateur.';
+    : 'Seules les participations actives sont affichées. Évaluez chacune d’elles. Les coordonnées des participants sont réservées à l’organisateur.';
   $('participants-head').replaceChildren(...['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', 'Action'].map(value => {
     const th = document.createElement('th'); th.textContent = value; th.scope = 'col'; th.setAttribute('role', 'columnheader'); return th;
   }));
-  $('participants-body').replaceChildren(...data.participants.map(participant => {
+  $('participants-body').replaceChildren(...participants.map(participant => {
     const tr = document.createElement('tr');
     const createdAt = new Date(participant.created_at);
     const date = Number.isNaN(createdAt.getTime()) ? '—' : new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Paris' }).format(createdAt);
@@ -142,9 +143,9 @@ function render(data) {
     }
     return labelCells(tr, ['Participant', ...(organizer ? ['E-mail'] : []), 'Statut', 'Inscription (Paris)', 'Évaluation / 30', 'Action']);
   }));
-  $('participant-count').textContent = data.participants.length + ' au total';
-  renderRanking(data.participants);
-  $('participants-empty').hidden = data.participants.length > 0;
+  $('participant-count').textContent = participants.length + ' au total';
+  renderRanking(participants);
+  $('participants-empty').hidden = participants.length > 0;
   $('login-panel').hidden = true;
   $('workspace').hidden = false;
   $('logout').hidden = false;

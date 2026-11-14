@@ -69,3 +69,7 @@ La date est fixée à trois semaines à compter du 13 novembre 2026, soit le ven
 ## Suivi des e-mails — PWA hébergée
 
 E08/E09 : historique des confirmations/rappels implémenté dans dist/app et endpoint Supabase consulter-emails préparé, réservé à l’organisateur. Tests locaux lecture/droits/états réussis ; installation manuelle de cet endpoint et recette de consultation réelle encore à faire. Historique en lecture seule ; aucune reprise automatique ni renvoi depuis cette vue. Le bouton de test indépendant n’ajoute pas de message à email_jobs.
+
+## Visibilité jury précisée par l’utilisateur
+
+Le jury voit uniquement les participants actifs ; les retirés restent consultables et réactivables par l’organisateur. La règle s’applique dans consulter-participants côté serveur et dans la PWA, avec compteurs cohérents. Réactivation visible à l’actualisation suivante. Les notes sont conservées.

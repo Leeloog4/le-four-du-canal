@@ -164,7 +164,7 @@ test('Notation PWA : notes existantes préremplies, zéro conservé et modificat
   await f.$('refresh').listeners.click();
   assert.match(f.$('participants-body').children[0].children[3].textContent, /17 \/ 30/);
 });
-test('Notation PWA : organisateur en lecture, participation retirée sans bouton', async () => {
+test('Notation PWA : organisateur en lecture, participation retirée absente pour le jury', async () => {
   const org = fixture(network({ scores: { taste: 8, texture: 9, presentation: 7 } }).fetcher);
   await org.login();
   const row = org.$('participants-body').children[0];
@@ -174,7 +174,9 @@ test('Notation PWA : organisateur en lecture, participation retirée sans bouton
   assert.equal(row.children.flatMap(cell => cell.children).some(button => /Évaluer|Modifier les notes/.test(button.textContent)), false);
   const withdrawn = fixture(network({ role: 'jury', status: 'withdrawn' }).fetcher);
   await withdrawn.login();
-  assert.equal(withdrawn.$('participants-body').children[0].children.at(-1).children.length, 0);
+  assert.equal(withdrawn.$('participants-body').children.length, 0);
+  assert.equal(withdrawn.$('participant-count').textContent, '0 au total');
+  assert.equal(withdrawn.$('participants-empty').hidden, false);
 });
 test('Notation PWA : notes vides, fractions ou hors barème refusées avant envoi', async () => {
   for (const value of ['', '-1', '11', '2.5']) {
@@ -420,4 +422,18 @@ test('Historique UI : déconnexion et sortie de page effacent les détails des e
     if (kind === 'logout') f.$('logout').listeners.click(); else f.windowEvents.pagehide();
     assert.equal(f.$('emails-body').children.length, 0); assert.equal(f.$('emails-count').textContent, '');
   }
+});
+
+
+test('Participants jury : retrait invisible puis réactivation visible après actualisation', async () => {
+  const rows = [{ ...participant }, { ...participant, id: 'retire', first_name: 'Alex', status: 'withdrawn' }];
+  const n = network({ role: 'jury', participants: rows }); const f = fixture(n.fetcher); await f.login();
+  assert.equal(f.$('participants-body').children.length, 1); assert.equal(f.$('participant-count').textContent, '1 au total');
+  rows[1].status = 'registered'; await f.$('refresh').listeners.click();
+  assert.equal(f.$('participants-body').children.length, 2); assert.equal(f.$('participant-count').textContent, '2 au total');
+});
+test('Participants organisateur : retiré conservé avec action Réactiver', async () => {
+  const f = fixture(network({ status: 'withdrawn' }).fetcher); await f.login();
+  const row = f.$('participants-body').children[0]; assert.equal(row.children[2].textContent, 'Retiré');
+  assert.equal(row.children.at(-1).children[0].textContent, 'Réactiver');
 });
