@@ -292,3 +292,13 @@ Sources conservées : [Sujet original — Le Four du Canal](https://app.notion.c
 
 **Évolution du cadrage :** V0 conservait les inconnues du brief et les hypothèses choisies pour avancer. V1 garde ces justifications et intègre les décisions de réalisation : Sites remplace la proposition Vercel, PWA distincte, droits et statuts précisés, Brevo serveur avec Cron Supabase, session d’onglet conservée et identité visuelle gâteau. Les copies du sujet et de la note initiale dans les fichiers sources du projet restent inchangées.
 
+
+## Dossier de remise
+
+La [fiche de remise sur GitHub](https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/remise.md) reprend les attendus rappelés par l’utilisateur : articulation WordPress, droits et limites de sécurité, contenu/déclencheur/destinataire/statut des e-mails, trois vérifications manuelles et liens vers tous les livrables. Le [README court](https://github.com/Leeloog4/le-four-du-canal/blob/main/README.md) explique l’accès à la version en ligne et le lancement du prototype local autonome, explicitement distinct du frontend actif. Le [scénario de cinq minutes](https://github.com/Leeloog4/le-four-du-canal/blob/main/docs/demo.md) précise comment montrer confirmation et rappel sans déclencher de nouvel envoi.
+
+**Articulation WordPress proposée :** ajouter sur le site existant un bloc d’annonce ou un bouton « Concours de pâtisserie — Je participe » et, si utile, une entrée de menu pointant vers la landing séparée. WordPress reste le site principal ; les inscriptions sont stockées une seule fois dans Supabase. L’URL WordPress réelle reste inconnue : prévoir le lien de retour lorsqu’elle sera fournie. Aucune modification WordPress n’est déclarée réalisée. Avant l’utilisation avec de vrais participants, décider de l’accès public à la landing actuellement privée et adapter les origines autorisées si le domaine change.
+
+**Limites de sécurité à expliquer :** contrôles serveur des rôles distincts de la barrière propriétaire Sites ; sessionStorage accessible au JavaScript de l’origine ; aucun audit de production ni protection distribuée contre les abus revendiqués ; CORS ne remplace pas une protection anti-robot ; Internet requis ; traitement des données et conservation à définir. Les secrets privés restent côté serveur.
+
+**État de la remise :** code, README, cadrage, architecture, textes des messages et résultats de recette préparés. La démonstration peut être en direct ou enregistrée ; elle reste à réaliser. L’accès du destinataire aux liens privés doit être organisé. Le rappel de recette a été traité en simulation, ce que le brief autorise en l’indiquant clairement ; aucune nécessité d’attendre décembre pour montrer cette simulation. La réception du rappel réel n’est pas revendiquée.
