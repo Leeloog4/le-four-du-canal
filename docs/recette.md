@@ -291,3 +291,7 @@ Lecture seule du HTML public du formulaire W8Bn8w : HTTP 200. Champs et échéan
 ### GitHub public pour la remise
 
 À la demande explicite de rendre le dépôt public : contrôle de 242 versions de fichiers texte dans l’historique, aucun secret reconnaissable ou chemin sensible détecté. Changement via l’intégration refusé HTTP 403 Resource not accessible by integration ; l’utilisateur effectue ensuite la modification dans GitHub. Vérification : gh repo view annonce PUBLIC et API GitHub appelée sans authentification retourne HTTP 200 avec private=false. Accès en lecture au code et documents GitHub confirmé. Sites et Notion conservent leurs propres droits, aucun partage de ces services modifié. Les mentions antérieures de dépôt privé décrivent son état historique.
+
+### Démonstration publique pour la remise
+
+Après confirmation explicite de l’utilisateur, Sites update_site_access retourne access_mode=public, confirmé par get_site. Première lecture immédiatement après changement : HTTP 403 ; nouvelle lecture sans authentification avec agent navigateur : landing HTTP 200 et contenu du concours, PWA HTTP 200 et formulaire de connexion. API privées consulter-participants et consulter-emails HTTP 401 sans jeton. Aucun appel d’inscription, de notation ou Brevo pendant ces contrôles. Démo publiquement accessible, autorisations métier conservées. Aucun déploiement de source nécessaire pour ce changement de partage.

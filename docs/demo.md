@@ -2,7 +2,7 @@
 
 ## Avant de commencer
 
-Ouvrir la [landing page](https://four-du-canal-exercice.leeloog4.chatgpt.site/) et la [PWA](https://four-du-canal-exercice.leeloog4.chatgpt.site/app/) dans le navigateur connecté au compte ChatGPT propriétaire. Ces liens sont privés : un évaluateur externe n’y accède pas automatiquement. Préparer les deux comptes Supabase organisateur/jury sans afficher leurs mots de passe. Le dépôt GitHub est privé lui aussi ; enregistrement ou démonstration depuis le compte propriétaire possibles sans modifier le partage.
+Ouvrir la [landing page](https://four-du-canal-exercice.leeloog4.chatgpt.site/) et la [PWA](https://four-du-canal-exercice.leeloog4.chatgpt.site/app/) dans le navigateur. Ces liens sont désormais publics ; seules les données de la PWA exigent un compte métier. Préparer les deux comptes Supabase organisateur/jury sans afficher leurs mots de passe. Le dépôt GitHub est privé lui aussi ; enregistrement ou démonstration depuis le compte propriétaire possibles sans modifier le partage.
 
 Pour une inscription pendant la présentation, choisir à l’avance une adresse fictive .test jamais utilisée ; ne pas répéter Camille si elle existe déjà. L’envoi vers .test est simulé. Les comptes ne se créent pas depuis la PWA. Ne pas afficher les Secrets Supabase, Vault ou des jetons dans la vidéo.
 

@@ -31,14 +31,14 @@ Les choix du formulaire sont « Oui, il est terminé et vérifié », « En part
 
 https://github.com/Leeloog4/le-four-du-canal
 
-Dépôt rendu public par l’utilisateur, vérifié via GitHub et une requête API anonyme HTTP 200. Ce lien est accessible en lecture sans invitation. Le site et la PWA restent privés.
+Dépôt rendu public par l’utilisateur, vérifié via GitHub et une requête API anonyme HTTP 200. Ce lien est accessible en lecture sans invitation. Le site et la page de connexion PWA sont également publics ; les données métier restent protégées.
 
 ### URL de démonstration
 
 Landing : https://four-du-canal-exercice.leeloog4.chatgpt.site/
 PWA : https://four-du-canal-exercice.leeloog4.chatgpt.site/app/
 
-Les deux URL sont privées au compte propriétaire Sites. Fournir le lien sans organiser l’accès ne suffit pas pour l’évaluation. Une vidéo accessible permet de montrer le parcours, mais ne rend pas ces URL publiques. L’accès Sites et la connexion métier de la PWA restent distincts ; ne jamais donner les identifiants du propriétaire.
+URL publiques à la demande explicite de l’utilisateur. Landing accessible sans connexion ; la PWA présente sa connexion métier avant toute donnée interne. Une vidéo ou présentation reste utile pour montrer les rôles sans communiquer les identifiants propriétaire.
 
 ### Ta note de cadrage
 

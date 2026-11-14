@@ -4,7 +4,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 
 | Composant | État constaté |
 | --- | --- |
-| Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
+| Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration publique ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
 | Dernier commit source Sites publié | 7208473a2b82d9022aff33ca2e6450312712cabc |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
@@ -48,3 +48,5 @@ Gâteau en fond pleine largeur de l’accueil publié : appgdep_6af88d3255208191
 Documentation de remise actualisée : README, docs/demo.md (parcours cinq minutes), docs/architecture-hebergee.md, matrice du cadrage et recette. Actualisation sans reconnexion signalée comme validée par l’utilisateur ; déconnexion suivie d’actualisation et rendu final du fond gâteau restent à confirmer. Aucune modification applicative ou de partage pour cette mise à jour documentaire.
 
 Déconnexion puis actualisation : formulaire de connexion maintenu, confirmé par l’utilisateur. Recette de persistance et suppression de session validée ; rendu final du fond gâteau et démonstration enregistrée encore non confirmés.
+
+Sites public pour la remise : changement access_mode=public confirmé par le service, puis landing et connexion PWA HTTP 200 sans authentification. API consulter-participants et consulter-emails HTTP 401 sans session. Aucun secret ni donnée métier publié par ce changement. Les mentions de barrière propriétaire dans les entrées antérieures sont historiques.

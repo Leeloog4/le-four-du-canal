@@ -7,7 +7,7 @@ Exercice de **niveau 3** : landing d’inscription, application privée en PWA e
 - [Landing page](https://four-du-canal-exercice.leeloog4.chatgpt.site/)
 - [Application PWA](https://four-du-canal-exercice.leeloog4.chatgpt.site/app/)
 
-Liens en accès propriétaire privé : utiliser le navigateur connecté au compte ChatGPT propriétaire, puis un compte Supabase organisateur ou jury pour la PWA. Aucun mot de passe n’est dans ce dépôt. L’accès d’un évaluateur externe doit être organisé ; un enregistrement ou une présentation en direct est possible.
+Liens publics : aucune connexion ChatGPT nécessaire. La PWA affiche son formulaire de connexion ; un compte Supabase organisateur ou jury est requis pour les données internes. Aucun mot de passe n’est dans ce dépôt. Prévoir une vidéo ou une présentation du parcours authentifié pour l’évaluateur.
 
 ## Ce qui fonctionne et a été vérifié
 
