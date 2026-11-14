@@ -149,3 +149,10 @@ Script 10 préparé pour une tâche Cron chaque minute avec pg_net et lecture du
 L’utilisateur signale le succès du SQL 10. Capture de traiter-rappels : quatre invocations, taux d’erreurs 4xx/5xx à zéro. Il confirme ensuite le statut 200 dans les journaux, le test guidé sans x-cron-secret (attendu 401), puis l’enregistrement de REMINDERS_ENABLED=true. Réponses détaillées non inspectées par l’agent ; configuration exacte non accessible directement.
 
 SQL 11/12 préparés : création atomique d’un participant .test distinct, confirmation simulée et rappel pending dû ; refus de recréation ; lecture filtrée du résultat. Revue des scripts contre les contrats SQL 07/08 et la protection des domaines réservés du worker. Aucun changement de code applicatif ; suite antérieure 103 tests réussis, non relancée pour ces scripts et documents. SQL non exécuté par l’agent. Résultat attendu à confirmer par l’utilisateur : simulated, attempts=1, aucun message_id, puis absence de retraitement à la minute suivante avec PWA fermée. Aucune réception de rappel réel revendiquée.
+
+
+### Preuve visuelle du rappel simulé traité — 14 novembre 2026
+
+Capture fournie par l’utilisateur après lecture filtrée de recette-rappel-cron@example.test : deux lignes. Confirmation simulated, attempts=0, message_id NULL, processed_at NULL (simulation à la création). Rappel simulated, attempts=1, message_id NULL, processed_at=2026-11-14 15:37:00.548+00, last_error « Adresse fictive : aucun envoi réel. ». Le rappel dû a donc été réclamé et traité par la fonction sur Supabase ; aucun appel fournisseur revendiqué. Le second lancement du script de création a été refusé par la protection « Ce test existe déjà », visible sur la capture précédente.
+
+Restent à vérifier : deuxième lecture après une minute pour confirmer attempts toujours égal à 1, fonctionnement avec PWA fermée explicitement confirmé et retrait du participant de recette. Cette preuve concerne un traitement simulé ; elle ne prouve pas une livraison réelle de rappel.
