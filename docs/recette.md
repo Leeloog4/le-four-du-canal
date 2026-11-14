@@ -282,3 +282,7 @@ Liste de l’utilisateur confrontée aux sources et au code des e-mails : fiche 
 Restent : rendu final de l’image de fond, réalisation de la démonstration et accès du destinataire aux liens privés. La fiche n’annonce ni vidéo existante, ni partage externe, ni réception réelle du rappel. Aucun changement applicatif ; tests précédents 139 réussis, non relancés pour la documentation. Contrôle des liens locaux et git diff --check prévus avant commit.
 
 Notion : ajout du Dossier de remise sur la note existante, retour de succès avec identifiant de page sans avertissement. Lien de la fiche, proposition WordPress concrète, limites et statut des livrables ajoutés ; copie Markdown synchronisée. Aucun changement du partage ou de l’application.
+
+### Formulaire de dépôt Zoho
+
+Lecture seule du HTML public du formulaire W8Bn8w : HTTP 200. Champs et échéance extraits ; aucun POST, aucune réponse soumise. Fichier docs/depot-zoho.md préparé avec les réponses connues, version courte du cadrage sous la limite de 20000 caractères, vérifications et éléments personnels laissés à l’utilisateur. Le formulaire demande explicitement des liens accessibles en lecture ; dépôt GitHub et démo restent privés, accès à organiser. Aucun partage ou consentement choisi automatiquement.

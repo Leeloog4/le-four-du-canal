@@ -128,3 +128,7 @@ La [note de cadrage](https://app.notion.com/p/417ec4a3bfbd81d7b738c6cf9f62c85f) 
 - Organiser l’accès du destinataire au code et aux documents privés, ou remettre un export convenu ; aucun partage automatique par l’agent.
 
 La réception réelle du rappel, l’intégration WordPress et une mise en production ne sont pas revendiquées. Le sujet autorise de montrer un envoi simulé à condition de le signaler clairement : il n’est pas nécessaire d’attendre décembre pour montrer le rappel simulé déjà vérifié.
+
+## Destination du dépôt
+
+Formulaire fourni par l’utilisateur : https://survey.zohopublic.com/zs/W8Bn8w . Il indique une remise avant lundi 16 novembre à 18 h et des liens accessibles en lecture. Voir [la préparation champ par champ](depot-zoho.md) : aucun formulaire soumis, informations personnelles et consentement à compléter par l’utilisateur.
