@@ -26,4 +26,4 @@ Ne pas appliquer `supabase/migrations/001_initial.sql` au projet existant : il r
 
 - consulter-emails : déploiement manuel signalé par l’utilisateur après les consignes ; lecture de l’historique et des détails organisateur confirmée. Vérifie Supabase Auth et rôle organizer dans son code. Aucun nouveau script SQL nécessaire.
 - PWA : onglet E-mails étendu à l’historique des inscriptions avec lecture seule et détails. Publication réussie, déploiement appgdep_6af8831e645081919b125457d59a05a9 ; fonction installée selon l’utilisateur ; statuts et détails organisateur confirmés par sa recette.
-- Suite locale : 126 tests réussis ; recette navigateur organisateur confirmée par l’utilisateur ; séparation jury encore à confirmer manuellement.
+- Suite locale : 126 tests réussis ; recette navigateur organisateur confirmée par l’utilisateur ; absence d’onglet E-mails et d’adresses des inscrits côté jury confirmée par la recette utilisateur.

@@ -178,3 +178,8 @@ Publication historique : résultat natif Sites succeeded, commit 95c58a2c82bc7cc
 Après les consignes de création de consulter-emails et désactivation de la vérification JWT héritée, l’utilisateur répond « ok » : déploiement manuel signalé comme effectué. Il confirme ensuite le scénario organisateur → E-mails : confirmation « Accepté par Brevo » et rappel « En attente » prévu le 3 décembre à 15 h Paris. À la consigne d’ouvrir les détails et d’actualiser, il répond « ok » : affichage des détails signalé comme correct. Aucun journal fournisseur ou comptage de messages n’a été inspecté indépendamment pour cette actualisation ; la lecture seule est vérifiée par les tests et le code.
 
 Restent à confirmer manuellement : déconnexion de l’organisateur puis connexion jury sans onglet E-mails, et effacement de l’historique. Aucun accès de l’agent aux identifiants ni à la messagerie ; aucune livraison de rappel réel revendiquée.
+
+
+### Séparation jury de l’historique — 14 novembre 2026
+
+À la consigne de déconnecter l’organisateur puis de connecter le jury pour vérifier Participants/Classement, absence de l’onglet E-mails et absence d’adresses des inscrits, l’utilisateur répond « ok ». Scénario manuel signalé comme validé ; aucune capture ni inspection du réseau pour cette étape. Le refus serveur du jury sur consulter-emails est couvert séparément par les tests locaux avec réponses substituées. Recette guidée de l’historique clôturée sur cette base. Aucun nouveau déploiement ni envoi d’e-mail.
