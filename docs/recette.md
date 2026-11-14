@@ -245,3 +245,10 @@ npm run check et npm test réussis : 139 tests, zéro échec. Huit nouveaux scé
 Visuel gâteau et farine généré et inspecté en image locale. Intégration WebP 560 px (77 582 octets) et 1122 px (278 478 octets), alt et dimensions, srcset avec priorité de chargement. Contrôle des fichiers référencés et décodage des deux variantes réussi. Aucun nouveau test miroir HTML/CSS. Rendu navigateur indisponible ; recette après publication : se connecter une fois, actualiser la page et rester connecté, puis se déconnecter/actualiser et rester déconnecté ; vérifier le visuel sur téléphone et ordinateur. Aucun nouveau déploiement Supabase nécessaire, aucune note modifiée ni e-mail envoyé par l’agent.
 
 Publication session et visuel : résultat natif succeeded, commit c1f25377da25a747301c99efbe2584c998414b07, déploiement appgdep_6af88c38f1548191bc48cba7196bcd03. Audience propriétaire privée conservée. Aucun nouveau déploiement Supabase ; recette réelle de la nouvelle session et rendu encore en attente utilisateur.
+
+
+### Visuel en fond de la section d’accueil
+
+L’utilisateur demande de sortir le gâteau du cadre. Fond pleine largeur derrière le texte, suppression de la figure en arche et de sa pastille ; voile sombre pour lisibilité, CTA clair. Visuel paysage généré par extension de l’image précédente, inspecté localement ; variantes WebP 1024x576 et 1672x941. Source portrait conservée pour le fond mobile, texte en haut et gâteau en bas. Aucun changement du formulaire ou de la session.
+
+npm run check réussi ; npm test 139 tests réussis zéro échec ; git diff --check et contrôle des fichiers/srcset (largeurs réelles) réussis. Aucune nouvelle suite miroir du style. Navigateur indisponible : rendu ordinateur/téléphone et contraste réel à confirmer par l’utilisateur après publication. Aucun appel métier réel ni e-mail envoyé.

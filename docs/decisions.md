@@ -64,3 +64,8 @@ Ce choix remplace la précédente règle de jeton uniquement en mémoire pour le
 ## D25 — Visuel du concours
 
 Remplacer l’illustration SVG de tarte par un visuel généré pour l’exercice : gâteau crème/poires/noisettes et projections de farine, fond vert sauge chaleureux. Il illustre la pâtisserie, sans prétendre montrer un produit réel du client. Deux fichiers WebP servis selon la largeur, texte alternatif descriptif, dimensions fixes et priorité de chargement du visuel principal. Aucun changement des informations fictives ni du formulaire.
+
+
+## D26 — Gâteau en fond de la section d’accueil
+
+Précision utilisateur : le gâteau doit être une image de fond sans cadre. Remplacer le visuel latéral en arche par un fond pleine largeur de la section d’accueil, texte par-dessus et voile sombre de contraste. Visuel étendu en paysage à partir du gâteau précédent, sujet à droite et espace de lecture à gauche. Sur téléphone, source portrait en arrière-plan au bas de la section et dégradé vertical ; texte en haut. Le formulaire reste sur fond clair. Image de fond décorative ignorée des aides techniques, titre et contenu du concours conservés en HTML.

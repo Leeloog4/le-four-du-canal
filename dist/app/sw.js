@@ -1,4 +1,4 @@
-const CACHE = 'four-du-canal-app-shell-v11-session-hero';
+const CACHE = 'four-du-canal-app-shell-v12-hero-background';
 const SHELL = [
   '/app/', '/app/team.js', '/app/pwa.js', '/style.css', '/app/manifest.webmanifest',
   '/app/icons/icon-192.png', '/app/icons/icon-512.png',
