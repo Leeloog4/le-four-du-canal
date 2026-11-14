@@ -295,3 +295,7 @@ Lecture seule du HTML public du formulaire W8Bn8w : HTTP 200. Champs et échéan
 ### Démonstration publique pour la remise
 
 Après confirmation explicite de l’utilisateur, Sites update_site_access retourne access_mode=public, confirmé par get_site. Première lecture immédiatement après changement : HTTP 403 ; nouvelle lecture sans authentification avec agent navigateur : landing HTTP 200 et contenu du concours, PWA HTTP 200 et formulaire de connexion. API privées consulter-participants et consulter-emails HTTP 401 sans jeton. Aucun appel d’inscription, de notation ou Brevo pendant ces contrôles. Démo publiquement accessible, autorisations métier conservées. Aucun déploiement de source nécessaire pour ce changement de partage.
+
+### Questions client explicitées dans le cadrage
+
+Après relecture de la note Notion, besoin, hypothèses et niveau présents mais questions dispersées parmi les inconnues. Ajout ciblé dans la rubrique 4 d’un tableau questions/réponse fournie/hypothèse : date/lieu, champs, capacité, doublons, notation, rôles, WordPress, e-mails et données/budget. Aucun échange client réel inventé ; questions identifiées à poser, réponses absentes du cas explicitement signalées. Mise à jour Notion réussie sans avertissement et copie publique GitHub synchronisée.

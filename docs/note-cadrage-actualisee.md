@@ -33,6 +33,25 @@ Le brief mentionne trois besoins : présenter le concours et recueillir les insc
 
 Le périmètre retenu pour l’exercice est le **niveau 3** du brief : landing page, petite application et e-mails.
 
+
+### Questions de cadrage identifiées pour le client
+
+Aucun échange avec un client réel n’est attesté dans cet exercice. Les questions ci-dessous sont celles identifiées à poser ; aucune réponse n’est fournie par le cas. Les choix de prototype sont des hypothèses, pas des réponses client.
+
+| Questions à poser au client | Réponse obtenue | Hypothèse ou décision pour avancer |
+| --- | --- | --- |
+| Quelle date, quel horaire et quel lieu pour le concours ? | Non précisés dans le brief | Date et lieu explicitement fictifs : 4 décembre 2026 à 15 h Paris, Atelier du Canal, 12 rue des Gourmands, 75010 Paris |
+| Quelles informations demander pour l’inscription ? | Non précisées | Prénom, nom et e-mail seulement |
+| Existe-t-il une capacité maximale, une date limite ou une liste d’attente ? | Non précisé | Pas de capacité maximale ni de liste d’attente ajoutée ; aucune date limite inventée |
+| Comment traiter plusieurs inscriptions avec la même adresse ? | Non précisé | Adresse normalisée unique, doublon refusé clairement |
+| Quels critères, quel barème, combien de jurés et quelle règle en cas d’égalité ? | Non précisés | Trois critères FICTIFS sur 10, un compte jury, somme sur 30, ex æquo conservés 1/1/3 |
+| Qui peut voir les coordonnées, noter, gérer les retirés et consulter le classement ? | Non précisé | Deux rôles ; jury limité aux actifs sans adresses et seul autorisé à noter ; organisateur gère actifs/retirés ; classement interne |
+| Faut-il intégrer la page à WordPress et dispose-t-on des accès administrateur ? | Site WordPress existant confirmé ; accès non fourni | Page séparée, bouton/lien proposé depuis WordPress ; aucune modification du site existant |
+| Quels messages envoyer, à qui, à quel moment et avec quel expéditeur ? | E-mails demandés mais détails non fournis | Confirmation après enregistrement, rappel J−1 à l’adresse du participant actif ; expéditeur de démonstration configuré dans Brevo |
+| Quelles règles de conservation, d’information et de suppression des données, et quel budget ? | Non précisés | Données minimales et fictives pour l’exercice ; règles et coûts à définir avant usage réel |
+
+Les précisions apportées ensuite par le porteur du projet — PWA, visibilité des retirés, session, visuel et publication des liens — sont des décisions de réalisation de l’exercice, sans être attribuées au client.
+
 **Parcours cible envisagé :**
 
 1. Le participant consulte la page et remplit le formulaire.
