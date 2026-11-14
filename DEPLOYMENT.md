@@ -6,7 +6,7 @@ Ce fichier distingue les sources versionnées des fonctions réellement activée
 | --- | --- |
 | Landing page | https://four-du-canal-exercice.leeloog4.chatgpt.site/ — démonstration propriétaire privée ; affichage mobile lisible, sans débordement, formulaire visible selon la recette utilisateur |
 | Application PWA | Même domaine, chemin /app/ ; installation Chrome ordinateur confirmée par l’utilisateur |
-| Dernier commit source Sites publié | 19a9e7e9d73d3720c547f88b425845ac4ce6a916 |
+| Dernier commit source Sites publié | 73e56d0c50f9fa6bef65d94ed033d9ef58d4fe58 |
 | Supabase | https://xeeixhbhfsdxrgeotlix.supabase.co |
 | consulter-participants | Version avec lecture des notes déployée manuellement ; lecture réelle confirmée |
 | noter-participant | Déployée ; saisie 8/9/7, modification et relecture confirmées |
@@ -37,3 +37,5 @@ Filtre frontend jury publié, déploiement appgdep_6af887fe72e88191acd29cdde603d
 Filtre serveur jury : déploiement manuel de consulter-participants signalé comme effectué par l’utilisateur ; disparition de Test Cron Fictif après actualisation jury confirmée. Les mentions de mise à jour en attente ci-dessus sont historiques.
 
 Recette des retirés clôturée : disparition côté jury et maintien côté organisateur avec statut Retiré et bouton Réactiver confirmés par l’utilisateur.
+
+Lisibilité mobile publiée : textes et saisie agrandis, déploiement appgdep_6af88a5bcb188191a67f2648de5a4948 succeeded. Appréciation visuelle sur téléphone encore à confirmer. Aucun changement Supabase requis.
