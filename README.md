@@ -65,4 +65,4 @@ Ne pas appliquer le schéma initial ni les scripts guidés en bloc sur la base e
 
 ## Versionnement
 
-L’historique Git du site/PWA est conservé. Ce dossier consolide les sources avant raccordement GitHub. Le dépôt GitHub distant n’est pas encore créé ; son accès doit être autorisé. Le dépôt doit rester **privé**. Ne jamais ajouter de fichier `.env`, clé secrète, base locale ou export de données utilisateur.
+L’historique Git du site/PWA est conservé dans le dépôt privé [Leeloog4/le-four-du-canal](https://github.com/Leeloog4/le-four-du-canal). La branche principale est `main`. Le remote `origin` correspond à GitHub ; `sites` correspond au dépôt utilisé pour publier la démonstration. Les prochaines modifications doivent partir de ce dépôt consolidé, puis être poussées vers GitHub ; une publication Sites demande aussi la synchronisation du même état source vers le remote Sites. Ne jamais ajouter de fichier `.env`, clé secrète, base locale ou export de données utilisateur.

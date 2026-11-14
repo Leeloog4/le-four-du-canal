@@ -63,6 +63,8 @@ Statut : **non exécutée**. L’environnement n’expose pas le chemin de contr
 
 ## Règle de mise à jour
 
+Raccordement GitHub : dépôt Leeloog4/le-four-du-canal fourni par l’utilisateur. Métadonnées vérifiées : privé, vide, droits de push ; aucun historique distant à remplacer. Source consolidée choisie comme référence, historique Sites conservé, clés/base/export exclus. Le raccordement ne modifie pas le déploiement Supabase ou Sites et n’active aucun envoi d’e-mail.
+
 Consolidation GitHub préparée le 14 novembre 2026 dans un dépôt local unique : historique Git du site conservé (9 commits avant consolidation), site/PWA, fonctions Supabase, SQL, documentation, tests et archive du prototype réunis. `npm run check`, `npm test` (86 réussis) et `npm run test:local` (20 réussis) exécutés avec succès. Contrôle ciblé de 73 fichiers texte sans secret reconnaissable ni base locale. Aucune modification de la démonstration hébergée par cette consolidation. GitHub distant non créé : intégration GitHub non encore ajoutée/autorisée ; proposition disponible pour l’utilisateur.
 
 Confirmation automatique préparée localement, non encore déployée dans Supabase : 15 tests ciblés réussis avec substituts (transaction, destinataire, simulation, acceptation/refus/incertitude, inscription conservée, résultat écrit en base, concurrence et rappel tardif). Affichage compatible des statuts publié au commit `ee5af4209c40ab51069f0d9606812c9a67b31371`, résultat natif succeeded ; suite Site 37 tests réussis. Aucun nouvel envoi réel par l’agent. Git distant vérifié : Sites, pas GitHub ; sources backend/SQL non encore réunies dans le dépôt publié.
